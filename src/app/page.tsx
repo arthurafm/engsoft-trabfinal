@@ -2,23 +2,23 @@
 import styles from './page.module.css'
 
 import { useState } from 'react'
-import { Button } from 'antd';
-//import { }
-import { TimePicker } from 'antd';
-import type { TimePickerProps} from 'antd/es/time-picker';
+import { Button, Typography, Box } from '@mui/material'
 
 export default function Home() {
-	const [date, setDate] = useState<TimePickerProps['value']>()
-	const handleChange : TimePickerProps['onChange'] = (value) => {
-		setDate(value);
-	  };
+	const [cont, addCount] = useState(0)
+	const clicked = () =>{
+		addCount(cont + 1)
+	}
+	const reset = () =>{
+		addCount(0)
+	}
 	return (
 		<main className={styles.main}>
-			<Button>Stuff n stuff</Button>
-			<TimePicker onChange={handleChange}/>
-			<div style={{ marginTop: 16 }}>
-				Selected Date: {date ? date.format('YYYY-MM-DD') : 'None'}
-			</div>
+			<Box component='span' sx={{ p: 30 }}>
+				<Button variant='outlined' onClick={clicked} sx={{my:2}}>Add 1</Button>
+				<Button variant='outlined' onClick={reset} sx={{my:2}}>Reset</Button>
+			</Box>
+			<Typography variant='h1'>You clicked {cont} times!</Typography> 
 		</main>
 	)
 }
