@@ -7,7 +7,7 @@ Implementação do GuideMe modelado pelo grupo 4.
 
 -Eduardo Dalmás Faé
 
--Gustavo Picoli
+-Gustavo Picoli (00332780)
 
 -João Pedro Kuhn Braun
 
