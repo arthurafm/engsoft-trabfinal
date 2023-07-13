@@ -11,4 +11,4 @@ Implementação do GuideMe modelado pelo grupo 4.
 
 -João Pedro Kuhn Braun (00325265)
 
--Pedro Henrique Boniatti Colle
+-Pedro Henrique Boniatti Colle (00333916)
