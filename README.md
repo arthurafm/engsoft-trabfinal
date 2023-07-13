@@ -5,7 +5,7 @@ Implementação do GuideMe modelado pelo grupo 4.
 # Integrantes:
 -Arthur Alves Ferreira Melo (00333985)
 
--Eduardo Dalmás Faé
+-Eduardo Dalmás Faé (00334087)
 
 -Gustavo Picoli (00332780)
 
