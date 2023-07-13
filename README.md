@@ -1,3 +1,10 @@
-## Trab de Engenharia de Software
+## Trabalho Prático de Engenharia de Software
 
-pode-se declarar o tema do Material UI para facilitar a vida [link](https://zenoo.github.io/mui-theme-creator/)
+Implementação do GuideMe modelado pelo grupo 4.
+
+# Integrantes:
+-Arthur Alves Ferreira Melo
+-Eduardo Dalmás Faé
+-Gustavo Picoli
+-João Pedro Kuhn Braun
+-Pedro Henrique Boniatti Colle
