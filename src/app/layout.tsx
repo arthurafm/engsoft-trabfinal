@@ -7,6 +7,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import ResponsiveAppBar from './responsiveAppBar';
 
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {

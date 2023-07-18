@@ -1,0 +1,5 @@
+{
+  "AppSyncApiName": "cursoses",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false
+}
