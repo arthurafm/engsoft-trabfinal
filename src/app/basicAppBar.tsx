@@ -14,7 +14,7 @@ import Link from 'next/link';
 function BasicAppBar() {
 	return (
 	<Box sx={{flexGrow: 1}}>
-    <AppBar position="static" variant='elevation'>
+    <AppBar position="static" variant='elevation' sx={{background: 'white', boxShadow: 2}}>
 	<Toolbar disableGutters>
 		<Typography
 		variant="h6"
@@ -34,15 +34,15 @@ function BasicAppBar() {
 		</Typography>
 		{/* diplay of the elements in other sizes */}
 		<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-			<Button sx={{ my: 2, color: 'white', display: 'block' }}>
+			<Button sx={{ my: 2, display: 'block' }}>
 			Mentorias
 			<ArrowDropDownIcon/>
 			</Button>
-			<Button sx={{ my: 2, color: 'white', display: 'block' }}>
+			<Button sx={{ my: 2, display: 'block' }}>
 			Cursos
 			<ArrowDropDownIcon/>
 			</Button>
-			<Button sx={{ my: 2, color: 'white', display: 'block' }}>
+			<Button sx={{ my: 2, display: 'block' }}>
 			Ajuda
 			<ArrowDropDownIcon/>
 			</Button>
