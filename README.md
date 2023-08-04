@@ -14,18 +14,18 @@ Implementação do GuideMe modelado pelo grupo 4.
 ## Front-end:
 
 ### Páginas:
-- [] Home
-- [] Cursos
-- [] Curso
-- [] Perfil
+- [ ] Home
+- [ ] Cursos
+- [ ] Curso
+- [ ] Perfil
 
 ### Componentes:
-- [] Navbar - Arthur
-- [] Footer - Arthur
-- [] Formulário
-- [] Login/Register
-- [] Card de curso
+- [ ] Navbar - Arthur
+- [ ] Footer - Arthur
+- [ ] Formulário
+- [ ] Login/Register
+- [ ] Card de curso
 
 ## Back-end:
-- [] GET/POST/UPDATE de Login - Colle
-- [] GET/POST/UPDATE de Curso - Colle
+- [ ] GET/POST/UPDATE de Login - Colle
+- [ ] GET/POST/UPDATE de Curso - Colle
