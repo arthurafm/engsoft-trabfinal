@@ -9,6 +9,7 @@ import Image from 'next/image'
 
 function Footer() {
 	return (
+	
 	<Box sx={{
 		 display: 'flex',
 		 flexDirection: 'column',
@@ -26,62 +27,39 @@ function Footer() {
 		<Box sx={{ display: 'flex', width: '100%' }}>
 			<Box sx={{ width: '33%', height: '100%', display: 'flex', justifyContent: 'left' }}>
 				<Link href="https://twitter.com/Gremio"
-					  style={{ marginRight: '9px', marginLeft: '3%' }}
-				>
+					  style={{ marginRight: '9px', marginLeft: '3%' }} >
 					<Image  
-						src="/Twitter.svg"
-						alt="Twitter"
-						width="41"
-						height="41"
-					/>
+						src="/Twitter.svg" alt="Twitter"
+						width="41" height="41" />
 				</Link>
 				<Link href="https://www.facebook.com/Gremio/"
-					  style={{ marginRight: '9px' }}
-				>
+					  style={{ marginRight: '9px' }} >
 					<Image  
-						src="/Facebook.svg"
-						alt="Facebook"
-						width="41"
-						height="41"
-					/>
+						src="/Facebook.svg" alt="Facebook"
+						width="41" height="41" />
 				</Link>
 				<Link href="https://www.youtube.com/@CanaldoFarid"
-					  style={{ marginRight: '9px' }}
-				>
+					  style={{ marginRight: '9px' }} >
 					<Image  
-						src="/Youtube.svg"
-						alt="Youtube"
-						width="41"
-						height="41"
-					/>
+						src="/Youtube.svg" alt="Youtube"
+						width="41" height="41" />
 				</Link>
 				<Link href="https://Instagram.com/Gremio"
-					  style={{ marginRight: '9px' }}
-				>
+					  style={{ marginRight: '9px' }} >
 					<Image  
-						src="/Instagram.svg"
-						alt="Instagram"
-						width="41"
-						height="41"
-					/>
+						src="/Instagram.svg" alt="Instagram"
+						width="41" height="41" />
 				</Link>
 				<Link href="/"
-					  style={{ marginRight: '9px' }}
-				>
+					  style={{ marginRight: '9px' }} >
 					<Image  
-						src="/Whatsapp.svg"
-						alt="Whatsapp"
-						width="41"
-						height="41"
-					/>
+						src="/Whatsapp.svg" alt="Whatsapp"
+						width="41" height="41" />
 				</Link>
 				<Link href="/">
 					<Image  
-						src="/Email.svg"
-						alt="Email"
-						width="41"
-						height="41"
-					/>
+						src="/Email.svg" alt="Email"
+						width="41" height="41" />
 				</Link>
 			</Box>
 			<Box sx={{ width: '34%', height: '100%', display: 'flex', justifyContent: 'center' }}>
