@@ -6,6 +6,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import BasicAppBar from './basicAppBar';
+import Footer from './footer';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { muiTheme } from './muiTheme';
@@ -24,6 +25,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
 			<ThemeProvider theme={muiTheme}>
 				<BasicAppBar/>
 				{children}
+        <Footer/>
 			</ThemeProvider>
 		</body>
     </html>
