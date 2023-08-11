@@ -65,7 +65,7 @@ function Footer() {
 			<Box sx={{ width: '34%', height: '100%', display: 'flex', justifyContent: 'center' }}>
 				<Typography
 					sx={{
-						fontFamily: 'inter',
+						fontFamily: 'Roboto',
 						fontWeight: 'bold',
 						fontSize: 20,
 						color: 'white',
@@ -78,7 +78,7 @@ function Footer() {
 				<Typography
 					sx={{
 						display: 'flex',
-						fontFamily: 'inter',
+						fontFamily: 'Roboto',
 						fontWeight: 'bold',
 						fontSize: 'fit-content',
 						color: 'white',
