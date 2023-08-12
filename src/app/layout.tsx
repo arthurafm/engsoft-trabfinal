@@ -6,7 +6,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import Navbar from '../components/header';
+import Navbar from '../components/Navbar';
 import Footer from '../components/footer';
 
 import { ThemeProvider } from '@mui/material/styles';
