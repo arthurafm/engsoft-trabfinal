@@ -1,6 +1,6 @@
 'use client'
 
-import { Typography, Box, Stack } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 
 import Buttons from './buttons'
 
