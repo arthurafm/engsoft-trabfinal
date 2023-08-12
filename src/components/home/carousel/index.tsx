@@ -1,8 +1,9 @@
 'use client'
 
-import { Typography, Box, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Typography, Box } from '@mui/material';
+import Carousel from './carousel'
 
-export default function Carousel() {
+export default function Index() {
 	return (
 		<Box sx={{ 
 			backgroundColor: '#FF7222', 
@@ -17,21 +18,7 @@ export default function Carousel() {
                 color: 'white', mt: '3%'
 			}}>Encontre o curso perfeito para você!</Typography>
 
-            <ImageList sx={{ height: '100%', width: '95%', my: '3%' }} cols={3}>
-            {itemData.map((item) => (
-                <ImageListItem key={item.img} sx={{mx: '4%'}}>
-                    <img
-                        src={item.img}
-                        srcSet={item.img}
-                        alt={item.title}
-                    />
-                    <ImageListItemBar
-                        title={item.title}
-                        subtitle={item.author}
-                    />
-                </ImageListItem>
-            ))}
-            </ImageList>
+            <Carousel itemData={itemData}/>
 		</Box>
 	)
 }

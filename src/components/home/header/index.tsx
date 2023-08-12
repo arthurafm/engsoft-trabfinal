@@ -6,7 +6,7 @@ import Buttons from './buttons'
 
 const background = '/home/bg.png'
 
-export default function Header() {
+export default function Index() {
 	return (
 		<Box sx={{ 
 			backgroundImage: `url(${background})`, 
