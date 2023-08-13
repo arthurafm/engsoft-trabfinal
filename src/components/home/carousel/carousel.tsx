@@ -19,7 +19,7 @@ export default function Carousel({itemData}) {
             aspectRatio: '4.7/5' 
         },
         CardContent : { 
-            backgroundColor: '#C73700'
+            backgroundColor: '#1E1E1E'
         },
         Text : {
             color: 'white', 
