@@ -2,18 +2,21 @@
 
 import { Button } from '@mui/material'
 
-export default function But({text, width}) {
+export default function Butt({text, width, height, fontSize}) {
     const style = {
         color: 'white',
-        fontSize: 'fit-content',
         background: 'primary.light',
         borderRadius: '1rem',
         textTransform: 'none',
         border: 1,
         borderColor: 'transparent',
         fontWeight: 600,
+        p: 0,
+
         width: {width},
-        mx: '8%',
+        height: {height},
+        fontSize: {fontSize},
+        
         '&:hover': {
             backgroundColor: 'white',
             color: '#E35725',
@@ -22,6 +25,6 @@ export default function But({text, width}) {
     }
 
 	return (
-        <Button variant='contained' size='large' sx={style}>{text}</Button>
+        <Button variant='contained' sx={style}>{text}</Button>
 	)
 }
