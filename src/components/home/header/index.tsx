@@ -7,8 +7,8 @@ import Buttons from './buttons'
 const background = '/home/bg.png'
 
 export default function Index() {
-	return (
-		<Box sx={{ 
+	const styles = {
+		Box : { 
 			backgroundImage: `url(${background})`, 
 			backgroundSize: 'cover',
 			width:'100%',
@@ -18,10 +18,17 @@ export default function Index() {
 			flexDirection: 'column',
 			justifyContent: 'center',
 			alignItems: 'center'
-		}}>
-			<Typography variant='h1' sx={{
-				fontSize: 56, fontWeight: 'bold', color: '#C73700'
-			}}>Aprimore os seus Conhecimentos!</Typography>
+		},
+		Title : {
+			fontSize: 56, 
+			fontWeight: 'bold', 
+			color: '#C73700'
+		}
+	}
+
+	return (
+		<Box sx={styles.Box}>
+			<Typography sx={styles.Title}>Aprimore os seus Conhecimentos!</Typography>
 			<Buttons/>
 		</Box>
 	)

@@ -1,6 +1,58 @@
 'use client'
 
+import { Card, CardContent, CardMedia, Typography, CardActionArea, Box } from '@mui/material';
 
+export default function Carousel({itemData}) {
+    const styles = {
+        Box : { 
+            width: '97%', 
+            display: 'flex', 
+            my: '3%', 
+            justifyContent: 'space-evenly' 
+        },
+        Card : { 
+            width: '31%', 
+            height: '100%', 
+            borderRadius: '2%' 
+        },
+        CardMedia : { 
+            aspectRatio: '4.7/5' 
+        },
+        CardContent : { 
+            backgroundColor: '#C73700'
+        },
+        Text : {
+            color: 'white', 
+            fontFamily: 'Roboto', 
+            textAlign: 'center'
+        },
+        Title : {
+            fontSize: 32
+        },
+        Author : {
+            fontSize: 18
+        }
+    }
+
+	return (
+        <Box sx={styles.Box}>
+            {itemData.map((item) => (
+                <Card sx={styles.Card}>
+                    <CardActionArea href={item.link}>
+                        <CardMedia component='img' image={item.img} alt={item.title} sx={styles.CardMedia}/>
+                        <CardContent sx={styles.CardContent}>
+                            <Typography sx={{...styles.Text, ...styles.Title}}>{item.title}</Typography>
+                            <Typography sx={{...styles.Text, ...styles.Author}}>{item.author}</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            ))}
+        </Box> 
+	)
+}
+
+
+// ====== Another Implementation ====== //
 // import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 // import Link from 'next/link'
 // import Image from 'next/image'
@@ -32,37 +84,3 @@
 //         </ImageList>
 // 	)
 // }
-
-
-import { Card, CardContent, CardMedia, Typography, CardActionArea, Box } from '@mui/material';
-
-export default function Carousel({itemData}) {
-	return (
-        <Box sx={{ width: '97%', display: 'flex', my: '3%', justifyContent: 'space-evenly' }}>
-            {itemData.map((item) => (
-                <Card sx={{ width: '31%', height: '100%', borderRadius: '2%' }}>
-                    <CardActionArea href={item.link}>
-                        <CardMedia
-                            component='img'
-                            image={item.img}
-                            alt={item.title}
-                            sx={{ aspectRatio: '4.7/5' }}
-                        />
-                        <CardContent sx={{ 
-                            backgroundColor: '#1E1E1E', color: 'white', 
-                            fontFamily: 'Roboto', textAlign: 'center'
-                        }}>
-                            <Typography sx={{ fontSize: 32 }}>
-                                {item.title}
-                            </Typography>
-                            <Typography sx={{ fontSize: 18 }}>
-                                {item.author}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            ))}
-        </Box> 
-	)
-}
-

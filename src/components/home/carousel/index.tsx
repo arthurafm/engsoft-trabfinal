@@ -4,20 +4,27 @@ import { Typography, Box } from '@mui/material';
 import Carousel from './carousel'
 
 export default function Index() {
-	return (
-		<Box sx={{ 
-			backgroundColor: '#FF7222', 
-            width: '100%', height: '80%',
+  const styles = {
+    Box : {
+      width: '100%', 
+      height: '80%',
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'top',
-			alignItems: 'center'
-		}}>
-			<Typography variant='h1'  sx={{
-				fontSize: 56, fontWeight: 'bold', 
-        color: 'white', mt: '3%'
-			}}>Encontre o curso perfeito para você!</Typography>
+			alignItems: 'center',
+      backgroundColor: '#FF7222'
+    },
+    Title : {
+      fontSize: 56, 
+      fontWeight: 'bold', 
+      color: 'white', 
+      mt: '3%'
+    }
+  }
 
+	return (
+		<Box sx={styles.Box}>
+			<Typography variant='h1' sx={styles.Title}>Encontre o curso perfeito para você!</Typography>
       <Carousel itemData={itemData}/>
 		</Box>
 	)
