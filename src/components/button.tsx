@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Button from '@mui/material/Button'
 
-export default function Butt({ text, style, link }) {
+export default function Butt({ text, style }) {
     const default_style = {
         color: 'white',
         background: 'primary.light',
@@ -26,8 +26,6 @@ export default function Butt({ text, style, link }) {
     }
 
 	return (
-        <Link href={link}>
-            <Button variant='contained' sx={{ ...default_style, ...style }}>{text}</Button>
-        </Link>
+        <Button variant='contained' sx={{ ...default_style, ...style }}>{text}</Button>
 	)
 }
