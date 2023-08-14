@@ -3,23 +3,26 @@
 import Box from '@mui/material/Box'
 import Button from '../../button'
 
-const buttonWidth  = '20vw';
-const buttonHeight = '3.5vw';
-const fontSize     = '1.5vw';
-
 export default function Buttons() {
-    const style = {
-        display: 'flex', 
-        justifyContent: 'space-evenly', 
-        alignItems: 'center',
-        width: '70vw', 
-        pt: '3%'
+    const styles = {
+        Box : {
+            display: 'flex', 
+            justifyContent: 'space-evenly', 
+            alignItems: 'center',
+            width: '70vw', 
+            pt: '3%'
+        },
+        Button : {
+            width: '20vw',
+            height: '3.5vw',
+            fontSize: '1.5vw'
+        }
     }
 
 	return (
-        <Box sx={style}>
-            <Button text='Encontre Tutor'  width={buttonWidth} height={buttonHeight} fontSize={fontSize}/>
-            <Button text='Assine um Curso' width={buttonWidth} height={buttonHeight} fontSize={fontSize}/>
+        <Box sx={styles.Box}>
+            <Button text='Encontre Tutor'  style={styles.Button}/>
+            <Button text='Assine um Curso' style={styles.Button}/>
 		</Box>
 	)
 }

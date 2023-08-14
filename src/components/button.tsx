@@ -2,8 +2,8 @@
 
 import Button from '@mui/material/Button'
 
-export default function Butt({text, width, height, fontSize}) {
-    const style = {
+export default function Butt({ text, style }) {
+    const default_style = {
         color: 'white',
         background: 'primary.light',
         borderRadius: '1rem',
@@ -13,9 +13,9 @@ export default function Butt({text, width, height, fontSize}) {
         fontWeight: 600,
         p: 0,
 
-        width: {width},
-        height: {height},
-        fontSize: {fontSize},
+        width: '20%',
+        height: '150%',
+        fontSize: 20,
         
         '&:hover': {
             backgroundColor: 'white',
@@ -25,6 +25,6 @@ export default function Butt({text, width, height, fontSize}) {
     }
 
 	return (
-        <Button variant='contained' sx={style}>{text}</Button>
+        <Button variant='contained' sx={{ ...default_style, ...style }}>{text}</Button>
 	)
 }
