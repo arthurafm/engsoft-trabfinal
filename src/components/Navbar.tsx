@@ -1,11 +1,20 @@
-import { AppBar, Container, Toolbar, Typography, Box, Button, IconButton, Avatar } from "@mui/material"
+'use client'
+
+import { AppBar, Container, Toolbar, Typography, Box, Button, IconButton, Avatar, Drawer, List, ListItem, ListItemText, ListItemButton, Divider, Menu, MenuItem, Tooltip } from "@mui/material"
+import DehazeIcon from '@mui/icons-material/Dehaze';
 
 import Link from "next/link";
+import { useState } from "react";
 
 const Navbar = () => {
 
   const pages = ['Mentorias', 'Cursos'];
-  const isUserLoggedIn = false; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
+  const settings = ['Perfil', 'Sair'];
+
+  const isUserLoggedIn = true; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
+
+  const [toggleDrawer, setToggleDrawer] = useState(false);
+  const [toggleDropdown, setToggleDropdown] = useState(false);
 
   return (
     <AppBar position="static">
@@ -35,7 +44,7 @@ const Navbar = () => {
               fontSize: 43,
             }}
           >
-          Guide Me
+          GuideMe
           </Typography>
         </Link>
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
@@ -45,7 +54,7 @@ const Navbar = () => {
                 return (
                   <Button
                   key={page}
-                  sx={{ my: 2, color: '#BB2A00', display: 'block', fontSize: '1.2vw', mr: 2, textTransform: 'none', fontWeight: 600,
+                  sx={{ my: 2, color: '#BB2A00', display: 'block', fontSize: '1.2rem', mr: 2, textTransform: 'none', fontWeight: 600,
                         '&:hover': {
                           backgroundColor: 'transparent',
                           textDecoration: 'underline',
@@ -55,16 +64,74 @@ const Navbar = () => {
                 )
               })}
             </Box>
+            <Box sx={{
+              flexGrow: 0,
+              display: { xs: 'flex', md: 'none' },
+            }}>
+              <Button onClick={() => setToggleDrawer(true)} sx={{ pl: 0, width: 24 }}>
+                <DehazeIcon sx={{ color: '#E35725' }} />
+              </Button>
+              <Drawer
+                open={toggleDrawer}
+                onClose={() => setToggleDrawer(false)}
+                PaperProps={{ sx: {
+                  backgroundColor: '#FFE199',
+                } }}>
+                {pages.map((page) => (
+                  <Box
+                    sx={{
+                      width: 250,
+                    }}
+                    role='presentation'
+                    onClick={() => setToggleDrawer(false)}
+                    onKeyDown={() => setToggleDrawer(false)}>
+                      <List>
+                        <ListItem key={page} disablePadding>
+                          <ListItemButton>
+                            <ListItemText primary={page} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
+                          </ListItemButton>
+                        </ListItem>
+                      </List>
+                      <Divider sx = {{  }} />
+                  </Box>
+                ))}
+              </Drawer>
+            </Box>
             <Box sx={{ flexGrow: 0 }}>
               {
                 isUserLoggedIn ? // ALTERAR FOTO PARA FOTO DO USUÁRIO
                 (
-                  <IconButton sx={{ p: 0}}>
-                    <Avatar
-                    alt="Foto do usuário"
-                    src="https://dugout.com/images/publishers/logos/gremio.png"
-                    sx ={{ width: 55, height: 55, }} />
-                  </IconButton>
+                  <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title="Open settings">
+                      <IconButton sx={{ p: 0 }} onClick={() => setToggleDropdown(true)}>
+                        <Avatar
+                        alt="Foto do usuário"
+                        src="https://dugout.com/images/publishers/logos/gremio.png"
+                        sx ={{ width: 55, height: 55, }} />
+                      </IconButton>
+                    </Tooltip>
+                    <Menu
+                      sx={{ mt: '45px' }}
+                      id="menu-appbar"
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={toggleDropdown}
+                      onClose={() => setToggleDropdown(false)}
+                    >
+                      {settings.map((setting) => (
+                        <MenuItem key={setting} onClick={() => setToggleDropdown(false)}>
+                          <Typography textAlign="center">{setting}</Typography>
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </Box>
                 )
                 :
                 (
@@ -72,7 +139,7 @@ const Navbar = () => {
                     <Link href='\signup'>
                       <Button
                       key="signup"
-                      sx={{ my: 2, color: '#BB2A00', fontSize: '1.2vw', background: 'transparent', textTransform: 'none', border: 1, borderColor: 'transparent', fontWeight: 600, 
+                      sx={{ my: 2, color: '#BB2A00', fontSize: '1.2rem', background: 'transparent', textTransform: 'none', border: 1, borderColor: 'transparent', fontWeight: 600, 
                             '&:hover': {
                               backgroundColor: 'transparent',
                               textDecoration: 'underline',
@@ -82,7 +149,7 @@ const Navbar = () => {
                     </Link>
                     <Button
                     key="login"
-                    sx={{ ml: 3, my: 2, color: 'white', fontSize: '1.2vw', background: '#E35725', borderRadius: '1rem', textTransform: 'none', border: 1, borderColor: 'transparent', fontWeight: 600,
+                    sx={{ ml: 3, my: 2, color: 'white', fontSize: '1.2rem', background: '#E35725', borderRadius: '1rem', textTransform: 'none', border: 1, borderColor: 'transparent', fontWeight: 600,
                           '&:hover': {
                             backgroundColor: 'white',
                             color: '#E35725',
@@ -97,6 +164,7 @@ const Navbar = () => {
           </Toolbar>
       </Container>
     </AppBar>
+    
   )
 }
 
