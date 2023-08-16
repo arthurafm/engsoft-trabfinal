@@ -6,6 +6,10 @@ import DehazeIcon from '@mui/icons-material/Dehaze';
 import Link from "next/link";
 import { useState } from "react";
 
+import { Lobster } from "next/font/google";
+
+const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin'] });
+
 const Navbar = () => {
 
   const pages = ['Mentorias', 'Cursos'];
@@ -36,12 +40,11 @@ const Navbar = () => {
             variant="h6"
             noWrap
             component="a"
+            className={lobster.className}
             sx = {{
               pl: 2,
               mr: 4,
-              fontFamily: 'Roboto',
-              fontWeight: 700,
-              fontSize: 43,
+              fontSize: '2.7rem',
             }}
           >
           GuideMe
@@ -111,7 +114,7 @@ const Navbar = () => {
                       </IconButton>
                     </Tooltip>
                     <Menu
-                      sx={{ mt: '45px' }}
+                      sx={{ mt: '45px'}}
                       id="menu-appbar"
                       anchorOrigin={{
                         vertical: 'top',
