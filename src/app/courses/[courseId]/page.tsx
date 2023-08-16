@@ -66,7 +66,7 @@ const page = () => {
             sx = {{
               fontFamily: 'Roboto',
               fontWeight: 700,
-              fontSize: '2.5vw',
+              fontSize: '2.5rem',
               padding: 0,
             }}>
             {courseName}
@@ -102,15 +102,15 @@ const page = () => {
           <Button
             key="buy"
             sx={{ color: 'white',
-                  fontSize: '1.2vw',
+                  fontSize: '1.2rem',
                   background: '#E35725',
                   borderRadius: '1rem',
                   textTransform: 'none',
                   border: 1,
                   borderColor: 'transparent',
                   fontWeight: 600,
-                  width: '7vw',
-                  height: '5vh',
+                  width: '6rem',
+                  height: '3rem',
                   '&:hover': {
                     backgroundColor: 'white',
                     color: '#E35725',
@@ -142,7 +142,7 @@ const page = () => {
               fontFamily: 'Roboto',
               fontWeight: 400,
               textAlign: 'justify',
-              fontSize: '1.2vw',
+              fontSize: '1.2rem',
             }}>
             {professorDescription}
           </Typography>
@@ -153,8 +153,9 @@ const page = () => {
               fontFamily: 'Roboto',
               fontWeight: 400,
               textAlign: 'justify',
-              fontSize: '1.2vw',
-            }}>
+              fontSize: '1.2rem',
+            }}
+            paragraph>
             {courseDescription}
           </Typography>
         </Box>
