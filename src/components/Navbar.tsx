@@ -12,8 +12,8 @@ const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin']
 
 const Navbar = () => {
 
-  const pages = ['Mentorias', 'Cursos'];
-  const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: '/'}];
+  const pages = [{name: 'Mentorias', path: '/mentorships'}, {name: 'Cursos', path: 'courses'}];
+  const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: ''}];
 
   const isUserLoggedIn = true; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
 
@@ -53,17 +53,19 @@ const Navbar = () => {
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Box
             sx={{ flexGrow:0, display: { xs: 'none', md: 'flex' }}}>
-              {pages.map((page) => {
+              {pages.map(({ name, path }) => {
                 return (
-                  <Button
-                  key={page}
-                  sx={{ my: 2, color: '#BB2A00', display: 'block', fontSize: '1.2rem', mr: 2, textTransform: 'none', fontWeight: 600,
-                        '&:hover': {
-                          backgroundColor: 'transparent',
-                          textDecoration: 'underline',
-                        }}}>
-                    {page}
-                  </Button>
+                  <Link href={path} style={{ textDecoration: 'none' }}>
+                    <Button
+                    key={name}
+                    sx={{ my: 2, color: '#BB2A00', display: 'block', fontSize: '1.2rem', mr: 2, textTransform: 'none', fontWeight: 600,
+                          '&:hover': {
+                            backgroundColor: 'transparent',
+                            textDecoration: 'underline',
+                          }}}>
+                      {name}
+                    </Button>
+                  </Link>
                 )
               })}
             </Box>
@@ -80,7 +82,7 @@ const Navbar = () => {
                 PaperProps={{ sx: {
                   backgroundColor: '#FFE199',
                 } }}>
-                {pages.map((page) => (
+                {pages.map(({ name, path}) => (
                   <Box
                     sx={{
                       width: 250,
@@ -89,11 +91,13 @@ const Navbar = () => {
                     onClick={() => setToggleDrawer(false)}
                     onKeyDown={() => setToggleDrawer(false)}>
                       <List>
-                        <ListItem key={page} disablePadding>
-                          <ListItemButton>
-                            <ListItemText primary={page} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
-                          </ListItemButton>
-                        </ListItem>
+                        <Link href={path} style={{ textDecoration: 'none' }} >
+                          <ListItem key={name} disablePadding>
+                            <ListItemButton>
+                              <ListItemText primary={name} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
+                            </ListItemButton>
+                          </ListItem>
+                        </Link>
                       </List>
                       <Divider sx = {{  }} />
                   </Box>
@@ -114,7 +118,9 @@ const Navbar = () => {
                       </IconButton>
                     </Tooltip>
                     <Menu
-                      sx={{ mt: '45px'}}
+                      sx={{
+                        mt: '45px',
+                      }}
                       id="menu-appbar"
                       anchorOrigin={{
                         vertical: 'top',
@@ -129,9 +135,17 @@ const Navbar = () => {
                       onClose={() => setToggleDropdown(false)}
                     >
                       {settings.map((setting) => (
-                        <Link href={setting.path}>
+                        <Link
+                          href={setting.path}
+                          style={{
+                            textDecoration: 'none',
+                            color: 'black',
+                          }}>
                           <MenuItem key={setting.name} onClick={() => setToggleDropdown(false)}>
-                            <Typography textAlign="center">{setting.name}</Typography>
+                            <Typography
+                              sx={{
+                                textAlign: 'right',
+                              }}>{setting.name}</Typography>
                           </MenuItem>
                         </Link>
                       ))}
