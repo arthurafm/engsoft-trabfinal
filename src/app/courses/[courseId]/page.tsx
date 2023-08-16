@@ -66,7 +66,7 @@ const page = () => {
             sx = {{
               fontFamily: 'Roboto',
               fontWeight: 700,
-              fontSize: 43,
+              fontSize: '2.5vw',
               padding: 0,
             }}>
             {courseName}
@@ -79,17 +79,17 @@ const page = () => {
               {stars.map((star) => {
                 if (star == 1) {
                   return (
-                    <StarIcon />
+                    <StarIcon sx={{ width: '4vh', height: '4vh'}} />
                   )
                 }
                 else if (star == 0.5) {
                   return (
-                    <StarHalfIcon />
+                    <StarHalfIcon sx={{ width: '4vh', height: '4vh'}} />
                   )
                 }
                 else {
                   return (
-                    <StarBorderIcon />
+                    <StarBorderIcon sx={{ width: '4vh', height: '4vh'}} />
                   )
                 }
               })}
@@ -109,7 +109,7 @@ const page = () => {
                   border: 1,
                   borderColor: 'transparent',
                   fontWeight: 600,
-                  width: '6vw',
+                  width: '7vw',
                   height: '5vh',
                   '&:hover': {
                     backgroundColor: 'white',
@@ -142,6 +142,7 @@ const page = () => {
               fontFamily: 'Roboto',
               fontWeight: 400,
               textAlign: 'justify',
+              fontSize: '1.2vw',
             }}>
             {professorDescription}
           </Typography>
@@ -152,6 +153,7 @@ const page = () => {
               fontFamily: 'Roboto',
               fontWeight: 400,
               textAlign: 'justify',
+              fontSize: '1.2vw',
             }}>
             {courseDescription}
           </Typography>
