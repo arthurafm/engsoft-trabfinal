@@ -12,7 +12,4 @@ export const muiTheme: ThemeOptions = createTheme({
       main: '#255eca',
     },
   },
-  shape: {
-    borderRadius: 20,
-  }
 });
