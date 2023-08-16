@@ -5,7 +5,9 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import BasicAppBar from './basicAppBar';
+
+import Navbar from '../components/header';
+import Footer from '../components/footer';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { muiTheme } from './muiTheme';
@@ -20,12 +22,13 @@ export const metadata = {
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
     <html lang="en">
- 		<body style={{margin: 0}}>
-			<ThemeProvider theme={muiTheme}>
-				<BasicAppBar/>
-				{children}
-			</ThemeProvider>
-		</body>
+      <body style={{margin: 0}}>
+        <ThemeProvider theme={muiTheme}>
+          <Navbar />
+          {children}
+          <Footer/>
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
