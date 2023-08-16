@@ -13,7 +13,7 @@ const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin']
 const Navbar = () => {
 
   const pages = ['Mentorias', 'Cursos'];
-  const settings = ['Perfil', 'Sair'];
+  const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: '/'}];
 
   const isUserLoggedIn = true; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
 
@@ -129,9 +129,11 @@ const Navbar = () => {
                       onClose={() => setToggleDropdown(false)}
                     >
                       {settings.map((setting) => (
-                        <MenuItem key={setting} onClick={() => setToggleDropdown(false)}>
-                          <Typography textAlign="center">{setting}</Typography>
-                        </MenuItem>
+                        <Link href={setting.path}>
+                          <MenuItem key={setting.name} onClick={() => setToggleDropdown(false)}>
+                            <Typography textAlign="center">{setting.name}</Typography>
+                          </MenuItem>
+                        </Link>
                       ))}
                     </Menu>
                   </Box>
