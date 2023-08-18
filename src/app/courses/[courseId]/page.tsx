@@ -76,20 +76,20 @@ const page = () => {
               display: 'flex',
               flexDirection: 'row',
             }}>
-              {stars.map((star) => {
+              {stars.map((star, i) => {
                 if (star == 1) {
                   return (
-                    <StarIcon sx={{ width: '4vh', height: '4vh'}} />
+                    <StarIcon key={i} sx={{ width: '4vh', height: '4vh'}} />
                   )
                 }
                 else if (star == 0.5) {
                   return (
-                    <StarHalfIcon sx={{ width: '4vh', height: '4vh'}} />
+                    <StarHalfIcon key={i} sx={{ width: '4vh', height: '4vh'}} />
                   )
                 }
                 else {
                   return (
-                    <StarBorderIcon sx={{ width: '4vh', height: '4vh'}} />
+                    <StarBorderIcon key={i} sx={{ width: '4vh', height: '4vh'}} />
                   )
                 }
               })}

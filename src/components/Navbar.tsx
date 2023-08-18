@@ -8,6 +8,9 @@ import { useState } from "react";
 
 import { Lobster } from "next/font/google";
 
+import OverlayLogin from "./overlayLogin";
+import { useUser } from "@/context/UserContext";
+
 const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin'] });
 
 const Navbar = () => {
@@ -15,7 +18,9 @@ const Navbar = () => {
   const pages = [{name: 'Mentorias', path: '/mentorships'}, {name: 'Cursos', path: 'courses'}];
   const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: ''}];
 
-  const isUserLoggedIn = true; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
+  const { cognitoUser, userData, setUserData, setCognitoUser } = useUser()
+
+  const isUserLoggedIn = false; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
 
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -26,46 +31,52 @@ const Navbar = () => {
       maxWidth="x1"
       disableGutters
       sx={{ display: 'flex', background: '#FFBA85' }}>
-        <Link href='/'
-              style={{
-                alignItems: 'center',
-                display: 'flex',
-                letterSpacing: '.1rem',
-                color: 'white',
-                textDecoration: 'none',
-                background: '#E35725',
-                borderRadius: '0 3rem 3rem 0',
-        }}>
           <Typography
             variant="h6"
+			component={ Link }
+			href='/'
             noWrap
-            component="a"
             className={lobster.className}
             sx = {{
+              alignItems: 'center',
+              display: 'flex',
+			  width: '200px',
+              letterSpacing: '.1rem',
+              color: 'white',
+              textDecoration: 'none',
+              background: '#E35725',
+              borderRadius: '0 3rem 3rem 0',
               pl: 2,
-              mr: 4,
+              mr: 0,
               fontSize: '2.7rem',
             }}
           >
           GuideMe
           </Typography>
-        </Link>
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Box
             sx={{ flexGrow:0, display: { xs: 'none', md: 'flex' }}}>
               {pages.map(({ name, path }) => {
                 return (
-                  <Link href={path} style={{ textDecoration: 'none' }}>
                     <Button
+					LinkComponent={Link}
+					href={path}
                     key={name}
-                    sx={{ my: 2, color: '#BB2A00', display: 'block', fontSize: '1.2rem', mr: 2, textTransform: 'none', fontWeight: 600,
-                          '&:hover': {
+                    sx={{
+						my: 2,
+						color: '#BB2A00',
+						display: 'block',
+						fontSize: '1.2rem',
+						mr: 2,
+						textTransform: 'none',
+						fontWeight: 600,
+                        '&:hover': {
                             backgroundColor: 'transparent',
                             textDecoration: 'underline',
-                          }}}>
+                        }
+					}}>
                       {name}
                     </Button>
-                  </Link>
                 )
               })}
             </Box>
@@ -82,31 +93,27 @@ const Navbar = () => {
                 PaperProps={{ sx: {
                   backgroundColor: '#FFE199',
                 } }}>
-                {pages.map(({ name, path}) => (
-                  <Box
-                    sx={{
-                      width: 250,
-                    }}
+                {pages.map(({ name, path}, i) => (
+                  <Box key={i} sx={{ width: 250 }}
                     role='presentation'
                     onClick={() => setToggleDrawer(false)}
                     onKeyDown={() => setToggleDrawer(false)}>
-                      <List>
-                        <Link href={path} style={{ textDecoration: 'none' }} >
+                      <List key={i}>
+                        <Link key={i} href={path} style={{ textDecoration: 'none' }} >
                           <ListItem key={name} disablePadding>
-                            <ListItemButton>
-                              <ListItemText primary={name} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
+                            <ListItemButton key={i}>
+                              <ListItemText key={i} primary={name} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
                             </ListItemButton>
                           </ListItem>
                         </Link>
                       </List>
-                      <Divider sx = {{  }} />
+                      <Divider/>
                   </Box>
                 ))}
               </Drawer>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              {
-                isUserLoggedIn ? // ALTERAR FOTO PARA FOTO DO USUÁRIO
+              {cognitoUser ? // ALTERAR FOTO PARA FOTO DO USUÁRIO
                 (
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
@@ -134,8 +141,9 @@ const Navbar = () => {
                       open={toggleDropdown}
                       onClose={() => setToggleDropdown(false)}
                     >
-                      {settings.map((setting) => (
+                      {settings.map((setting, i) => (
                         <Link
+						  key={i}
                           href={setting.path}
                           style={{
                             textDecoration: 'none',
@@ -143,6 +151,7 @@ const Navbar = () => {
                           }}>
                           <MenuItem key={setting.name} onClick={() => setToggleDropdown(false)}>
                             <Typography
+							  key={i}
                               sx={{
                                 textAlign: 'right',
                               }}>{setting.name}</Typography>
@@ -155,27 +164,7 @@ const Navbar = () => {
                 :
                 (
                   <Box sx={{ flexGrow: 0, flexDirection: 'row', alignSelf: 'flex-end'}}>
-                    <Link href='\signup'>
-                      <Button
-                      key="signup"
-                      sx={{ my: 2, color: '#BB2A00', fontSize: '1.2rem', background: 'transparent', textTransform: 'none', border: 1, borderColor: 'transparent', fontWeight: 600, 
-                            '&:hover': {
-                              backgroundColor: 'transparent',
-                              textDecoration: 'underline',
-                            }}}>
-                        Registre-se
-                      </Button>
-                    </Link>
-                    <Button
-                    key="login"
-                    sx={{ ml: 3, my: 2, color: 'white', fontSize: '1.2rem', background: '#E35725', borderRadius: '1rem', textTransform: 'none', border: 1, borderColor: 'transparent', fontWeight: 600,
-                          '&:hover': {
-                            backgroundColor: 'white',
-                            color: '#E35725',
-                            borderColor: '#FF7222',
-                          },}}>
-                      Entrar
-                    </Button>
+					<OverlayLogin/>
                   </Box>
                 )
               }
