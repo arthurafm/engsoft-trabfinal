@@ -10,6 +10,13 @@ import BasicAppBar from './basicAppBar';
 import { ThemeProvider } from '@mui/material/styles';
 import { muiTheme } from './muiTheme';
 
+import {Amplify, Auth} from 'aws-amplify';
+import awsconfig from '@/aws-exports'
+
+import UserContext from '@/context/UserContext';
+
+Amplify.configure({ ...awsconfig, ssr: true })
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -22,8 +29,10 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
     <html lang="en">
  		<body style={{margin: 0}}>
 			<ThemeProvider theme={muiTheme}>
-				<BasicAppBar/>
-				{children}
+				<UserContext>
+					<BasicAppBar/>
+					{children}
+				</UserContext>
 			</ThemeProvider>
 		</body>
     </html>

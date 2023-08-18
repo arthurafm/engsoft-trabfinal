@@ -2,16 +2,24 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateBlogInput = {
+export type CreateAlunoInput = {
   id?: string | null,
-  name: string,
+  nome: string,
+  email?: string | null,
+  cpf?: string | null,
+  creditos: number,
+  owner: string,
 };
 
-export type ModelBlogConditionInput = {
-  name?: ModelStringInput | null,
-  and?: Array< ModelBlogConditionInput | null > | null,
-  or?: Array< ModelBlogConditionInput | null > | null,
-  not?: ModelBlogConditionInput | null,
+export type ModelAlunoConditionInput = {
+  nome?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  creditos?: ModelIntInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelAlunoConditionInput | null > | null,
+  or?: Array< ModelAlunoConditionInput | null > | null,
+  not?: ModelAlunoConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -54,69 +62,187 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type Blog = {
-  __typename: "Blog",
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Aluno = {
+  __typename: "Aluno",
   id: string,
-  name: string,
-  posts?: ModelPostConnection | null,
+  nome: string,
+  email?: string | null,
+  cpf?: string | null,
+  creditos: number,
+  cursa?: ModelAlunoCursoConnection | null,
+  owner: string,
   createdAt: string,
   updatedAt: string,
 };
 
-export type ModelPostConnection = {
-  __typename: "ModelPostConnection",
-  items:  Array<Post | null >,
+export type ModelAlunoCursoConnection = {
+  __typename: "ModelAlunoCursoConnection",
+  items:  Array<AlunoCurso | null >,
   nextToken?: string | null,
 };
 
-export type Post = {
-  __typename: "Post",
+export type AlunoCurso = {
+  __typename: "AlunoCurso",
   id: string,
-  title: string,
-  blog?: Blog | null,
-  comments?: ModelCommentConnection | null,
+  aluno?: Aluno | null,
+  curso?: Curso | null,
+  monitoria: boolean,
+  horarios?: string | null,
+  rating?: number | null,
+  owner: string,
   createdAt: string,
   updatedAt: string,
-  blogPostsId?: string | null,
+  alunoCursaId?: string | null,
+  cursoAlunosId?: string | null,
 };
 
-export type ModelCommentConnection = {
-  __typename: "ModelCommentConnection",
-  items:  Array<Comment | null >,
-  nextToken?: string | null,
-};
-
-export type Comment = {
-  __typename: "Comment",
-  id: string,
-  post?: Post | null,
-  content: string,
-  createdAt: string,
-  updatedAt: string,
-  postCommentsId?: string | null,
-};
-
-export type UpdateBlogInput = {
-  id: string,
-  name?: string | null,
-};
-
-export type DeleteBlogInput = {
-  id: string,
-};
-
-export type CreatePostInput = {
+export type Curso = {
+  __typename: "Curso",
   id?: string | null,
-  title: string,
-  blogPostsId?: string | null,
+  nome?: string | null,
+  preco?: number | null,
+  descricao?: string | null,
+  professor?: Professor | null,
+  modulos?: ModelModuloConnection | null,
+  rating?: number | null,
+  alunos?: ModelAlunoCursoConnection | null,
+  cursoGrupo?: string | null,
+  owner?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  professorLecionaId?: string | null,
 };
 
-export type ModelPostConditionInput = {
-  title?: ModelStringInput | null,
-  and?: Array< ModelPostConditionInput | null > | null,
-  or?: Array< ModelPostConditionInput | null > | null,
-  not?: ModelPostConditionInput | null,
-  blogPostsId?: ModelIDInput | null,
+export type Professor = {
+  __typename: "Professor",
+  id: string,
+  nome: string,
+  descricao?: string | null,
+  email?: string | null,
+  cpf?: string | null,
+  leciona?: ModelCursoConnection | null,
+  owner: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelCursoConnection = {
+  __typename: "ModelCursoConnection",
+  items:  Array<Curso | null >,
+  nextToken?: string | null,
+};
+
+export type ModelModuloConnection = {
+  __typename: "ModelModuloConnection",
+  items:  Array<Modulo | null >,
+  nextToken?: string | null,
+};
+
+export type Modulo = {
+  __typename: "Modulo",
+  id: string,
+  titulo: string,
+  descricao: string,
+  videoLink: string,
+  curso: Curso,
+  owner?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  cursoModulosId?: string | null,
+};
+
+export type UpdateAlunoInput = {
+  id: string,
+  nome?: string | null,
+  email?: string | null,
+  cpf?: string | null,
+  creditos?: number | null,
+  owner?: string | null,
+};
+
+export type DeleteAlunoInput = {
+  id: string,
+};
+
+export type CreateProfessorInput = {
+  id?: string | null,
+  nome: string,
+  descricao?: string | null,
+  email?: string | null,
+  cpf?: string | null,
+  owner: string,
+};
+
+export type ModelProfessorConditionInput = {
+  nome?: ModelStringInput | null,
+  descricao?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelProfessorConditionInput | null > | null,
+  or?: Array< ModelProfessorConditionInput | null > | null,
+  not?: ModelProfessorConditionInput | null,
+};
+
+export type UpdateProfessorInput = {
+  id: string,
+  nome?: string | null,
+  descricao?: string | null,
+  email?: string | null,
+  cpf?: string | null,
+  owner?: string | null,
+};
+
+export type DeleteProfessorInput = {
+  id: string,
+};
+
+export type CreateCursoInput = {
+  id?: string | null,
+  nome?: string | null,
+  preco?: number | null,
+  descricao?: string | null,
+  rating?: number | null,
+  cursoGrupo?: string | null,
+  owner?: string | null,
+  professorLecionaId?: string | null,
+};
+
+export type ModelCursoConditionInput = {
+  nome?: ModelStringInput | null,
+  preco?: ModelFloatInput | null,
+  descricao?: ModelStringInput | null,
+  rating?: ModelFloatInput | null,
+  cursoGrupo?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelCursoConditionInput | null > | null,
+  or?: Array< ModelCursoConditionInput | null > | null,
+  not?: ModelCursoConditionInput | null,
+  professorLecionaId?: ModelIDInput | null,
+};
+
+export type ModelFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type ModelIDInput = {
@@ -135,77 +261,161 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdatePostInput = {
+export type UpdateCursoInput = {
   id: string,
-  title?: string | null,
-  blogPostsId?: string | null,
+  nome?: string | null,
+  preco?: number | null,
+  descricao?: string | null,
+  rating?: number | null,
+  cursoGrupo?: string | null,
+  owner?: string | null,
+  professorLecionaId?: string | null,
 };
 
-export type DeletePostInput = {
+export type DeleteCursoInput = {
   id: string,
 };
 
-export type CreateCommentInput = {
+export type CreateAlunoCursoInput = {
   id?: string | null,
-  content: string,
-  postCommentsId?: string | null,
+  monitoria: boolean,
+  horarios?: string | null,
+  rating?: number | null,
+  owner: string,
+  alunoCursaId?: string | null,
+  cursoAlunosId?: string | null,
 };
 
-export type ModelCommentConditionInput = {
-  content?: ModelStringInput | null,
-  and?: Array< ModelCommentConditionInput | null > | null,
-  or?: Array< ModelCommentConditionInput | null > | null,
-  not?: ModelCommentConditionInput | null,
-  postCommentsId?: ModelIDInput | null,
+export type ModelAlunoCursoConditionInput = {
+  monitoria?: ModelBooleanInput | null,
+  horarios?: ModelStringInput | null,
+  rating?: ModelFloatInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelAlunoCursoConditionInput | null > | null,
+  or?: Array< ModelAlunoCursoConditionInput | null > | null,
+  not?: ModelAlunoCursoConditionInput | null,
+  alunoCursaId?: ModelIDInput | null,
+  cursoAlunosId?: ModelIDInput | null,
 };
 
-export type UpdateCommentInput = {
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdateAlunoCursoInput = {
   id: string,
-  content?: string | null,
-  postCommentsId?: string | null,
+  monitoria?: boolean | null,
+  horarios?: string | null,
+  rating?: number | null,
+  owner?: string | null,
+  alunoCursaId?: string | null,
+  cursoAlunosId?: string | null,
 };
 
-export type DeleteCommentInput = {
+export type DeleteAlunoCursoInput = {
   id: string,
 };
 
-export type ModelBlogFilterInput = {
+export type CreateModuloInput = {
+  id?: string | null,
+  titulo: string,
+  descricao: string,
+  videoLink: string,
+  owner?: string | null,
+  cursoModulosId?: string | null,
+};
+
+export type ModelModuloConditionInput = {
+  titulo?: ModelStringInput | null,
+  descricao?: ModelStringInput | null,
+  videoLink?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelModuloConditionInput | null > | null,
+  or?: Array< ModelModuloConditionInput | null > | null,
+  not?: ModelModuloConditionInput | null,
+  cursoModulosId?: ModelIDInput | null,
+};
+
+export type UpdateModuloInput = {
+  id: string,
+  titulo?: string | null,
+  descricao?: string | null,
+  videoLink?: string | null,
+  owner?: string | null,
+  cursoModulosId?: string | null,
+};
+
+export type DeleteModuloInput = {
+  id: string,
+};
+
+export type ModelAlunoFilterInput = {
   id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelBlogFilterInput | null > | null,
-  or?: Array< ModelBlogFilterInput | null > | null,
-  not?: ModelBlogFilterInput | null,
+  nome?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  creditos?: ModelIntInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelAlunoFilterInput | null > | null,
+  or?: Array< ModelAlunoFilterInput | null > | null,
+  not?: ModelAlunoFilterInput | null,
 };
 
-export type ModelBlogConnection = {
-  __typename: "ModelBlogConnection",
-  items:  Array<Blog | null >,
+export type ModelAlunoConnection = {
+  __typename: "ModelAlunoConnection",
+  items:  Array<Aluno | null >,
   nextToken?: string | null,
 };
 
-export type ModelPostFilterInput = {
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
+export type ModelProfessorFilterInput = {
   id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  and?: Array< ModelPostFilterInput | null > | null,
-  or?: Array< ModelPostFilterInput | null > | null,
-  not?: ModelPostFilterInput | null,
-  blogPostsId?: ModelIDInput | null,
+  nome?: ModelStringInput | null,
+  descricao?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  cpf?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelProfessorFilterInput | null > | null,
+  or?: Array< ModelProfessorFilterInput | null > | null,
+  not?: ModelProfessorFilterInput | null,
 };
 
-export type ModelCommentFilterInput = {
-  id?: ModelIDInput | null,
-  content?: ModelStringInput | null,
-  and?: Array< ModelCommentFilterInput | null > | null,
-  or?: Array< ModelCommentFilterInput | null > | null,
-  not?: ModelCommentFilterInput | null,
-  postCommentsId?: ModelIDInput | null,
+export type ModelProfessorConnection = {
+  __typename: "ModelProfessorConnection",
+  items:  Array<Professor | null >,
+  nextToken?: string | null,
 };
 
-export type ModelSubscriptionBlogFilterInput = {
+export type ModelCursoFilterInput = {
+  id?: ModelIDInput | null,
+  nome?: ModelStringInput | null,
+  preco?: ModelFloatInput | null,
+  descricao?: ModelStringInput | null,
+  rating?: ModelFloatInput | null,
+  cursoGrupo?: ModelStringInput | null,
+  owner?: ModelStringInput | null,
+  and?: Array< ModelCursoFilterInput | null > | null,
+  or?: Array< ModelCursoFilterInput | null > | null,
+  not?: ModelCursoFilterInput | null,
+  professorLecionaId?: ModelIDInput | null,
+};
+
+export type ModelSubscriptionAlunoFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  name?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionBlogFilterInput | null > | null,
-  or?: Array< ModelSubscriptionBlogFilterInput | null > | null,
+  nome?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  cpf?: ModelSubscriptionStringInput | null,
+  creditos?: ModelSubscriptionIntInput | null,
+  and?: Array< ModelSubscriptionAlunoFilterInput | null > | null,
+  or?: Array< ModelSubscriptionAlunoFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -238,366 +448,1015 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionPostFilterInput = {
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionProfessorFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  title?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionPostFilterInput | null > | null,
-  or?: Array< ModelSubscriptionPostFilterInput | null > | null,
+  nome?: ModelSubscriptionStringInput | null,
+  descricao?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  cpf?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionProfessorFilterInput | null > | null,
+  or?: Array< ModelSubscriptionProfessorFilterInput | null > | null,
 };
 
-export type ModelSubscriptionCommentFilterInput = {
+export type ModelSubscriptionCursoFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  content?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionCommentFilterInput | null > | null,
-  or?: Array< ModelSubscriptionCommentFilterInput | null > | null,
+  nome?: ModelSubscriptionStringInput | null,
+  preco?: ModelSubscriptionFloatInput | null,
+  descricao?: ModelSubscriptionStringInput | null,
+  rating?: ModelSubscriptionFloatInput | null,
+  and?: Array< ModelSubscriptionCursoFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCursoFilterInput | null > | null,
 };
 
-export type CreateBlogMutationVariables = {
-  input: CreateBlogInput,
-  condition?: ModelBlogConditionInput | null,
+export type ModelSubscriptionFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
 };
 
-export type CreateBlogMutation = {
-  createBlog?:  {
-    __typename: "Blog",
+export type CreateAlunoMutationVariables = {
+  input: CreateAlunoInput,
+  condition?: ModelAlunoConditionInput | null,
+};
+
+export type CreateAlunoMutation = {
+  createAluno?:  {
+    __typename: "Aluno",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
       items:  Array< {
-        __typename: "Post",
+        __typename: "AlunoCurso",
         id: string,
-        title: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-        blogPostsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateBlogMutationVariables = {
-  input: UpdateBlogInput,
-  condition?: ModelBlogConditionInput | null,
+export type UpdateAlunoMutationVariables = {
+  input: UpdateAlunoInput,
+  condition?: ModelAlunoConditionInput | null,
 };
 
-export type UpdateBlogMutation = {
-  updateBlog?:  {
-    __typename: "Blog",
+export type UpdateAlunoMutation = {
+  updateAluno?:  {
+    __typename: "Aluno",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
       items:  Array< {
-        __typename: "Post",
+        __typename: "AlunoCurso",
         id: string,
-        title: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-        blogPostsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type DeleteBlogMutationVariables = {
-  input: DeleteBlogInput,
-  condition?: ModelBlogConditionInput | null,
+export type DeleteAlunoMutationVariables = {
+  input: DeleteAlunoInput,
+  condition?: ModelAlunoConditionInput | null,
 };
 
-export type DeleteBlogMutation = {
-  deleteBlog?:  {
-    __typename: "Blog",
+export type DeleteAlunoMutation = {
+  deleteAluno?:  {
+    __typename: "Aluno",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
       items:  Array< {
-        __typename: "Post",
+        __typename: "AlunoCurso",
         id: string,
-        title: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-        blogPostsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type CreatePostMutationVariables = {
-  input: CreatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type CreateProfessorMutationVariables = {
+  input: CreateProfessorInput,
+  condition?: ModelProfessorConditionInput | null,
 };
 
-export type CreatePostMutation = {
-  createPost?:  {
-    __typename: "Post",
+export type CreateProfessorMutation = {
+  createProfessor?:  {
+    __typename: "Professor",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
       items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
         createdAt: string,
         updatedAt: string,
-        postCommentsId?: string | null,
+        professorLecionaId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
   } | null,
 };
 
-export type UpdatePostMutationVariables = {
-  input: UpdatePostInput,
-  condition?: ModelPostConditionInput | null,
+export type UpdateProfessorMutationVariables = {
+  input: UpdateProfessorInput,
+  condition?: ModelProfessorConditionInput | null,
 };
 
-export type UpdatePostMutation = {
-  updatePost?:  {
-    __typename: "Post",
+export type UpdateProfessorMutation = {
+  updateProfessor?:  {
+    __typename: "Professor",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
       items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
         createdAt: string,
         updatedAt: string,
-        postCommentsId?: string | null,
+        professorLecionaId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
   } | null,
 };
 
-export type DeletePostMutationVariables = {
-  input: DeletePostInput,
-  condition?: ModelPostConditionInput | null,
+export type DeleteProfessorMutationVariables = {
+  input: DeleteProfessorInput,
+  condition?: ModelProfessorConditionInput | null,
 };
 
-export type DeletePostMutation = {
-  deletePost?:  {
-    __typename: "Post",
+export type DeleteProfessorMutation = {
+  deleteProfessor?:  {
+    __typename: "Professor",
     id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
       items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
         createdAt: string,
         updatedAt: string,
-        postCommentsId?: string | null,
+        professorLecionaId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
   } | null,
 };
 
-export type CreateCommentMutationVariables = {
-  input: CreateCommentInput,
-  condition?: ModelCommentConditionInput | null,
+export type CreateCursoMutationVariables = {
+  input: CreateCursoInput,
+  condition?: ModelCursoConditionInput | null,
 };
 
-export type CreateCommentMutation = {
-  createComment?:  {
-    __typename: "Comment",
-    id: string,
-    post?:  {
-      __typename: "Post",
+export type CreateCursoMutation = {
+  createCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
       id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
         id: string,
-        name: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  } | null,
+};
+
+export type UpdateCursoMutationVariables = {
+  input: UpdateCursoInput,
+  condition?: ModelCursoConditionInput | null,
+};
+
+export type UpdateCursoMutation = {
+  updateCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  } | null,
+};
+
+export type DeleteCursoMutationVariables = {
+  input: DeleteCursoInput,
+  condition?: ModelCursoConditionInput | null,
+};
+
+export type DeleteCursoMutation = {
+  deleteCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  } | null,
+};
+
+export type CreateAlunoCursoMutationVariables = {
+  input: CreateAlunoCursoInput,
+  condition?: ModelAlunoCursoConditionInput | null,
+};
+
+export type CreateAlunoCursoMutation = {
+  createAlunoCurso?:  {
+    __typename: "AlunoCurso",
+    id: string,
+    aluno?:  {
+      __typename: "Aluno",
+      id: string,
+      nome: string,
+      email?: string | null,
+      cpf?: string | null,
+      creditos: number,
+      cursa?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    curso?:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
+        id: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
+      modulos?:  {
+        __typename: "ModelModuloConnection",
         nextToken?: string | null,
       } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
-      blogPostsId?: string | null,
+      professorLecionaId?: string | null,
     } | null,
-    content: string,
+    monitoria: boolean,
+    horarios?: string | null,
+    rating?: number | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    alunoCursaId?: string | null,
+    cursoAlunosId?: string | null,
   } | null,
 };
 
-export type UpdateCommentMutationVariables = {
-  input: UpdateCommentInput,
-  condition?: ModelCommentConditionInput | null,
+export type UpdateAlunoCursoMutationVariables = {
+  input: UpdateAlunoCursoInput,
+  condition?: ModelAlunoCursoConditionInput | null,
 };
 
-export type UpdateCommentMutation = {
-  updateComment?:  {
-    __typename: "Comment",
+export type UpdateAlunoCursoMutation = {
+  updateAlunoCurso?:  {
+    __typename: "AlunoCurso",
     id: string,
-    post?:  {
-      __typename: "Post",
+    aluno?:  {
+      __typename: "Aluno",
       id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
+      nome: string,
+      email?: string | null,
+      cpf?: string | null,
+      creditos: number,
+      cursa?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    curso?:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
         id: string,
-        name: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
+      modulos?:  {
+        __typename: "ModelModuloConnection",
         nextToken?: string | null,
       } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
-      blogPostsId?: string | null,
+      professorLecionaId?: string | null,
     } | null,
-    content: string,
+    monitoria: boolean,
+    horarios?: string | null,
+    rating?: number | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    alunoCursaId?: string | null,
+    cursoAlunosId?: string | null,
   } | null,
 };
 
-export type DeleteCommentMutationVariables = {
-  input: DeleteCommentInput,
-  condition?: ModelCommentConditionInput | null,
+export type DeleteAlunoCursoMutationVariables = {
+  input: DeleteAlunoCursoInput,
+  condition?: ModelAlunoCursoConditionInput | null,
 };
 
-export type DeleteCommentMutation = {
-  deleteComment?:  {
-    __typename: "Comment",
+export type DeleteAlunoCursoMutation = {
+  deleteAlunoCurso?:  {
+    __typename: "AlunoCurso",
     id: string,
-    post?:  {
-      __typename: "Post",
+    aluno?:  {
+      __typename: "Aluno",
       id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
+      nome: string,
+      email?: string | null,
+      cpf?: string | null,
+      creditos: number,
+      cursa?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    curso?:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
         id: string,
-        name: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
       } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
+      modulos?:  {
+        __typename: "ModelModuloConnection",
         nextToken?: string | null,
       } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
       createdAt: string,
       updatedAt: string,
-      blogPostsId?: string | null,
+      professorLecionaId?: string | null,
     } | null,
-    content: string,
+    monitoria: boolean,
+    horarios?: string | null,
+    rating?: number | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+    alunoCursaId?: string | null,
+    cursoAlunosId?: string | null,
   } | null,
 };
 
-export type GetBlogQueryVariables = {
+export type CreateModuloMutationVariables = {
+  input: CreateModuloInput,
+  condition?: ModelModuloConditionInput | null,
+};
+
+export type CreateModuloMutation = {
+  createModulo?:  {
+    __typename: "Modulo",
+    id: string,
+    titulo: string,
+    descricao: string,
+    videoLink: string,
+    curso:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
+        id: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      modulos?:  {
+        __typename: "ModelModuloConnection",
+        nextToken?: string | null,
+      } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      professorLecionaId?: string | null,
+    },
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    cursoModulosId?: string | null,
+  } | null,
+};
+
+export type UpdateModuloMutationVariables = {
+  input: UpdateModuloInput,
+  condition?: ModelModuloConditionInput | null,
+};
+
+export type UpdateModuloMutation = {
+  updateModulo?:  {
+    __typename: "Modulo",
+    id: string,
+    titulo: string,
+    descricao: string,
+    videoLink: string,
+    curso:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
+        id: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      modulos?:  {
+        __typename: "ModelModuloConnection",
+        nextToken?: string | null,
+      } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      professorLecionaId?: string | null,
+    },
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    cursoModulosId?: string | null,
+  } | null,
+};
+
+export type DeleteModuloMutationVariables = {
+  input: DeleteModuloInput,
+  condition?: ModelModuloConditionInput | null,
+};
+
+export type DeleteModuloMutation = {
+  deleteModulo?:  {
+    __typename: "Modulo",
+    id: string,
+    titulo: string,
+    descricao: string,
+    videoLink: string,
+    curso:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
+        id: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      modulos?:  {
+        __typename: "ModelModuloConnection",
+        nextToken?: string | null,
+      } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      professorLecionaId?: string | null,
+    },
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    cursoModulosId?: string | null,
+  } | null,
+};
+
+export type ComprarCursoMutationVariables = {
+  cursoId: string,
+};
+
+export type ComprarCursoMutation = {
+  comprarCurso:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  },
+};
+
+export type CriarCursoMutationVariables = {
+  nome: string,
+  preco: number,
+  descricao: string,
+};
+
+export type CriarCursoMutation = {
+  criarCurso:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  },
+};
+
+export type EchoQueryVariables = {
+  msg?: string | null,
+};
+
+export type EchoQuery = {
+  echo?: string | null,
+};
+
+export type GetAlunoQueryVariables = {
   id: string,
 };
 
-export type GetBlogQuery = {
-  getBlog?:  {
-    __typename: "Blog",
+export type GetAlunoQuery = {
+  getAluno?:  {
+    __typename: "Aluno",
     id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
       items:  Array< {
-        __typename: "Post",
+        __typename: "AlunoCurso",
         id: string,
-        title: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-        blogPostsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListBlogsQueryVariables = {
-  filter?: ModelBlogFilterInput | null,
+export type ListAlunosQueryVariables = {
+  filter?: ModelAlunoFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListBlogsQuery = {
-  listBlogs?:  {
-    __typename: "ModelBlogConnection",
+export type ListAlunosQuery = {
+  listAlunos?:  {
+    __typename: "ModelAlunoConnection",
     items:  Array< {
-      __typename: "Blog",
+      __typename: "Aluno",
       id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
+      nome: string,
+      email?: string | null,
+      cpf?: string | null,
+      creditos: number,
+      cursa?:  {
+        __typename: "ModelAlunoCursoConnection",
         nextToken?: string | null,
       } | null,
+      owner: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -605,429 +1464,650 @@ export type ListBlogsQuery = {
   } | null,
 };
 
-export type GetPostQueryVariables = {
-  id: string,
-};
-
-export type GetPostQuery = {
-  getPost?:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
-        id: string,
-        content: string,
-        createdAt: string,
-        updatedAt: string,
-        postCommentsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    blogPostsId?: string | null,
-  } | null,
-};
-
-export type ListPostsQueryVariables = {
-  filter?: ModelPostFilterInput | null,
+export type AlunosByOwnerQueryVariables = {
+  owner: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelAlunoFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListPostsQuery = {
-  listPosts?:  {
-    __typename: "ModelPostConnection",
+export type AlunosByOwnerQuery = {
+  alunosByOwner?:  {
+    __typename: "ModelAlunoConnection",
     items:  Array< {
-      __typename: "Post",
+      __typename: "Aluno",
       id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
+      nome: string,
+      email?: string | null,
+      cpf?: string | null,
+      creditos: number,
+      cursa?:  {
+        __typename: "ModelAlunoCursoConnection",
         nextToken?: string | null,
       } | null,
+      owner: string,
       createdAt: string,
       updatedAt: string,
-      blogPostsId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type GetCommentQueryVariables = {
+export type GetProfessorQueryVariables = {
   id: string,
 };
 
-export type GetCommentQuery = {
-  getComment?:  {
-    __typename: "Comment",
+export type GetProfessorQuery = {
+  getProfessor?:  {
+    __typename: "Professor",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
+      items:  Array< {
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
         createdAt: string,
         updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+        professorLecionaId?: string | null,
+      } | null >,
+      nextToken?: string | null,
     } | null,
-    content: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
   } | null,
 };
 
-export type ListCommentsQueryVariables = {
-  filter?: ModelCommentFilterInput | null,
+export type ListProfessorsQueryVariables = {
+  filter?: ModelProfessorFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListCommentsQuery = {
-  listComments?:  {
-    __typename: "ModelCommentConnection",
+export type ListProfessorsQuery = {
+  listProfessors?:  {
+    __typename: "ModelProfessorConnection",
     items:  Array< {
-      __typename: "Comment",
+      __typename: "Professor",
       id: string,
-      post?:  {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
       } | null,
-      content: string,
+      owner: string,
       createdAt: string,
       updatedAt: string,
-      postCommentsId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
 };
 
-export type OnCreateBlogSubscriptionVariables = {
-  filter?: ModelSubscriptionBlogFilterInput | null,
+export type ProfessorsByOwnerQueryVariables = {
+  owner: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelProfessorFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
-export type OnCreateBlogSubscription = {
-  onCreateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateBlogSubscriptionVariables = {
-  filter?: ModelSubscriptionBlogFilterInput | null,
-};
-
-export type OnUpdateBlogSubscription = {
-  onUpdateBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteBlogSubscriptionVariables = {
-  filter?: ModelSubscriptionBlogFilterInput | null,
-};
-
-export type OnDeleteBlogSubscription = {
-  onDeleteBlog?:  {
-    __typename: "Blog",
-    id: string,
-    name: string,
-    posts?:  {
-      __typename: "ModelPostConnection",
-      items:  Array< {
-        __typename: "Post",
-        id: string,
-        title: string,
-        createdAt: string,
-        updatedAt: string,
-        blogPostsId?: string | null,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnCreatePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
-};
-
-export type OnCreatePostSubscription = {
-  onCreatePost?:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
+export type ProfessorsByOwnerQuery = {
+  professorsByOwner?:  {
+    __typename: "ModelProfessorConnection",
+    items:  Array< {
+      __typename: "Professor",
       id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
         nextToken?: string | null,
       } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetCursoQueryVariables = {
+  id: string,
+};
+
+export type GetCursoQuery = {
+  getCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
       createdAt: string,
       updatedAt: string,
     } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
+    modulos?:  {
+      __typename: "ModelModuloConnection",
       items:  Array< {
-        __typename: "Comment",
+        __typename: "Modulo",
         id: string,
-        content: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
         createdAt: string,
         updatedAt: string,
-        postCommentsId?: string | null,
+        cursoModulosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
-    blogPostsId?: string | null,
-  } | null,
-};
-
-export type OnUpdatePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
-};
-
-export type OnUpdatePostSubscription = {
-  onUpdatePost?:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
       items:  Array< {
-        __typename: "Comment",
+        __typename: "AlunoCurso",
         id: string,
-        content: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-        postCommentsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
+    professorLecionaId?: string | null,
   } | null,
 };
 
-export type OnDeletePostSubscriptionVariables = {
-  filter?: ModelSubscriptionPostFilterInput | null,
+export type ListCursosQueryVariables = {
+  filter?: ModelCursoFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
 };
 
-export type OnDeletePostSubscription = {
-  onDeletePost?:  {
-    __typename: "Post",
-    id: string,
-    title: string,
-    blog?:  {
-      __typename: "Blog",
-      id: string,
-      name: string,
-      posts?:  {
-        __typename: "ModelPostConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    comments?:  {
-      __typename: "ModelCommentConnection",
-      items:  Array< {
-        __typename: "Comment",
+export type ListCursosQuery = {
+  listCursos?:  {
+    __typename: "ModelCursoConnection",
+    items:  Array< {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
         id: string,
-        content: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-        postCommentsId?: string | null,
+      } | null,
+      modulos?:  {
+        __typename: "ModelModuloConnection",
+        nextToken?: string | null,
+      } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      professorLecionaId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateAlunoSubscriptionVariables = {
+  filter?: ModelSubscriptionAlunoFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateAlunoSubscription = {
+  onCreateAluno?:  {
+    __typename: "Aluno",
+    id: string,
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
       } | null >,
       nextToken?: string | null,
     } | null,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    blogPostsId?: string | null,
   } | null,
 };
 
-export type OnCreateCommentSubscriptionVariables = {
-  filter?: ModelSubscriptionCommentFilterInput | null,
+export type OnUpdateAlunoSubscriptionVariables = {
+  filter?: ModelSubscriptionAlunoFilterInput | null,
+  owner?: string | null,
 };
 
-export type OnCreateCommentSubscription = {
-  onCreateComment?:  {
-    __typename: "Comment",
+export type OnUpdateAlunoSubscription = {
+  onUpdateAluno?:  {
+    __typename: "Aluno",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
         id: string,
-        name: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
     } | null,
-    content: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
   } | null,
 };
 
-export type OnUpdateCommentSubscriptionVariables = {
-  filter?: ModelSubscriptionCommentFilterInput | null,
+export type OnDeleteAlunoSubscriptionVariables = {
+  filter?: ModelSubscriptionAlunoFilterInput | null,
+  owner?: string | null,
 };
 
-export type OnUpdateCommentSubscription = {
-  onUpdateComment?:  {
-    __typename: "Comment",
+export type OnDeleteAlunoSubscription = {
+  onDeleteAluno?:  {
+    __typename: "Aluno",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
+    nome: string,
+    email?: string | null,
+    cpf?: string | null,
+    creditos: number,
+    cursa?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
         id: string,
-        name: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
         createdAt: string,
         updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
     } | null,
-    content: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
   } | null,
 };
 
-export type OnDeleteCommentSubscriptionVariables = {
-  filter?: ModelSubscriptionCommentFilterInput | null,
+export type OnCreateProfessorSubscriptionVariables = {
+  filter?: ModelSubscriptionProfessorFilterInput | null,
+  owner?: string | null,
 };
 
-export type OnDeleteCommentSubscription = {
-  onDeleteComment?:  {
-    __typename: "Comment",
+export type OnCreateProfessorSubscription = {
+  onCreateProfessor?:  {
+    __typename: "Professor",
     id: string,
-    post?:  {
-      __typename: "Post",
-      id: string,
-      title: string,
-      blog?:  {
-        __typename: "Blog",
-        id: string,
-        name: string,
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
+      items:  Array< {
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
         createdAt: string,
         updatedAt: string,
-      } | null,
-      comments?:  {
-        __typename: "ModelCommentConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      blogPostsId?: string | null,
+        professorLecionaId?: string | null,
+      } | null >,
+      nextToken?: string | null,
     } | null,
-    content: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    postCommentsId?: string | null,
+  } | null,
+};
+
+export type OnUpdateProfessorSubscriptionVariables = {
+  filter?: ModelSubscriptionProfessorFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateProfessorSubscription = {
+  onUpdateProfessor?:  {
+    __typename: "Professor",
+    id: string,
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
+      items:  Array< {
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        professorLecionaId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteProfessorSubscriptionVariables = {
+  filter?: ModelSubscriptionProfessorFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteProfessorSubscription = {
+  onDeleteProfessor?:  {
+    __typename: "Professor",
+    id: string,
+    nome: string,
+    descricao?: string | null,
+    email?: string | null,
+    cpf?: string | null,
+    leciona?:  {
+      __typename: "ModelCursoConnection",
+      items:  Array< {
+        __typename: "Curso",
+        id?: string | null,
+        nome?: string | null,
+        preco?: number | null,
+        descricao?: string | null,
+        rating?: number | null,
+        cursoGrupo?: string | null,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        professorLecionaId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateCursoSubscriptionVariables = {
+  filter?: ModelSubscriptionCursoFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnCreateCursoSubscription = {
+  onCreateCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  } | null,
+};
+
+export type OnUpdateCursoSubscriptionVariables = {
+  filter?: ModelSubscriptionCursoFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnUpdateCursoSubscription = {
+  onUpdateCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
+  } | null,
+};
+
+export type OnDeleteCursoSubscriptionVariables = {
+  filter?: ModelSubscriptionCursoFilterInput | null,
+  owner?: string | null,
+};
+
+export type OnDeleteCursoSubscription = {
+  onDeleteCurso?:  {
+    __typename: "Curso",
+    id?: string | null,
+    nome?: string | null,
+    preco?: number | null,
+    descricao?: string | null,
+    professor?:  {
+      __typename: "Professor",
+      id: string,
+      nome: string,
+      descricao?: string | null,
+      email?: string | null,
+      cpf?: string | null,
+      leciona?:  {
+        __typename: "ModelCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    modulos?:  {
+      __typename: "ModelModuloConnection",
+      items:  Array< {
+        __typename: "Modulo",
+        id: string,
+        titulo: string,
+        descricao: string,
+        videoLink: string,
+        owner?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        cursoModulosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    rating?: number | null,
+    alunos?:  {
+      __typename: "ModelAlunoCursoConnection",
+      items:  Array< {
+        __typename: "AlunoCurso",
+        id: string,
+        monitoria: boolean,
+        horarios?: string | null,
+        rating?: number | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+        alunoCursaId?: string | null,
+        cursoAlunosId?: string | null,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    cursoGrupo?: string | null,
+    owner?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    professorLecionaId?: string | null,
   } | null,
 };

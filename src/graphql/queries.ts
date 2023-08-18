@@ -2,43 +2,60 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getBlog = /* GraphQL */ `
-  query GetBlog($id: ID!) {
-    getBlog(id: $id) {
+export const echo = /* GraphQL */ `
+  query Echo($msg: String) {
+    echo(msg: $msg)
+  }
+`;
+export const getAluno = /* GraphQL */ `
+  query GetAluno($id: ID!) {
+    getAluno(id: $id) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const listBlogs = /* GraphQL */ `
-  query ListBlogs(
-    $filter: ModelBlogFilterInput
+export const listAlunos = /* GraphQL */ `
+  query ListAlunos(
+    $filter: ModelAlunoFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listBlogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAlunos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        name
-        posts {
+        nome
+        email
+        cpf
+        creditos
+        cursa {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
         __typename
@@ -48,65 +65,34 @@ export const listBlogs = /* GraphQL */ `
     }
   }
 `;
-export const getPost = /* GraphQL */ `
-  query GetPost($id: ID!) {
-    getPost(id: $id) {
-      id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
-        items {
-          id
-          content
-          createdAt
-          updatedAt
-          postCommentsId
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      blogPostsId
-      __typename
-    }
-  }
-`;
-export const listPosts = /* GraphQL */ `
-  query ListPosts(
-    $filter: ModelPostFilterInput
+export const alunosByOwner = /* GraphQL */ `
+  query AlunosByOwner(
+    $owner: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAlunoFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    alunosByOwner(
+      owner: $owner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
         id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-          __typename
-        }
-        comments {
+        nome
+        email
+        cpf
+        creditos
+        cursa {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
-        blogPostsId
         __typename
       }
       nextToken
@@ -114,58 +100,200 @@ export const listPosts = /* GraphQL */ `
     }
   }
 `;
-export const getComment = /* GraphQL */ `
-  query GetComment($id: ID!) {
-    getComment(id: $id) {
+export const getProfessor = /* GraphQL */ `
+  query GetProfessor($id: ID!) {
+    getProfessor(id: $id) {
       id
-      post {
-        id
-        title
-        blog {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
+        items {
           id
-          name
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
+          professorLecionaId
           __typename
         }
-        comments {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        blogPostsId
+        nextToken
         __typename
       }
-      content
+      owner
       createdAt
       updatedAt
-      postCommentsId
       __typename
     }
   }
 `;
-export const listComments = /* GraphQL */ `
-  query ListComments(
-    $filter: ModelCommentFilterInput
+export const listProfessors = /* GraphQL */ `
+  query ListProfessors(
+    $filter: ModelProfessorFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listProfessors(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        post {
-          id
-          title
-          createdAt
-          updatedAt
-          blogPostsId
+        nome
+        descricao
+        email
+        cpf
+        leciona {
+          nextToken
           __typename
         }
-        content
+        owner
         createdAt
         updatedAt
-        postCommentsId
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const professorsByOwner = /* GraphQL */ `
+  query ProfessorsByOwner(
+    $owner: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelProfessorFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    professorsByOwner(
+      owner: $owner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        nome
+        descricao
+        email
+        cpf
+        leciona {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const getCurso = /* GraphQL */ `
+  query GetCurso($id: ID!) {
+    getCurso(id: $id) {
+      id
+      nome
+      preco
+      descricao
+      professor {
+        id
+        nome
+        descricao
+        email
+        cpf
+        leciona {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
+      createdAt
+      updatedAt
+      professorLecionaId
+      __typename
+    }
+  }
+`;
+export const listCursos = /* GraphQL */ `
+  query ListCursos(
+    $filter: ModelCursoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCursos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
         __typename
       }
       nextToken
