@@ -18,7 +18,8 @@
     "aws-amplify": "^5.3.3",
     "next": "13.4.8",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.4"
   },
   "devDependencies": {
     "@types/node": "20.3.3",

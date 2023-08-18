@@ -1,0 +1,168 @@
+
+type Aluno @model @auth( rules: [
+	{ allow: private, operations: [read]},
+	{ allow: owner, operations: [read]}
+]){
+  id: ID! @auth(rules: [
+	{ allow: owner, operations: [read, update, create, delete] },
+	{ allow: private, operations: [read]}
+  ])
+  nome: String! @auth(rules: [
+	{ allow: owner, operations: [read, update, create, delete]},
+	{ allow: private, operations: [read]}
+  ])
+  email: String @auth(rules: [ { allow: owner, operations: [read] } ])
+  cpf: String @auth(rules: [ { allow: owner, operations: [read] } ])
+  creditos: Int!
+  cursa: [AlunoCurso] @hasMany
+  owner: String! @index
+}
+
+type Professor @model @auth( rules: [
+	{ allow: public, operations: [read]},
+	{ allow: private, operations: [read]},
+	{ allow: owner, operations: [read]}
+]){
+  id: ID! @auth( rules: [
+	{ allow: owner, operations: [read, update, create, delete] },
+	{ allow: private, operations: [read]},
+	{ allow: public, operations: [read]}
+])
+  nome: String! @auth(rules: [
+	{ allow: owner, operations: [read, update, create, delete] },
+	{ allow: private, operations: [read]},
+	{ allow: public, operations: [read]}
+  ])
+  descricao: String @auth(rules: [
+	{ allow: owner, operations: [read, update, create, delete] },
+	{ allow: private, operations: [read]},
+	{ allow: public, operations: [read]}
+  ])
+  email: String @auth(rules: [{ allow: owner, operations: [read] } ])
+  cpf: String @auth(rules: [{ allow: owner, operations: [read] } ])
+  leciona: [Curso] @hasMany
+  owner: String! @index
+}
+
+#testar se é necessário criar um ownerfields no curso
+type Curso @model @auth( rules: [
+	{ allow: public, operations: [read]},
+	{ allow: private, operations: [read]},
+	{ allow: groups, groupsField: "cursoGrupo", operations: [read] },
+	{ allow: owner, operations: [read] }
+]){
+  id: ID @auth(rules: [
+	{ allow: owner },
+	{ allow: public, operations: [read] },
+	{ allow: private, operations: [read]},
+	{ allow: groups, groupsField: "cursoGrupo", operations: [read] }
+])
+  nome: String @auth(rules: [
+	{ allow: owner },
+	{ allow: public, operations: [read] },
+	{ allow: private, operations: [read]},
+	{ allow: groups, groupsField: "cursoGrupo", operations: [read] }
+]) 
+  preco: Float @auth(rules: [
+	{ allow: owner },
+	{ allow: public, operations: [read] },
+	{ allow: private, operations: [read]},
+	{ allow: groups, groupsField: "cursoGrupo", operations: [read] }
+])
+  descricao: String @auth(rules: [
+	{ allow: owner },
+	{ allow: public, operations: [read] },
+	{ allow: private, operations: [read]},
+	{ allow: groups, groupsField: "cursoGrupo", operations: [read] }
+])
+  #add index so it can be filtered
+  #tags: [String!] @auth(rules: [ { allow: owner, operations: [read, update] } ]) #publico
+  professor: Professor @belongsTo 
+  modulos: [Modulo] @hasMany @auth(rules: [
+	{ allow: owner, operations: [read, update, create, delete] },
+	{ allow: groups, groupsField: "cursoGrupo", operations: [read] }
+  ])
+  #forum?:  #privado
+  rating: Float
+  alunos: [AlunoCurso] @hasMany
+  cursoGrupo: String
+  owner: String
+}
+
+#join table but with atributes
+type AlunoCurso @model(queries: null, subscriptions: null) @auth( rules: [
+	{ allow: public, operations: [read]},
+	{ allow: private, operations: [read]},
+	{ allow: owner, operations: [read] }
+]){
+	id: ID! @auth(rules: [
+		{ allow: owner },
+		{ allow: public, operations: [read] }
+		{ allow: private, operations: [read]},
+	])
+	aluno: Aluno @belongsTo
+	curso: Curso @belongsTo
+	monitoria: Boolean! 
+	horarios: String @auth(rules: [
+		{ allow: owner },
+		{ allow: public, operations: [read] }
+		{ allow: private, operations: [read]},
+	])
+	rating: Float @auth(rules: [
+		{ allow: owner },
+		{ allow: public, operations: [read] }
+		{ allow: private, operations: [read]},
+	])
+	owner: String! #the owner is going to be the Aluno
+	#add in this tables the tracking of the modules
+}
+
+#add the ownergroup of the course in the module 
+
+#relação unidirecional, pois nunca precisará obter o curso apartir do módulo
+#TODO: query this fucker to know if it exits in the course
+type Modulo @model(queries: null, subscriptions: null) @auth( rules: [ 
+	{ allow: owner },
+	{ allow: private, operations: [read] }
+]){
+	id: ID!
+	titulo: String!
+	descricao: String!
+	videoLink: String!
+	curso: Curso! @belongsTo
+	owner: String @auth( rules: [ { allow: owner, operations: [read, delete] }])
+	#questionario
+}
+
+
+type Query{
+  echo(msg: String): String @function(name: "esGraphQlSideEffeects-${env}")
+}
+
+type Mutation {
+  #comprarCurso deve:
+  # 1. obter o curso a ser comprado
+  # 2. obter as informações do aluno que está comprando o curso
+  # 	a. se o aluno tem os créditos necessários, subtrai eles e prossegue
+  #		b. se não, interrompe o processo
+  # 4. adicionar nos curso do aluno uma instância de AlunoCurso
+  # 5. adicionar o aluno no grupo do curso
+  comprarCurso(cursoId: ID!): Curso!  @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: private }])
+  #rateCurso(cursoId: ID!, rating: Float!): Float @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: private }])
+
+  ### Ações dos Professores ###
+  #adiconarAlunoComoMonitor deve:
+  # 1. checar se o curso é do professor
+  # 2. obter as informações do aluno
+  # 3. se o aluno possui o curso, mudar o valor da join table para true
+  # 4. se não, concede o curso ao aluno com o valor da join table como true
+  #adiconarAlunoComoMonitor(alunoId: ID!, cursoId: ID!): Curso! @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: groups, groups: ["Professor"]}])
+
+  #criarCurso deve:
+  # 1. criar um novo grupo nos grupos cognito
+  # 2. criar a tabela do curso com os atributos passados, assim como o id do professor e o grupo criado no cursoGrupo
+  criarCurso(nome: String!, preco: Float!, descricao: String!): Curso!  @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: groups, groups: ["Professor"]}])
+}
+
+
+

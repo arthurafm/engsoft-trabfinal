@@ -12,6 +12,13 @@ import Footer from '../components/footer';
 import { ThemeProvider } from '@mui/material/styles';
 import { muiTheme } from './muiTheme';
 
+import {Amplify, Auth} from 'aws-amplify';
+import awsconfig from '@/aws-exports'
+
+import UserContext from '@/context/UserContext';
+
+Amplify.configure({ ...awsconfig, ssr: true })
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -23,11 +30,13 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
   return (
     <html lang="en">
       <body style={{margin: 0}}>
-        <ThemeProvider theme={muiTheme}>
-          <Navbar />
-          {children}
-          <Footer/>
-        </ThemeProvider>
+			<ThemeProvider theme={muiTheme}>
+				<UserContext>
+					<Navbar />
+					{children}
+					<Footer/>
+				</UserContext>
+			</ThemeProvider>
       </body>
     </html>
   )

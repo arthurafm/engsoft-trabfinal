@@ -2,269 +2,407 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateBlog = /* GraphQL */ `
-  subscription OnCreateBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onCreateBlog(filter: $filter) {
+export const onCreateAluno = /* GraphQL */ `
+  subscription OnCreateAluno(
+    $filter: ModelSubscriptionAlunoFilterInput
+    $owner: String
+  ) {
+    onCreateAluno(filter: $filter, owner: $owner) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onUpdateBlog = /* GraphQL */ `
-  subscription OnUpdateBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onUpdateBlog(filter: $filter) {
+export const onUpdateAluno = /* GraphQL */ `
+  subscription OnUpdateAluno(
+    $filter: ModelSubscriptionAlunoFilterInput
+    $owner: String
+  ) {
+    onUpdateAluno(filter: $filter, owner: $owner) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onDeleteBlog = /* GraphQL */ `
-  subscription OnDeleteBlog($filter: ModelSubscriptionBlogFilterInput) {
-    onDeleteBlog(filter: $filter) {
+export const onDeleteAluno = /* GraphQL */ `
+  subscription OnDeleteAluno(
+    $filter: ModelSubscriptionAlunoFilterInput
+    $owner: String
+  ) {
+    onDeleteAluno(filter: $filter, owner: $owner) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const onCreatePost = /* GraphQL */ `
-  subscription OnCreatePost($filter: ModelSubscriptionPostFilterInput) {
-    onCreatePost(filter: $filter) {
+export const onCreateProfessor = /* GraphQL */ `
+  subscription OnCreateProfessor(
+    $filter: ModelSubscriptionProfessorFilterInput
+    $owner: String
+  ) {
+    onCreateProfessor(filter: $filter, owner: $owner) {
       id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
         items {
           id
-          content
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
-          postCommentsId
+          professorLecionaId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
-      blogPostsId
       __typename
     }
   }
 `;
-export const onUpdatePost = /* GraphQL */ `
-  subscription OnUpdatePost($filter: ModelSubscriptionPostFilterInput) {
-    onUpdatePost(filter: $filter) {
+export const onUpdateProfessor = /* GraphQL */ `
+  subscription OnUpdateProfessor(
+    $filter: ModelSubscriptionProfessorFilterInput
+    $owner: String
+  ) {
+    onUpdateProfessor(filter: $filter, owner: $owner) {
       id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
         items {
           id
-          content
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
-          postCommentsId
+          professorLecionaId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
-      blogPostsId
       __typename
     }
   }
 `;
-export const onDeletePost = /* GraphQL */ `
-  subscription OnDeletePost($filter: ModelSubscriptionPostFilterInput) {
-    onDeletePost(filter: $filter) {
+export const onDeleteProfessor = /* GraphQL */ `
+  subscription OnDeleteProfessor(
+    $filter: ModelSubscriptionProfessorFilterInput
+    $owner: String
+  ) {
+    onDeleteProfessor(filter: $filter, owner: $owner) {
       id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
         items {
           id
-          content
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
-          postCommentsId
+          professorLecionaId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
-      blogPostsId
       __typename
     }
   }
 `;
-export const onCreateComment = /* GraphQL */ `
-  subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
-    onCreateComment(filter: $filter) {
+export const onCreateCurso = /* GraphQL */ `
+  subscription OnCreateCurso(
+    $filter: ModelSubscriptionCursoFilterInput
+    $owner: String
+  ) {
+    onCreateCurso(filter: $filter, owner: $owner) {
       id
-      post {
+      nome
+      preco
+      descricao
+      professor {
         id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-          __typename
-        }
-        comments {
+        nome
+        descricao
+        email
+        cpf
+        leciona {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
-        blogPostsId
         __typename
       }
-      content
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
       createdAt
       updatedAt
-      postCommentsId
+      professorLecionaId
       __typename
     }
   }
 `;
-export const onUpdateComment = /* GraphQL */ `
-  subscription OnUpdateComment($filter: ModelSubscriptionCommentFilterInput) {
-    onUpdateComment(filter: $filter) {
+export const onUpdateCurso = /* GraphQL */ `
+  subscription OnUpdateCurso(
+    $filter: ModelSubscriptionCursoFilterInput
+    $owner: String
+  ) {
+    onUpdateCurso(filter: $filter, owner: $owner) {
       id
-      post {
+      nome
+      preco
+      descricao
+      professor {
         id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-          __typename
-        }
-        comments {
+        nome
+        descricao
+        email
+        cpf
+        leciona {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
-        blogPostsId
         __typename
       }
-      content
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
       createdAt
       updatedAt
-      postCommentsId
+      professorLecionaId
       __typename
     }
   }
 `;
-export const onDeleteComment = /* GraphQL */ `
-  subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
-    onDeleteComment(filter: $filter) {
+export const onDeleteCurso = /* GraphQL */ `
+  subscription OnDeleteCurso(
+    $filter: ModelSubscriptionCursoFilterInput
+    $owner: String
+  ) {
+    onDeleteCurso(filter: $filter, owner: $owner) {
       id
-      post {
+      nome
+      preco
+      descricao
+      professor {
         id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-          __typename
-        }
-        comments {
+        nome
+        descricao
+        email
+        cpf
+        leciona {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
-        blogPostsId
         __typename
       }
-      content
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
       createdAt
       updatedAt
-      postCommentsId
+      professorLecionaId
       __typename
     }
   }

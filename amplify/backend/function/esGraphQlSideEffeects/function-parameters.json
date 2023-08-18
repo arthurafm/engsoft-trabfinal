@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "auth": {
+      "engsofttrabfinal4bcc482a": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "engsofttrabfinal": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
