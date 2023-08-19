@@ -10,6 +10,7 @@ import { Lobster } from "next/font/google";
 
 import OverlayLogin from "./overlayLogin";
 import { useUser } from "@/context/UserContext";
+import React from "react";
 
 const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin'] });
 
@@ -18,9 +19,7 @@ const Navbar = () => {
   const pages = [{name: 'Mentorias', path: '/mentorships'}, {name: 'Cursos', path: 'courses'}];
   const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: ''}];
 
-  const { cognitoUser, userData, setUserData, setCognitoUser } = useUser()
-
-  const isUserLoggedIn = false; // MUDAR PARA STATUS DE LOGIN DE USUÁRIO
+  const { cognitoUser, userData, setUserData, setCognitoUser } = useUser();
 
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -31,21 +30,23 @@ const Navbar = () => {
       maxWidth="x1"
       disableGutters
       sx={{ display: 'flex', background: '#FFBA85' }}>
+        <Box sx={{
+          alignItems: 'center',
+          display: 'flex',
+          pr: 4,
+          letterSpacing: '.1rem',
+          background: '#E35725',
+          borderRadius: '0 3rem 3rem 0',
+        }}>
           <Typography
             variant="h6"
-			component={ Link }
-			href='/'
+            component={ Link }
+            href='/'
             noWrap
             className={lobster.className}
             sx = {{
-              alignItems: 'center',
-              display: 'flex',
-			  width: '200px',
-              letterSpacing: '.1rem',
-              color: 'white',
               textDecoration: 'none',
-              background: '#E35725',
-              borderRadius: '0 3rem 3rem 0',
+              color: 'white',
               pl: 2,
               mr: 0,
               fontSize: '2.7rem',
@@ -53,6 +54,7 @@ const Navbar = () => {
           >
           GuideMe
           </Typography>
+        </Box>
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Box
             sx={{ flexGrow:0, display: { xs: 'none', md: 'flex' }}}>
@@ -164,7 +166,7 @@ const Navbar = () => {
                 :
                 (
                   <Box sx={{ flexGrow: 0, flexDirection: 'row', alignSelf: 'flex-end'}}>
-					<OverlayLogin/>
+					          <OverlayLogin/>
                   </Box>
                 )
               }

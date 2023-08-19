@@ -376,8 +376,28 @@ export default function OverlayLogin() {
 
 	return (
 		<div>
-			<Button variant="contained" onClick={handleClickOpen}>
-				LOG IN / REGISTRE-SE
+			<Button
+			variant="contained"
+			onClick={handleClickOpen}
+			sx = {{
+				color: 'white',
+				fontSize: '1.2rem',
+				background: '#E35725',
+				borderRadius: '1rem',
+				textTransform: 'none',
+				border: 1,
+				borderColor: 'transparent',
+				fontWeight: 600,
+				width: '6rem',
+				height: '3rem',
+				'&:hover': {
+					backgroundColor: 'white',
+					color: '#E35725',
+					borderColor: '#FF7222',
+				},
+			}}
+			>
+				Entrar
 			</Button>
 			<Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={'xs'}>
 				<ProperAuthForm 
