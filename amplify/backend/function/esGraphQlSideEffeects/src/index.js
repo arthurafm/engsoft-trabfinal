@@ -154,7 +154,6 @@ async function comprarCursoResolver(event){
 		updateAluno(input: $input, condition: $condition) {
 			id
 			creditos
-			owner
 		}
 	}`;
 
@@ -172,7 +171,7 @@ async function comprarCursoResolver(event){
 		throw new Error("Failed to update user balance")
 	}
 
-	return dataCurso
+	return dataCursoReq
 }
 
 //TODO: fazer try catch nas operações, pois caso falhem deve-se remover o grupo criado

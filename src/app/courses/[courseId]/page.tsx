@@ -1,46 +1,103 @@
 'use client'
-
-import { Button, Typography, Box } from "@mui/material"
+import { Button, Typography, Box, Stack, CardMedia } from "@mui/material"
 import Image from "next/image"
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 
+import { API } from "aws-amplify";
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
+import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo } from "@/API";
+import { getCurso } from "@/graphql/queries";
+import { use } from "react";
+import { useUser } from "@/context/UserContext";
 
-export default function Page({ params }: { params: { id: string }}){
+const customGetCurso = /* GraphQL */ `
+  query GetCurso($id: ID!) {
+    getCurso(id: $id) {
+      id
+      nome
+      preco
+      descricao
+      professor {
+        nome
+        descricao
+      }
+      rating
+    }
+  }
+` 
+
+async function getCouseData(id: string, query: string) {
+	try{
+		const cursoQuery = (await API.graphql({
+			query: query,
+			variables: { id: id } as GetCursoQueryVariables,
+			authMode: GRAPHQL_AUTH_MODE.API_KEY
+		})) as { data: GetCursoQuery } 
+		return cursoQuery.data.getCurso as Curso
+	}catch(error: any){
+		console.error(error)
+		return undefined 
+	}
+}
+
+interface Props {
+	params: {courseId: string}
+}
+
+export default function Page({ params }: Props ){
+	const { cognitoUser, userData } = useUser()
+	
+	let courseData = {} as Curso | undefined
+	let alunoCursa: boolean | undefined = false
+	if( cognitoUser && userData?.__typename == "Aluno"){
+		alunoCursa = (userData as Aluno).cursa?.items
+			.map(v => v?.cursoAlunosId)
+			.includes(params.courseId)
+		if(alunoCursa){
+			courseData = use(getCouseData(params.courseId, getCurso))
+			console.log(courseData)
+		}
+	}else{
+		courseData = use(getCouseData(params.courseId, customGetCurso))
+		console.log(courseData)
+	}
+	if(!courseData){
+		return <div>CRINGE</div>
+	}
 	// Alterar para valores específicos do curso/professor
-	const courseName = 'Lorem Ipsum';
-	const courseRating = 4.5;
-	const coursePrice = 300;
+	const courseName = courseData.nome
+	const courseRating = courseData.rating
+	const coursePrice = courseData.preco
 	const courseIcon = '/gremio.png'
-	const courseDescription = 'Lorem ipsum dolor sit amet. Ut voluptatem eaque in molestiae nesciunt et enim dolores ea pariatur expedita quo illum autem? Ut odio officiis non repellat adipisci et architecto quia.\nEt earum laudantium aut voluptatum illo aut quod culpa vel temporibus inventore sit fuga expedita! Eum quam repudiandae sit explicabo totam ut sapiente aliquid. Ut saepe quia a ipsa omnis aut culpa fugiat sed delectus iure eum laboriosam quibusdam et quibusdam eligendi. Qui provident possimus vel delectus distinctio est sunt facere.\nEt molestias dolorem et dignissimos dolores eos beatae molestias eos necessitatibus saepe aut ipsum voluptatem ab voluptatem quidem. Ut laudantium sunt qui unde accusantium id architecto harum. Est perspiciatis consequatur ut repellendus maxime et tenetur voluptates qui cupiditate incidunt sed voluptas ipsum. Est consequatur commodi est doloremque fuga sed rerum accusantium et provident unde.';
-	const professorIcon = '/gremio.png';
-	const professorDescription = 'Lorem ipsum dolor sit amet. Ut voluptatem eaque in molestiae';
+	const courseDescription = courseData.descricao
+	const professorIcon = '/gremio.png'
+	const professorNome = courseData.professor?.nome
+	const professorDescription = courseData.professor?.descricao
 
-	const ratingToStars = (rating: number) => {
+	const ratingToStars = (rating: number | null | undefined) => {
 		return Array(5).fill(1).map((v, i) => {
-			const star = rating - i
+			const star = rating ? rating : 0 - i
 			if (star >= 1) { return ( <StarIcon key={i} sx={{ width: '4vh', height: '4vh'}} />) }
 			else if (star > 0) { return ( <StarHalfIcon key={i} sx={{ width: '4vh', height: '4vh'}} />) }
 			else { return ( <StarBorderIcon key={i} sx={{ width: '4vh', height: '4vh'}} />) }
-		})
+		}) 
 	}
 	return (
-		<Box
-		sx = {{
+		<Box sx = {{
 			minHeight: '100vh',
 			minWidth: '100vw',
 			margin: 0,
 			background: 'linear-gradient(to bottom, #FFE199 0 40vh, white 40vh 100vh)'
 		}}>
-		<Box
-			sx={{
+		<Box sx={{
 			display: 'flex',
 			flexDirection: 'row',
 			width: '80%',
 			pl: '10%',
 			pt: '28.2vh'
-			}}>
+		}}>
 			<Image src={courseIcon} alt='Ícone do curso' width={200} height={200} style={{ width: '20vh', height: '20vh' }} />
 			<Box
 			sx={{
@@ -69,7 +126,7 @@ export default function Page({ params }: { params: { id: string }}){
 				{ratingToStars(courseRating)}
 			</Box>
 			</Box>
-			<Box sx={{
+			{!alunoCursa && <Box sx={{
 			m: 'auto 0 auto auto',
 			pb: '2%',
 			}}>
@@ -92,7 +149,7 @@ export default function Page({ params }: { params: { id: string }}){
 					},}}>
 				{coursePrice} GP
 				</Button>
-			</Box>
+			</Box>}
 		</Box>
 		<Box
 			sx={{
@@ -118,6 +175,7 @@ export default function Page({ params }: { params: { id: string }}){
 				textAlign: 'justify',
 				fontSize: '1.2rem',
 				}}>
+					{professorNome}
 				{professorDescription}
 			</Typography>
 			</Box>
@@ -134,6 +192,13 @@ export default function Page({ params }: { params: { id: string }}){
 			</Typography>
 			</Box>
 		</Box>
+		{ alunoCursa && courseData.modulos?.items.map((val, i) =>{
+			return <Stack key={i}>
+				<Typography key={i} variant="h4">{val?.titulo}</Typography>
+				<Typography key={i} variant="subtitle1">{val?.descricao}</Typography>
+				{val?.videoLink && <iframe key={i} width="420" height="315" src={val?.videoLink}></iframe>}
+			</Stack>
+		})}
 		</Box>
 	)
 }
