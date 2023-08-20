@@ -64,7 +64,7 @@ const Navbar = () => {
                   pagesLoggedIn.map(({ name, path }) => {
                     return (
                         <Button
-                        LinkComponent={Link}
+                        component={Link}
                         href={path}
                         key={name}
                         sx={{
@@ -88,7 +88,7 @@ const Navbar = () => {
                 pagesLoggedOff.map(({ name, path }) => {
                   return (
                       <Button
-                      LinkComponent={Link}
+                      component={Link}
                       href={path}
                       key={name}
                       sx={{

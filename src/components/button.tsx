@@ -2,7 +2,9 @@
 
 import Button from '@mui/material/Button'
 
-export default function Butt({ text, style }) {
+import Link from 'next/link'
+
+export default function Butt({ text, style, path }) {
     const default_style = {
         color: 'white',
         background: 'primary.light',
@@ -16,7 +18,7 @@ export default function Butt({ text, style }) {
         width: '20%',
         height: '150%',
         fontSize: 20,
-        
+
         '&:hover': {
             backgroundColor: 'white',
             color: '#E35725',
@@ -25,6 +27,6 @@ export default function Butt({ text, style }) {
     }
 
 	return (
-        <Button variant='contained' sx={{ ...default_style, ...style }}>{text}</Button>
+        <Button variant='contained' component={ Link } href={ path } sx={{ ...default_style, ...style }}>{text}</Button>
 	)
 }

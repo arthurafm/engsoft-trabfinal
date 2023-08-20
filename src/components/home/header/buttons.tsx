@@ -21,8 +21,7 @@ export default function Buttons() {
 
 	return (
         <Box sx={styles.Box}>
-            <Button text='Encontre Tutor'  style={styles.Button}/>
-            <Button text='Assine um Curso' style={styles.Button}/>
+            <Button text='Adquira um Curso' style={styles.Button} path='/courses' />
 		</Box>
 	)
 }

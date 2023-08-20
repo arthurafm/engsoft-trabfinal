@@ -47,6 +47,6 @@ const itemData = [
     img: '/home/17.jpg',
     title: '17 - 3',
     author: ':o',
-    link: '/home/83.jpg'
+    link: '/home/17.jpg'
   }
 ];
