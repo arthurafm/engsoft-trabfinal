@@ -16,7 +16,8 @@ const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin']
 
 const Navbar = () => {
 
-  const pages = [{name: 'Mentorias', path: '/mentorships'}, {name: 'Cursos', path: 'courses'}];
+  const pagesLoggedIn = [{name: 'Meus Cursos', path: '/mycourses'}, {name: 'Todos os Cursos', path: 'courses'}];
+  const pagesLoggedOff = [{name: 'Todos os Cursos', path: 'courses'}]
   const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: ''}];
 
   const { cognitoUser, userData, setUserData, setCognitoUser } = useUser();
@@ -58,29 +59,56 @@ const Navbar = () => {
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Box
             sx={{ flexGrow:0, display: { xs: 'none', md: 'flex' }}}>
-              {pages.map(({ name, path }) => {
-                return (
-                    <Button
-					LinkComponent={Link}
-					href={path}
-                    key={name}
-                    sx={{
-						my: 2,
-						color: '#BB2A00',
-						display: 'block',
-						fontSize: '1.2rem',
-						mr: 2,
-						textTransform: 'none',
-						fontWeight: 600,
-                        '&:hover': {
-                            backgroundColor: 'transparent',
-                            textDecoration: 'underline',
-                        }
-					}}>
-                      {name}
-                    </Button>
-                )
-              })}
+              {
+                cognitoUser?
+                  pagesLoggedIn.map(({ name, path }) => {
+                    return (
+                        <Button
+                        LinkComponent={Link}
+                        href={path}
+                        key={name}
+                        sx={{
+                            my: 2,
+                            color: '#BB2A00',
+                            display: 'block',
+                            fontSize: '1.2rem',
+                            mr: 2,
+                            textTransform: 'none',
+                            fontWeight: 600,
+                            '&:hover': {
+                                backgroundColor: 'transparent',
+                                textDecoration: 'underline',
+                            }
+                        }}>
+                          {name}
+                        </Button>
+                    )
+                  })
+                :
+                pagesLoggedOff.map(({ name, path }) => {
+                  return (
+                      <Button
+                      LinkComponent={Link}
+                      href={path}
+                      key={name}
+                      sx={{
+                          my: 2,
+                          color: '#BB2A00',
+                          display: 'block',
+                          fontSize: '1.2rem',
+                          mr: 2,
+                          textTransform: 'none',
+                          fontWeight: 600,
+                          '&:hover': {
+                              backgroundColor: 'transparent',
+                              textDecoration: 'underline',
+                          }
+                      }}>
+                        {name}
+                      </Button>
+                  )
+                })
+              }
             </Box>
             <Box sx={{
               flexGrow: 0,
@@ -95,23 +123,44 @@ const Navbar = () => {
                 PaperProps={{ sx: {
                   backgroundColor: '#FFE199',
                 } }}>
-                {pages.map(({ name, path}, i) => (
-                  <Box key={i} sx={{ width: 250 }}
-                    role='presentation'
-                    onClick={() => setToggleDrawer(false)}
-                    onKeyDown={() => setToggleDrawer(false)}>
-                      <List key={i}>
-                        <Link key={i} href={path} style={{ textDecoration: 'none' }} >
-                          <ListItem key={name} disablePadding>
-                            <ListItemButton key={i}>
-                              <ListItemText key={i} primary={name} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
-                            </ListItemButton>
-                          </ListItem>
-                        </Link>
-                      </List>
-                      <Divider/>
-                  </Box>
-                ))}
+                {
+                  cognitoUser?
+                  pagesLoggedIn.map(({ name, path }, i) => (
+                    <Box key={i} sx={{ width: 250 }}
+                      role='presentation'
+                      onClick={() => setToggleDrawer(false)}
+                      onKeyDown={() => setToggleDrawer(false)}>
+                        <List key={i}>
+                          <Link key={i} href={path} style={{ textDecoration: 'none' }} >
+                            <ListItem key={name} disablePadding>
+                              <ListItemButton key={i}>
+                                <ListItemText key={i} primary={name} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
+                              </ListItemButton>
+                            </ListItem>
+                          </Link>
+                        </List>
+                        <Divider/>
+                    </Box>
+                  ))
+                  :
+                  pagesLoggedOff.map(({ name, path }, i) => (
+                    <Box key={i} sx={{ width: 250 }}
+                      role='presentation'
+                      onClick={() => setToggleDrawer(false)}
+                      onKeyDown={() => setToggleDrawer(false)}>
+                        <List key={i}>
+                          <Link key={i} href={path} style={{ textDecoration: 'none' }} >
+                            <ListItem key={name} disablePadding>
+                              <ListItemButton key={i}>
+                                <ListItemText key={i} primary={name} primaryTypographyProps = {{ color: '#BB2A00', fontSize: '1.2rem', fontWeight: 600 }} />
+                              </ListItemButton>
+                            </ListItem>
+                          </Link>
+                        </List>
+                        <Divider/>
+                    </Box>
+                  ))
+                }
               </Drawer>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
@@ -145,7 +194,7 @@ const Navbar = () => {
                     >
                       {settings.map((setting, i) => (
                         <Link
-						  key={i}
+						              key={i}
                           href={setting.path}
                           style={{
                             textDecoration: 'none',
@@ -153,7 +202,7 @@ const Navbar = () => {
                           }}>
                           <MenuItem key={setting.name} onClick={() => setToggleDropdown(false)}>
                             <Typography
-							  key={i}
+							                key={i}
                               sx={{
                                 textAlign: 'right',
                               }}>{setting.name}</Typography>
