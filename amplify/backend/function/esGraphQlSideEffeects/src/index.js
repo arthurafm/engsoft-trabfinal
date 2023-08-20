@@ -64,7 +64,7 @@ async function comprarCursoResolver(event){
 		throw new Error("o requester desse dado não é um Aluno")
 	}
 	const dataAluno = dataAlunoReq.data.getAluno
-	if(dataAluno.cursa.map(e => e.cursoAlunosId).include(cursoId)){
+	if(dataAluno.cursa.items.map(e => e.cursoAlunosId).includes(cursoId)){
 		throw new Error("Aluno já possui esse curso")
 	}
 	const gqlQueryCurso = gql`query GetCurso($id: ID!) {
@@ -102,7 +102,7 @@ async function comprarCursoResolver(event){
 			id: cursoId
 		}
 	})
-	if(dataCrusoReq.data == null){
+	if(dataCursoReq.data == null){
 		throw new Error(`Curso de id: ${cursoId} não existe`)
 	}
 	const dataCurso = dataCursoReq.data.getCurso
@@ -129,7 +129,7 @@ async function comprarCursoResolver(event){
 		variables: {input: {
 			monitoria: false,
 			owner: ownerAluno,
-			alunoCursaId: dataAluno.id,
+			alunoCursaId: userTableId,
 			cursoAlunosId: dataCurso.id,
 		}}
 	})
@@ -157,14 +157,13 @@ async function comprarCursoResolver(event){
 			owner
 		}
 	}`;
-
 	//TODO: this update call is incorrect
 	const updatedAlunoReq = await appsyncClient.mutate({
 		mutation: gqlUpdateAluno,
 		fetchPolicy: 'no-cache',
 		variables: {input: {
 			id: userTableId, 
-			creditos: dataAluno.creditos - dataCurso.preco
+			creditos: (dataAluno.creditos - dataCurso.preco)
 		}}
 	})
 
@@ -218,8 +217,58 @@ async function criarCursoResolver(event){
 			preco
 			descricao
 			professor {
+				id
 				nome
+				descricao
+				email
+				cpf
+				leciona {
+					nextToken
+					__typename
+				}
+				owner
+				createdAt
+				updatedAt
+				__typename
 			}
+			modulos {
+				items {
+					id
+					titulo
+					descricao
+					videoLink
+					owner
+					createdAt
+					updatedAt
+					cursoModulosId
+					__typename
+				}
+				nextToken
+				__typename
+			}
+			rating
+			alunos {
+				items {
+					id
+					monitoria
+					horarios
+					rating
+					owner
+					createdAt
+					updatedAt
+					alunoCursaId
+					cursoAlunosId
+					__typename
+				}
+				nextToken
+				__typename
+			}
+			cursoGrupo
+			owner
+			createdAt
+			updatedAt
+			professorLecionaId
+			__typename
 		}
 	}`;
 
