@@ -20,6 +20,7 @@ Implementação do GuideMe modelado pelo grupo 4.
 - [ ] Curso comprado
 - [ ] Perfil de aluno
 - [ ] Perfil de professor
+- [ ] Comprar GPs
 
 ### Componentes:
 - [X] Navbar
