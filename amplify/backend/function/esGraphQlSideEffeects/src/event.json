@@ -1,10 +1,18 @@
 {
-	"request": {
-		"userAttributes": {
-			"sub": "testSub",
-			"nome": "testName",
-			"email": "test@email.com"
-		}
+	"typeName": "Mutation",
+	"fieldName": "comprarCurso",
+	"arguments": {
+		"cursoId": "1d35e644-3452-4205-9321-1c9d73118e68"
 	},
-	"userName": "tester"
+	"identity": {
+		"claims": {
+			"sub": "30c7a928-ea79-40dc-9f74-a816751f1e70",
+			"custom:nome": "teste pedro",
+			"email_verified": true,
+			"custom:tableId": "8d5abd99-5dc1-4959-beec-0be4ad7d649d",
+			"cognito:username": "30c7a928-ea79-40dc-9f74-a816751f1e70"
+		},
+		"sub": "30c7a928-ea79-40dc-9f74-a816751f1e70",
+		"username": "30c7a928-ea79-40dc-9f74-a816751f1e70"
+	}
 }

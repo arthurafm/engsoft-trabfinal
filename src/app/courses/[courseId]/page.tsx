@@ -28,12 +28,12 @@ const customGetCurso = /* GraphQL */ `
   }
 ` 
 
-async function getCouseData(id: string, query: string) {
+async function getCourseData(id: string, query: string, authMode: any) {
 	try{
 		const cursoQuery = (await API.graphql({
 			query: query,
 			variables: { id: id } as GetCursoQueryVariables,
-			authMode: GRAPHQL_AUTH_MODE.API_KEY
+			authMode: authMode
 		})) as { data: GetCursoQuery } 
 		return cursoQuery.data.getCurso as Curso
 	}catch(error: any){
@@ -56,11 +56,11 @@ export default function Page({ params }: Props ){
 			.map(v => v?.cursoAlunosId)
 			.includes(params.courseId)
 		if(alunoCursa){
-			courseData = use(getCouseData(params.courseId, getCurso))
+			courseData = use(getCourseData(params.courseId, getCurso, GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS))
 			console.log(courseData)
 		}
 	}else{
-		courseData = use(getCouseData(params.courseId, customGetCurso))
+		courseData = use(getCourseData(params.courseId, customGetCurso, GRAPHQL_AUTH_MODE.API_KEY))
 		console.log(courseData)
 	}
 	if(!courseData){
