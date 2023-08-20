@@ -5,27 +5,28 @@ import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Grid, TextField } from '@mui/material'
+import { Box, Card, CardActions, CardActionArea, CardContent, CardMedia, Button, Typography, Grid, TextField } from '@mui/material'
+
+import Link from 'next/link'
 
 const courseCard = (img: string, courseName: string, courseDescription: string, coursePath: string, id: number) => {
     return (
         <Card key={id} sx={{ maxWidth: '30vw', textAlign: 'center' }}>
-            <CardMedia
-                sx={{ height: '20vh' }}
-                image={img}
-                title={courseName}
-            />
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {courseName}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {courseDescription}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small" href={coursePath}>Saiba mais</Button>
-            </CardActions>
+            <CardActionArea href={coursePath} component={ Link } >
+                <CardMedia
+                    sx={{ height: '20vh' }}
+                    image={img}
+                    title={courseName}
+                />
+                <CardContent sx={{ pb: 4 }} >
+                    <Typography gutterBottom variant="h5" component="div">
+                        {courseName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {courseDescription}
+                    </Typography>
+                </CardContent>
+            </CardActionArea>
         </Card>
     );
 }
