@@ -1,0 +1,10 @@
+{
+	"request": {
+		"userAttributes": {
+			"sub": "testSub",
+			"nome": "testName",
+			"email": "test@email.com"
+		}
+	},
+	"userName": "tester"
+}

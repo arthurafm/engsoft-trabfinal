@@ -1,37 +1,35 @@
 {
   "api": {
-    "AdminQueries": {
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+    "engsofttrabfinal": {
       "dependsOn": [
         {
           "attributes": [
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "cursosesauth"
-        },
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "AdminQueries9cd83464"
+          "resourceName": "engsofttrabfinal4bcc482a"
         }
       ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    },
-    "cursoses": {
-      "dependsOn": [],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+          "additionalAuthenticationProviders": [
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2023-10-03T01:54:22.729Z",
+                "apiKeyExpirationDays": 50,
+                "description": "chave de api 2 do projeto de ES"
+              },
+              "authenticationType": "API_KEY"
             },
-            "authenticationType": "API_KEY"
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authengsofttrabfinal4bcc482a"
+            }
           }
         }
       },
@@ -40,7 +38,7 @@
     }
   },
   "auth": {
-    "cursosesauth": {
+    "engsofttrabfinal4bcc482a": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -53,8 +51,7 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "EMAIL",
-          "NAME"
+          "EMAIL"
         ],
         "socialProviders": [],
         "usernameAttributes": [
@@ -66,26 +63,10 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
-    },
-    "userPoolGroups": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "cursosesauth"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito-UserPool-Groups"
     }
   },
   "function": {
-    "AdminQueries9cd83464": {
+    "esAuthPosConfirmationTrigger": {
       "build": true,
       "dependsOn": [
         {
@@ -93,7 +74,39 @@
             "UserPoolId"
           ],
           "category": "auth",
-          "resourceName": "cursosesauth"
+          "resourceName": "engsofttrabfinal4bcc482a"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "engsofttrabfinal"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "esGraphQlSideEffeects": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "engsofttrabfinal4bcc482a"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "engsofttrabfinal"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -101,19 +114,35 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_AdminQueries9cd83464_deploymentBucketName": {
+    "AMPLIFY_function_esAuthPosConfirmationTrigger_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueries9cd83464"
+          "resourceName": "esAuthPosConfirmationTrigger"
         }
       ]
     },
-    "AMPLIFY_function_AdminQueries9cd83464_s3Key": {
+    "AMPLIFY_function_esAuthPosConfirmationTrigger_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "AdminQueries9cd83464"
+          "resourceName": "esAuthPosConfirmationTrigger"
+        }
+      ]
+    },
+    "AMPLIFY_function_esGraphQlSideEffeects_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "esGraphQlSideEffeects"
+        }
+      ]
+    },
+    "AMPLIFY_function_esGraphQlSideEffeects_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "esGraphQlSideEffeects"
         }
       ]
     }

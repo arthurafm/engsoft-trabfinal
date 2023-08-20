@@ -1,8 +1,5 @@
 {
-  "providers": [
-    "awscloudformation"
-  ],
-  "projectName": "cursoses",
+  "projectName": "engsofttrabfinal",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {

@@ -2,296 +2,881 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createBlog = /* GraphQL */ `
-  mutation CreateBlog(
-    $input: CreateBlogInput!
-    $condition: ModelBlogConditionInput
+export const createAluno = /* GraphQL */ `
+  mutation CreateAluno(
+    $input: CreateAlunoInput!
+    $condition: ModelAlunoConditionInput
   ) {
-    createBlog(input: $input, condition: $condition) {
+    createAluno(input: $input, condition: $condition) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const updateBlog = /* GraphQL */ `
-  mutation UpdateBlog(
-    $input: UpdateBlogInput!
-    $condition: ModelBlogConditionInput
+export const updateAluno = /* GraphQL */ `
+  mutation UpdateAluno(
+    $input: UpdateAlunoInput!
+    $condition: ModelAlunoConditionInput
   ) {
-    updateBlog(input: $input, condition: $condition) {
+    updateAluno(input: $input, condition: $condition) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const deleteBlog = /* GraphQL */ `
-  mutation DeleteBlog(
-    $input: DeleteBlogInput!
-    $condition: ModelBlogConditionInput
+export const deleteAluno = /* GraphQL */ `
+  mutation DeleteAluno(
+    $input: DeleteAlunoInput!
+    $condition: ModelAlunoConditionInput
   ) {
-    deleteBlog(input: $input, condition: $condition) {
+    deleteAluno(input: $input, condition: $condition) {
       id
-      name
-      posts {
+      nome
+      email
+      cpf
+      creditos
+      cursa {
         items {
           id
-          title
+          monitoria
+          horarios
+          rating
+          owner
           createdAt
           updatedAt
-          blogPostsId
+          alunoCursaId
+          cursoAlunosId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
       __typename
     }
   }
 `;
-export const createPost = /* GraphQL */ `
-  mutation CreatePost(
-    $input: CreatePostInput!
-    $condition: ModelPostConditionInput
+export const createProfessor = /* GraphQL */ `
+  mutation CreateProfessor(
+    $input: CreateProfessorInput!
+    $condition: ModelProfessorConditionInput
   ) {
-    createPost(input: $input, condition: $condition) {
+    createProfessor(input: $input, condition: $condition) {
       id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
         items {
           id
-          content
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
-          postCommentsId
+          professorLecionaId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
-      blogPostsId
       __typename
     }
   }
 `;
-export const updatePost = /* GraphQL */ `
-  mutation UpdatePost(
-    $input: UpdatePostInput!
-    $condition: ModelPostConditionInput
+export const updateProfessor = /* GraphQL */ `
+  mutation UpdateProfessor(
+    $input: UpdateProfessorInput!
+    $condition: ModelProfessorConditionInput
   ) {
-    updatePost(input: $input, condition: $condition) {
+    updateProfessor(input: $input, condition: $condition) {
       id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
         items {
           id
-          content
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
-          postCommentsId
+          professorLecionaId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
-      blogPostsId
       __typename
     }
   }
 `;
-export const deletePost = /* GraphQL */ `
-  mutation DeletePost(
-    $input: DeletePostInput!
-    $condition: ModelPostConditionInput
+export const deleteProfessor = /* GraphQL */ `
+  mutation DeleteProfessor(
+    $input: DeleteProfessorInput!
+    $condition: ModelProfessorConditionInput
   ) {
-    deletePost(input: $input, condition: $condition) {
+    deleteProfessor(input: $input, condition: $condition) {
       id
-      title
-      blog {
-        id
-        name
-        posts {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        __typename
-      }
-      comments {
+      nome
+      descricao
+      email
+      cpf
+      leciona {
         items {
           id
-          content
+          nome
+          preco
+          descricao
+          rating
+          cursoGrupo
+          owner
           createdAt
           updatedAt
-          postCommentsId
+          professorLecionaId
           __typename
         }
         nextToken
         __typename
       }
+      owner
       createdAt
       updatedAt
-      blogPostsId
       __typename
     }
   }
 `;
-export const createComment = /* GraphQL */ `
-  mutation CreateComment(
-    $input: CreateCommentInput!
-    $condition: ModelCommentConditionInput
+export const createCurso = /* GraphQL */ `
+  mutation CreateCurso(
+    $input: CreateCursoInput!
+    $condition: ModelCursoConditionInput
   ) {
-    createComment(input: $input, condition: $condition) {
+    createCurso(input: $input, condition: $condition) {
       id
-      post {
+      nome
+      preco
+      descricao
+      professor {
         id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-          __typename
-        }
-        comments {
+        nome
+        descricao
+        email
+        cpf
+        leciona {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
-        blogPostsId
         __typename
       }
-      content
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
       createdAt
       updatedAt
-      postCommentsId
+      professorLecionaId
       __typename
     }
   }
 `;
-export const updateComment = /* GraphQL */ `
-  mutation UpdateComment(
-    $input: UpdateCommentInput!
-    $condition: ModelCommentConditionInput
+export const updateCurso = /* GraphQL */ `
+  mutation UpdateCurso(
+    $input: UpdateCursoInput!
+    $condition: ModelCursoConditionInput
   ) {
-    updateComment(input: $input, condition: $condition) {
+    updateCurso(input: $input, condition: $condition) {
       id
-      post {
+      nome
+      preco
+      descricao
+      professor {
         id
-        title
-        blog {
-          id
-          name
-          createdAt
-          updatedAt
-          __typename
-        }
-        comments {
+        nome
+        descricao
+        email
+        cpf
+        leciona {
           nextToken
           __typename
         }
+        owner
         createdAt
         updatedAt
-        blogPostsId
         __typename
       }
-      content
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
       createdAt
       updatedAt
-      postCommentsId
+      professorLecionaId
       __typename
     }
   }
 `;
-export const deleteComment = /* GraphQL */ `
-  mutation DeleteComment(
-    $input: DeleteCommentInput!
-    $condition: ModelCommentConditionInput
+export const deleteCurso = /* GraphQL */ `
+  mutation DeleteCurso(
+    $input: DeleteCursoInput!
+    $condition: ModelCursoConditionInput
   ) {
-    deleteComment(input: $input, condition: $condition) {
+    deleteCurso(input: $input, condition: $condition) {
       id
-      post {
+      nome
+      preco
+      descricao
+      professor {
         id
-        title
-        blog {
+        nome
+        descricao
+        email
+        cpf
+        leciona {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      modulos {
+        items {
           id
-          name
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
+      createdAt
+      updatedAt
+      professorLecionaId
+      __typename
+    }
+  }
+`;
+export const createAlunoCurso = /* GraphQL */ `
+  mutation CreateAlunoCurso(
+    $input: CreateAlunoCursoInput!
+    $condition: ModelAlunoCursoConditionInput
+  ) {
+    createAlunoCurso(input: $input, condition: $condition) {
+      id
+      aluno {
+        id
+        nome
+        email
+        cpf
+        creditos
+        cursa {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
           createdAt
           updatedAt
           __typename
         }
-        comments {
+        modulos {
           nextToken
           __typename
         }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
         createdAt
         updatedAt
-        blogPostsId
+        professorLecionaId
         __typename
       }
-      content
+      monitoria
+      horarios
+      rating
+      owner
       createdAt
       updatedAt
-      postCommentsId
+      alunoCursaId
+      cursoAlunosId
+      __typename
+    }
+  }
+`;
+export const updateAlunoCurso = /* GraphQL */ `
+  mutation UpdateAlunoCurso(
+    $input: UpdateAlunoCursoInput!
+    $condition: ModelAlunoCursoConditionInput
+  ) {
+    updateAlunoCurso(input: $input, condition: $condition) {
+      id
+      aluno {
+        id
+        nome
+        email
+        cpf
+        creditos
+        cursa {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
+        __typename
+      }
+      monitoria
+      horarios
+      rating
+      owner
+      createdAt
+      updatedAt
+      alunoCursaId
+      cursoAlunosId
+      __typename
+    }
+  }
+`;
+export const deleteAlunoCurso = /* GraphQL */ `
+  mutation DeleteAlunoCurso(
+    $input: DeleteAlunoCursoInput!
+    $condition: ModelAlunoCursoConditionInput
+  ) {
+    deleteAlunoCurso(input: $input, condition: $condition) {
+      id
+      aluno {
+        id
+        nome
+        email
+        cpf
+        creditos
+        cursa {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
+        __typename
+      }
+      monitoria
+      horarios
+      rating
+      owner
+      createdAt
+      updatedAt
+      alunoCursaId
+      cursoAlunosId
+      __typename
+    }
+  }
+`;
+export const createModulo = /* GraphQL */ `
+  mutation CreateModulo(
+    $input: CreateModuloInput!
+    $condition: ModelModuloConditionInput
+  ) {
+    createModulo(input: $input, condition: $condition) {
+      id
+      titulo
+      descricao
+      videoLink
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      cursoModulosId
+      __typename
+    }
+  }
+`;
+export const updateModulo = /* GraphQL */ `
+  mutation UpdateModulo(
+    $input: UpdateModuloInput!
+    $condition: ModelModuloConditionInput
+  ) {
+    updateModulo(input: $input, condition: $condition) {
+      id
+      titulo
+      descricao
+      videoLink
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      cursoModulosId
+      __typename
+    }
+  }
+`;
+export const deleteModulo = /* GraphQL */ `
+  mutation DeleteModulo(
+    $input: DeleteModuloInput!
+    $condition: ModelModuloConditionInput
+  ) {
+    deleteModulo(input: $input, condition: $condition) {
+      id
+      titulo
+      descricao
+      videoLink
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
+        __typename
+      }
+      owner
+      createdAt
+      updatedAt
+      cursoModulosId
+      __typename
+    }
+  }
+`;
+export const comprarCurso = /* GraphQL */ `
+  mutation ComprarCurso($cursoId: ID!) {
+    comprarCurso(cursoId: $cursoId) {
+      id
+      nome
+      preco
+      descricao
+      professor {
+        id
+        nome
+        descricao
+        email
+        cpf
+        leciona {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
+      createdAt
+      updatedAt
+      professorLecionaId
+      __typename
+    }
+  }
+`;
+export const criarCurso = /* GraphQL */ `
+  mutation CriarCurso($nome: String!, $preco: Float!, $descricao: String!) {
+    criarCurso(nome: $nome, preco: $preco, descricao: $descricao) {
+      id
+      nome
+      preco
+      descricao
+      professor {
+        id
+        nome
+        descricao
+        email
+        cpf
+        leciona {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      modulos {
+        items {
+          id
+          titulo
+          descricao
+          videoLink
+          owner
+          createdAt
+          updatedAt
+          cursoModulosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      rating
+      alunos {
+        items {
+          id
+          monitoria
+          horarios
+          rating
+          owner
+          createdAt
+          updatedAt
+          alunoCursaId
+          cursoAlunosId
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      cursoGrupo
+      owner
+      createdAt
+      updatedAt
+      professorLecionaId
       __typename
     }
   }
