@@ -16,8 +16,10 @@ Implementação do GuideMe modelado pelo grupo 4.
 ### Páginas:
 - [X] Home
 - [X] Cursos
-- [ ] Curso
-- [ ] Perfil
+- [X] Curso não-comprado
+- [ ] Curso comprado
+- [ ] Perfil de aluno
+- [ ] Perfil de professor
 
 ### Componentes:
 - [X] Navbar
