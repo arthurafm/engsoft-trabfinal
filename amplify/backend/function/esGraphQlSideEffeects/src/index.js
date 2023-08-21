@@ -217,58 +217,8 @@ async function criarCursoResolver(event){
 			preco
 			descricao
 			professor {
-				id
 				nome
-				descricao
-				email
-				cpf
-				leciona {
-					nextToken
-					__typename
-				}
-				owner
-				createdAt
-				updatedAt
-				__typename
 			}
-			modulos {
-				items {
-					id
-					titulo
-					descricao
-					videoLink
-					owner
-					createdAt
-					updatedAt
-					cursoModulosId
-					__typename
-				}
-				nextToken
-				__typename
-			}
-			rating
-			alunos {
-				items {
-					id
-					monitoria
-					horarios
-					rating
-					owner
-					createdAt
-					updatedAt
-					alunoCursaId
-					cursoAlunosId
-					__typename
-				}
-				nextToken
-				__typename
-			}
-			cursoGrupo
-			owner
-			createdAt
-			updatedAt
-			professorLecionaId
-			__typename
 		}
 	}`;
 
