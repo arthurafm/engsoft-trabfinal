@@ -17,7 +17,7 @@ Implementação do GuideMe modelado pelo grupo 4.
 - [X] Home
 - [X] Cursos
 - [X] Curso não-comprado
-- [ ] Curso comprado
+- [X] Curso comprado
 - [ ] Perfil de aluno
 - [ ] Perfil de professor
 - [ ] Comprar GPs
