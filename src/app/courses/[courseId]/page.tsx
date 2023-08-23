@@ -1,9 +1,10 @@
 'use client'
-import { Button, Typography, Box, Stack, CardMedia, Divider } from "@mui/material"
+import { Button, Typography, Box, Stack, CardMedia, Divider, IconButton } from "@mui/material"
 import Image from "next/image"
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
+import EditIcon from '@mui/icons-material/Edit';
 
 import ModuleCard from "@/components/courses/moduleCards";
 
@@ -179,7 +180,7 @@ export default function Page({ params }: Props ){
 	return (
 		<Box sx = {{
 			minHeight: '100vh',
-			minWidth: '100vw',
+			minWidth: '100%',
 			margin: 0,
 			background: 'linear-gradient(to bottom, #FFE199 0 40vh, white 40vh 100vh)'
 		}}>
@@ -198,18 +199,26 @@ export default function Page({ params }: Props ){
 				pl: '2.5vw',
 				m: 'auto 0',
 			}}>
-			<Typography
-				variant="h6"
-				noWrap
-				component="h6"
-				sx = {{
-				fontFamily: 'Roboto',
-				fontWeight: 700,
-				fontSize: '2.5rem',
-				padding: 0,
-				}}>
-				{courseName}
-			</Typography>
+			<Stack direction='row'>
+				<Typography
+					variant="h6"
+					noWrap
+					component="h6"
+					sx = {{
+					fontFamily: 'Roboto',
+					fontWeight: 700,
+					fontSize: '2.5rem',
+					padding: 0,
+					}}>
+					{courseName}
+				</Typography>
+				{
+					(professorLeciona) &&
+					<IconButton href='/courses/newcourse'>
+						<EditIcon/>
+					</IconButton>
+				}
+			</Stack>
 			<Box
 				sx={{
 				display: 'flex',
@@ -258,10 +267,10 @@ export default function Page({ params }: Props ){
 				flexDirection: 'column',
 				justifyContent: 'top',
 				mr: '10vw',
-				alignItems: 'space-between',
+				alignItems: 'center',
 				pl: '4vh',
 			}}>
-			<Image src={professorIcon} alt='Ícone do professor' width={120} height={120} style={{ width: '12vh', height: '12vh' }} />
+			<Image src={professorIcon} alt='Ícone do professor' width={120} height={120} style={{  marginTop: '2vh', width: '12vh', height: '12vh' }} />
 			<Typography
 				sx={{
 				fontFamily: 'Roboto',

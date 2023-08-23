@@ -18,6 +18,7 @@ function loggedInProfile(userData: Aluno | Professor){
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          minHeight: '82vh'
         }}>
         <Box sx = {{
           backgroundColor: "#FFE199",
