@@ -287,7 +287,7 @@ export default function Page({ params }: Props ){
 			</Box>
 		</Box>
 		{
-			(alunoCursa && courseData.modulos?.items.length != 0) &&
+			((alunoCursa || professorLeciona) && courseData.modulos?.items.length != 0) &&
 				<>
 					<Typography
 						variant='h3'
