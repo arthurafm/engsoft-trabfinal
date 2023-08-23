@@ -1,9 +1,9 @@
 'use client'
 
 import CourseCard from '@/components/courses/courseCard';
-import { Box, IconButton, Grid, TextField, Typography} from '@mui/material';
+import { Box, IconButton, Grid, TextField, Typography, Stack} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import { useForm } from 'react-hook-form';
 
@@ -38,15 +38,12 @@ query ListCursos(
 	}
 }`
 
-async function fetchData(limit: number, term: string | undefined){
+async function fetchData(limit: number){
 	console.log("data fetch dos cursos")
 	try{
 		const cursoQuery = (await API.graphql({
 			query: customListCurso,
 			variables: {
-				filter: {
-					nome: term
-				} as ModelCursoFilterInput,
 				limit: limit
 			} as ListCursosQueryVariables,
 			authMode: GRAPHQL_AUTH_MODE.API_KEY
@@ -60,27 +57,28 @@ async function fetchData(limit: number, term: string | undefined){
 
 
 export default function Page(){
-	const { register, handleSubmit } = useForm<IFormSearch>() as any
 
 	const [cursos, setCursos] = useState<Curso[]>([])
+	const [cursosView, setCursosView] = useState<Curso[]>([])
   
 	useEffect(()=>{
-		fetchData(8, undefined).then(cur => {
+		fetchData(100).then(cur => {
 			if(cur){
 				setCursos(cur)
+				setCursosView(cur)
 			}
 		}) 
 	},[])
 
-	const onSubmit = async (data: IFormSearch) => {
-		console.log(data.searchTerm)
-		const res = await fetchData(8, data.searchTerm) 
-		if(res){
-			setCursos(res)
-		}else{
-			setCursos([])
-		}
+	const handleChange = (data: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const filteredCourses = cursos.filter (
+			(course: Curso) => {
+				return course.nome?.toLowerCase().includes(data.target.value.toLowerCase())
+			}
+		)
+		setCursosView(filteredCourses)
 	}
+
 	return (
         <Box
             sx={{
@@ -101,31 +99,26 @@ export default function Page(){
             >
 				Todos os Cursos
             </Typography>
-            <form onSubmit={ handleSubmit(onSubmit) }>
-                <TextField 
-					id="searchTerm"
-					label="Pesquisa" 
-					placeholder='Pesquise por um curso ou uma tag'
-					sx={{ width: '60vw', mb: 4, }}
-					{...register("searchTerm")}
-                />
-				<IconButton type='submit' color='primary'>
-					<SearchIcon/>
-				</IconButton >
-			</form>
+			<TextField 
+				id="searchTerm"
+				label="Pesquisa" 
+				placeholder='Pesquise por um curso'
+				sx={{ width: '60vw', mb: 4, }}
+				onChange={handleChange}
+			/>
             <Grid container 
-				justifyContent="space-between"
+				justifyContent="flex-start"
 				alignItems='center'
 				sx={{ paddingInline: '10px' }}
 				spacing={{xs: 2, md:4}}
 				columns={{ xs: 2, sm: 8, md: 12 }}
 				mb={5}
 			>
-				{cursos.map((curso, i) => {
+				{cursosView.map((curso, i) => {
 					return <Grid item key={i} xs={2} sm={4} md={4}>
 						<CourseCard
 							key={i}
-							img={'/course-placeholder.png'}
+							img={'/placeholders/course-placeholder.png'}
 							courseName={curso.nome}
 							courseDescription={curso.descricao}
 							coursePath={curso.id}/>

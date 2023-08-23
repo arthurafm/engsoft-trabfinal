@@ -31,7 +31,7 @@ function loggedInProfile(userData: Aluno | Professor){
         }}>
           <Avatar
               alt="Foto do usuário"
-              src={'/icon-placeholder.png'}
+              src={'/placeholders/icon-placeholder.png'}
               sx ={{ width: '7rem', height: '7rem', mb: 2 }} />
           <Typography
           variant="h3"

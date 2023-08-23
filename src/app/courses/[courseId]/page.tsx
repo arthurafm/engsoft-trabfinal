@@ -221,15 +221,15 @@ export default function Page({ params }: Props ){
 	}
 
 	if(!courseData){
-		return <div>CRINGE</div>
+		return <div style={{ minHeight: '82vh', backgroundColor: '#FFE199', color: '#C63700', alignItems: 'center', justifyContent: 'center', display: 'flex', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700}}>CRINGE</div>
 	}
 	// Alterar para valores específicos do curso/professor
 	const courseName = courseData.nome
 	const courseRating = courseData.rating
 	const coursePrice = courseData.preco
-	const courseIcon = '/course-icon-placeholder.png'
+	const courseIcon = '/placeholders/course-icon-placeholder.png'
 	const courseDescription = courseData.descricao
-	const professorIcon = '/icon-placeholder.png'
+	const professorIcon = '/placeholders/icon-placeholder.png'
 	const professorNome = courseData.professor?.nome
 	const professorDescription = courseData.professor?.descricao
 
@@ -242,6 +242,10 @@ export default function Page({ params }: Props ){
 		}) 
 	}
 	return (
+		<>
+		<head>
+			<title>{`Guide Me - ${courseName}`}</title>
+		</head>
 		<Box sx = {{
 			minHeight: '100vh',
 			minWidth: '100vw',
@@ -386,5 +390,6 @@ export default function Page({ params }: Props ){
 			</>
 		}
 		</Box>
+		</>
 	)
 }

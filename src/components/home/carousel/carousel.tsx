@@ -52,7 +52,7 @@ export default function Carousel({itemData}: Props) {
             {itemData.map((item, i) => (
                 <Card key={i} sx={styles.Card}>
                     <CardActionArea key={i + 100} href={`courses/${item?.id}`}>
-                        <CardMedia key={i + 200} component='img' image={'/course-placeholder2.png'} alt={item?.nome == null ? undefined : item?.nome} sx={styles.CardMedia}/>
+                        <CardMedia key={i + 200} component='img' image={'/placeholders/course-placeholder2.png'} alt={item?.nome == null ? undefined : item?.nome} sx={styles.CardMedia}/>
                         <CardContent key={i + 300} sx={styles.CardContent}>
                             <Typography key={i + 400} sx={{...styles.Text, ...styles.Title}}>{item?.nome}</Typography>
                             <Typography key={i + 500} sx={{...styles.Text, ...styles.Author}}>{item?.professor?.nome}</Typography>
