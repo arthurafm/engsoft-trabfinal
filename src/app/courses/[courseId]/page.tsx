@@ -6,6 +6,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 
 import ModuleCard from "@/components/courses/moduleCards";
+import TutorSchedule from "@/components/courses/tutorSchedule";
 
 import { API } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
@@ -286,6 +287,11 @@ export default function Page({ params }: Props ){
 			</Typography>
 			</Box>
 		</Box>
+		{
+			(alunoCursa || professorLeciona) &&
+				<TutorSchedule isProfessor={professorLeciona} />
+
+		}
 		{
 			((alunoCursa || professorLeciona) && courseData.modulos?.items.length != 0) &&
 				<>
