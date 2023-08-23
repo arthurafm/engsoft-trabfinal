@@ -24,6 +24,17 @@ const Navbar = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    setToggleDropdown(true);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setToggleDropdown(false);
+  };
+
   return (
     <AppBar position="static" sx={{minHeight: '8vh'}}>
       <Container
@@ -167,7 +178,7 @@ const Navbar = () => {
                 (
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
-                      <IconButton sx={{ p: 0 }} onClick={() => setToggleDropdown(true)}>
+                      <IconButton sx={{ p: 0 }} onClick={handleClick}>
                         <Avatar
                         alt="Foto do usuário"
                         src="/icon-placeholder.png"
@@ -189,16 +200,18 @@ const Navbar = () => {
                         horizontal: 'right',
                       }}
                       open={toggleDropdown}
-                      onClose={() => setToggleDropdown(false)}
+                      onClose={handleClose}
+                      onClick={handleClose}
+                      anchorEl={anchorEl}
                     >
-                        <Link href='/profile' style={{ textDecoration: 'none', color: 'black', }}>
-                          <MenuItem onClick={() => setToggleDropdown(false)}>
-                            <Typography sx={{ textAlign: 'right', }}>Perfil</Typography>
-                          </MenuItem>
-                        </Link>
-						<MenuItem onClick={() => {setToggleDropdown(false); signOutUser() }}>
-							<Typography sx={{ textAlign: 'right', }}>Sair</Typography>
-						</MenuItem>
+                      <Link href='/profile' style={{ textDecoration: 'none', color: 'black', }}>
+                        <MenuItem onClick={() => setToggleDropdown(false)} key={1}>
+                          <Typography sx={{ textAlign: 'right', }}>Perfil</Typography>
+                        </MenuItem>
+                      </Link>
+                      <MenuItem onClick={() => {setToggleDropdown(false); signOutUser() }} key={2}>
+                        <Typography sx={{ textAlign: 'right', }}>Sair</Typography>
+                      </MenuItem>
                     </Menu>
                   </Box>
                 )
