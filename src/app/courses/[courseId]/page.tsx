@@ -163,9 +163,9 @@ export default function Page({ params }: Props ){
 	const courseName = courseData.nome
 	const courseRating = courseData.rating
 	const coursePrice = courseData.preco
-	const courseIcon = '/course-icon-placeholder.png'
+	const courseIcon = '/placeholders/course-icon-placeholder.png'
 	const courseDescription = courseData.descricao
-	const professorIcon = '/icon-placeholder.png'
+	const professorIcon = '/placeholders/icon-placeholder.png'
 	const professorNome = courseData.professor?.nome
 	const professorDescription = courseData.professor?.descricao
 

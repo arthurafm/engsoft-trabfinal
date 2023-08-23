@@ -206,7 +206,7 @@ const Navbar = () => {
                         <IconButton sx={{ p: 0, ml: 1.5, }} onClick={handleClick}>
                           <Avatar
                           alt="Foto do usuário"
-                          src="/icon-placeholder.png"
+                          src="/placeholders/icon-placeholder.png"
                           sx ={{ width: 55, height: 55, }} />
                         </IconButton>
                       </Tooltip>
