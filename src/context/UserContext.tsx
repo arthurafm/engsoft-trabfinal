@@ -25,6 +25,7 @@ interface UserDataContextType {
 	setCognitoUser: Dispatch<SetStateAction<CognitoUser | null>>;
 	setUserData: Dispatch<SetStateAction<Aluno | Professor | null>>;
 	fetchUserData: () => Promise<Aluno | Professor | null>;
+	reFetchUser: () => Promise<void>;
 	signOutUser: () => Promise<void>;
 }
 
@@ -72,6 +73,18 @@ export default function UserContext({ children }: Props): ReactElement {
 			setCognitoUser(null);
 		}
 	}
+	async function reFetchUser(){
+		try{
+			const cognitoTokens = await Auth.currentSession()
+			const refreshTokens = cognitoTokens.getRefreshToken()
+			cognitoUser?.refreshSession(refreshTokens,(err, data) =>{
+				console.log(err, data)
+			})
+		}catch(error){
+			console.error(error)
+		}
+	}
+
 	async function signOutUser(){
 		try{
 			await Auth.signOut()
@@ -118,6 +131,7 @@ export default function UserContext({ children }: Props): ReactElement {
 			setCognitoUser,
 			setUserData,
 			fetchUserData,
+			reFetchUser,
 			signOutUser
 		}}>
 			{children}

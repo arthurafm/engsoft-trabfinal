@@ -73,13 +73,17 @@ async function comprarCursoResolver(event){
 			owner: ownerAluno
 		}
 	})
-	if(dataAlunoReq.data.alunosByOwner.items.length == 0){
+	const itemDataAluno = dataAlunoReq.data.alunosByOwner
+	if(!itemDataAluno){
+		throw new Error("Erro em acessar a tabela do aluno " + ownerAluno)
+	}
+	if(itemDataAluno.items.length == 0){
 		throw new Error("O requester não possui uma coluna na tabela alunos")
 	}
-	if(dataAlunoReq.data.alunosByOwner.items.length > 1){
+	if(itemDataAluno.items.length > 1){
 		throw new Error("O requester possui mais de uma coluna na tabela alunos")
 	}
-	const dataAluno = dataAlunoReq.data.alunosByOwner.items[0]
+	const dataAluno = itemDataAluno.items[0]
 	if(dataAluno.cursa.items.map(e => e.cursoAlunosId).includes(cursoId)){
 		throw new Error("Aluno já possui esse curso")
 	}
@@ -211,21 +215,17 @@ async function criarCursoResolver(event){
 			owner: professorOwner	
 		}
 	})
-	if(!dataProfessorReq.data){
+	const queriedProfessorData = dataProfessorReq.data.professorsByOwner
+	if(!queriedProfessorData || !queriedProfessorData.items){
 		throw new Error(`No data was retrived from owner: ${professorOwner}\n${dataProfessorReq}`)
 	}
-	if(dataProfessorReq.data.professorsByOwner == undefined){
-		throw new Error(`No data was retrived from owner: ${professorOwner}\n${dataProfessorReq}`)
-	}
-	if(dataProfessorReq.errors){
-		throw new Error(`Error retriving id of owner: ${professorOwner}\n${dataProfessorReq}\n`)
-	}
-	if(dataProfessorReq.data.professorsByOwner.items.length == 0){
+	if(queriedProfessorData.items.length == 0){
 		throw new Error(`There is no Professor with the owner: ${professorOwner}`)
-	}else if(dataProfessorReq.data.professorsByOwner.items.length > 1){
+	}
+	if(queriedProfessorData.items.length > 1){
 		throw new Error(`The Professor has multiple table rows: ${professorOwner}`)
 	}
-	const dataProfessor = dataProfessorReq.data.professorByOwner.items[0]
+	const dataProfessor = queriedProfessorData.items[0]
 	const GroupName = 'GROUP' + uuidv4();
 	const UserPoolId = process.env.AUTH_ENGSOFTTRABFINAL4BCC482A_USERPOOLID
 	try{
