@@ -18,6 +18,7 @@ export const onCreateAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -52,6 +53,7 @@ export const onUpdateAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -86,6 +88,7 @@ export const onDeleteAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -255,6 +258,7 @@ export const onCreateCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -321,6 +325,7 @@ export const onUpdateCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -387,6 +392,7 @@ export const onDeleteCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt

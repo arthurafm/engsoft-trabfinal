@@ -44,29 +44,21 @@ interface IFormLogin {
 
 //TODO: display erros more broadly
 
-//NOTE: To log out just sets the useUser hook to null
 function LoginDialog(props: IDialog) {
 	const { changeToForm, closeForm } = props
 	const { register, handleSubmit, formState: { errors } } = useForm<IFormLogin>() as any
-	//const { user, setUser } = useUser();
 
 	const handleChangeToRegister = () => changeToForm(AuthForms.Register);
 
 	const onSubmit = async (data: IFormLogin) => {
-		//alert(JSON.stringify(data))
 		try {
 			await Auth.signIn(data.email, data.senha)
-			//console.log("signed In: ", amplifyUser)
-			//setUser(amplifyUser)
-			//console.log(user)
 			closeForm()
 		}catch(error){
-			console.log(error)
+			alert(error)
 		}
-	
 	};
 
-	//console.log("Login dialog erros?", errors)
 	return (<>
 		<DialogTitle fontSize={25}>Entrar</DialogTitle>
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -134,14 +126,14 @@ function RegisterDialog(props: IDialog) {
 
 	const onSubmit = async (data: IFormRegister) => {
 		try {
-			await registerAcontAWS(data)
+			await registerAccountAWS(data)
 			changeToForm(AuthForms.Confirmation)
 		}catch(error){
-			console.log(error)
+			alert(error)
 		}
 	
 	};
-	async function registerAcontAWS(data: IFormRegister): Promise<CognitoUser>{
+	async function registerAccountAWS(data: IFormRegister): Promise<CognitoUser>{
 		try {
 			const { user } = await Auth.signUp({
 				username: data.email,
@@ -276,18 +268,22 @@ interface IFormConfirmation {
 function ConfirmationDialog(props: IDialog) {
 	const { changeToForm, lockForm, closeForm } = props
 	const { register, handleSubmit, formState: { errors } } = useForm<IFormConfirmation>() as any
-	
+
+	const [lockSend, setLockSend] = useState(false)
+
 	useEffect(()=> lockForm(true),[])
 
 	const onSubmit = async (data: IFormConfirmation) => {
+		setLockSend(true)
 		try {
 			const event = await Auth.confirmSignUp(data.email, data.confirmationcode);
-			console.log(event)
 			lockForm(false)
+			setLockSend(false)
 			changeToForm(AuthForms.Login)
 		}catch(error){
-			console.log(error)
+			alert(error)
 		}
+		setLockSend(false)
 	};
 
 	return (<>
@@ -321,7 +317,7 @@ function ConfirmationDialog(props: IDialog) {
 						length: { value: 6, message: "Códigos de confirmação são 6 números" }
 					})}
 				/>
-				<Button variant='contained' type='submit'>
+				<Button variant='contained' type='submit' disabled={lockSend}>
 					<Typography variant='h6' color='white'>Confirmar</Typography> 
 				</Button>
 			</Stack>

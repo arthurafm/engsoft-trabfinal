@@ -1,8 +1,8 @@
 'use client'
 
 import CourseCard from '@/components/courses/courseCard';
-import { Box, Grid, Typography} from '@mui/material';
-import React, { use, useEffect, useState } from 'react'
+import { Box, Grid, TextField, Typography} from '@mui/material';
+import React, { ChangeEvent, use, useEffect, useState } from 'react'
 
 import { useUser } from '@/context/UserContext';
 
@@ -87,103 +87,98 @@ export default function Page(){
 	const { cognitoUser, userData } = useUser();
 
 	const [cursos, setCursos] = useState<Curso[]>([])
+	const [cursosView, setCursosView] = useState<Curso[]>([])
+
 	useEffect(()=>{
 		if(cognitoUser && userData?.__typename == "Aluno"){
 			fetchDataAluno(userData.id).then(val =>{
 				if(val){
 					setCursos(val)
+					setCursosView(val)
 				}
 			})
 		}else if(cognitoUser && userData?.__typename == "Professor"){
 			fetchDataProfessor(userData.id).then(val =>{
 				if(val){
 					setCursos(val)
+					setCursosView(val)
 				}
 			})
 		}
 	},[])
-	return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                minHeight: '82vh',
-            }}>
-            <Typography
-                sx={{
-                    fontFamily: 'Roboto',
-                    fontWeight: 800,
-                    fontSize: '4vw',
-                    color: '#C73700',
-                    mt: 3,
-                    pb: 3,
-                }}
-            >
-                Meus Cursos
-            </Typography>
-            <Grid container 
-				justifyContent="space-between"
-				alignItems='center'
-				sx={{ paddingInline: '10px' }}
-				spacing={{xs: 2, md:4}}
-				columns={{ xs: 2, sm: 8, md: 12 }}
-				mb={5}
-			>
-				{cursos.map((curso, i) => {
-					return <Grid item key={i} xs={2} sm={4} md={4}>
-						<CourseCard
-							key={i}
-							img={'/course-placeholder.png'}
-							courseName={curso.nome}
-							courseDescription={curso.descricao}
-							coursePath={curso.id}/>
-					</Grid>
-				})}
-            </Grid>
-        </Box>
-    )
+
+	const handleChange = (data: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const filteredCourses = cursos.filter (
+			(course: Curso) => {
+				return course.nome?.toLowerCase().includes(data.target.value.toLowerCase())
+			}
+		)
+		setCursosView(filteredCourses)
+	}
+
+	return cognitoUser? 
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					minHeight: '82vh',
+				}}>
+				<Typography
+					sx={{
+						fontFamily: 'Roboto',
+						fontWeight: 800,
+						fontSize: '4vw',
+						color: '#C73700',
+						mt: 3,
+						pb: 3,
+					}}
+				>
+					Meus Cursos
+				</Typography>
+				<TextField 
+				id="searchTerm"
+				label="Pesquisa" 
+				placeholder='Pesquise por um curso'
+				sx={{ width: '60vw', mb: 4, }}
+				onChange={handleChange}
+				/>
+				<Grid container 
+					justifyContent="flex-start"
+					alignItems='center'
+					sx={{ paddingInline: '10px' }}
+					spacing={{xs: 2, md:4}}
+					columns={{ xs: 2, sm: 8, md: 12 }}
+					mb={5}
+				>
+					{cursosView.map((curso, i) => {
+						return <Grid item key={i} xs={2} sm={4} md={4}>
+							<CourseCard
+								key={i}
+								img={'/placeholders/course-placeholder.png'}
+								courseName={curso.nome}
+								courseDescription={curso.descricao}
+								coursePath={curso.id}/>
+						</Grid>
+					})}
+				</Grid>
+			</Box>
+			:
+			<Box
+				sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+				minHeight: '82vh',
+				backgroundColor: "#FFE199",
+				}}>
+				<Typography
+					variant="h3"
+					sx= {{
+					color: '#C73700',
+					fontFamily: 'Roboto',
+					fontWeight: 700,
+					}}>Logue-se para acessar a sua página de Cursos</Typography>
+			</Box>
 }
-/*
-{gridFourElem.map((row, index) => {
-	return (<Grid item
-		columnGap={2}
-		key={index}
-		sx={{
-			display: { xs: 'none', md: 'flex' },
-			flexDirection: 'row',
-			justifyContent: 'center',
-			width: '60%',
-			mb: 3,
-		}}>
-		{
-			row.map(({ img, name, description, path }, index) => {
-				return (
-					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
-				)
-			})
-		}
-	</Grid>)
-})}
-{gridTwoElem.map((row, index) => {
-	return (<Grid item
-		columnGap={2}
-		key={index}
-		sx={{
-			display: { xs: 'flex', md: 'none' },
-			flexDirection: 'row',
-			justifyContent: 'center',
-			width: '60%',
-			mb: 3,
-		}}>
-		{
-			row.map(({ img, name, description, path }, index) => {
-				return (
-					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
-				)
-			})
-		}
-	</Grid>
-	)
-})}
-*/

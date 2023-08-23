@@ -4,6 +4,7 @@ import { AppBar, Container, Toolbar, Typography, Box, Button, IconButton, Avatar
 import DehazeIcon from '@mui/icons-material/Dehaze';
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 import { Lobster } from "next/font/google";
@@ -11,6 +12,8 @@ import { Lobster } from "next/font/google";
 import OverlayLogin from "./overlayLogin";
 import { useUser } from "@/context/UserContext";
 import React from "react";
+import { Aluno } from "@/API";
+import BuyGP from "./BuyGPNavbar";
 
 const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin'] });
 
@@ -36,11 +39,11 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{minHeight: '8vh'}}>
+    <AppBar position="static">
       <Container
       maxWidth="x1"
       disableGutters
-      sx={{ display: 'flex', background: '#FFBA85' }}>
+      sx={{ display: 'flex', background: '#FFBA85', minHeight: '8vh' }}>
         <Box sx={{
           alignItems: 'center',
           display: 'flex',
@@ -49,22 +52,9 @@ const Navbar = () => {
           background: '#E35725',
           borderRadius: '0 3rem 3rem 0',
         }}>
-          <Typography
-            variant="h6"
-            component={ Link }
-            href='/'
-            noWrap
-            className={lobster.className}
-            sx = {{
-              textDecoration: 'none',
-              color: 'white',
-              pl: 2,
-              mr: 0,
-              fontSize: '2.7rem',
-            }}
-          >
-          GuideMe
-          </Typography>
+          <Link href='/'>
+            <Image src="/logos/logo.png" width={500} height={50} alt="Picture of the author" style={{ marginLeft: '5%', width: 'fit-content', aspectRatio: 905/272 }} />
+          </Link>
         </Box>
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
             <Box
@@ -177,23 +167,50 @@ const Navbar = () => {
               {cognitoUser ?
                 (
                   <Box sx={{ flexGrow: 0 }}>
-                    <Typography
+                    <Box
                       sx={{
-                        fontFamily: 'Roboto',
-                        fontWeight: '500',
-                        color: '#BB2A00',
-                        fontSize: '1.3rem',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
                       }} >
-                      {userData?.nome}
+                      {userData?.__typename == "Aluno" && 
+                        <>
+                          <Typography
+                          sx={{
+                            fontFamily: 'Roboto',
+                            fontWeight: '500',
+                            color: '#E35725',
+                            fontSize: '1.3rem',
+                            mr: 1,
+                          }}>{(userData as Aluno).creditos} GP</Typography>
+                          <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            mr: 3,
+                          }}>
+                            <BuyGP />
+                          </Box>
+                        </>
+                      }
+                      <Typography
+                        sx={{
+                          fontFamily: 'Roboto',
+                          fontWeight: '500',
+                          color: '#BB2A00',
+                          fontSize: '1.3rem',
+                          ml: 1.8,
+                        }}>{userData?.nome}</Typography>
                       <Tooltip title="Open settings">
                         <IconButton sx={{ p: 0, ml: 1.5, }} onClick={handleClick}>
                           <Avatar
                           alt="Foto do usuário"
-                          src="/icon-placeholder.png"
+                          src="/placeholders/icon-placeholder.png"
                           sx ={{ width: 55, height: 55, }} />
                         </IconButton>
                       </Tooltip>
-                    </Typography>
+                    </Box>
                     <Menu
                       sx={{
                         mt: '45px',

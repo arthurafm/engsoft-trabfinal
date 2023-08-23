@@ -34,24 +34,3 @@ export default function Index({ cursos }: Props) {
 		</Box>
 	)
 }
-
-const itemData = [
-  {
-    img: '/home/83.jpg',
-    title: '83 - 1',
-    author: ':)',
-    link: '/home/83.jpg'
-  },
-  {
-    img: '/home/95.jpg',
-    title: '95 - 2',
-    author: ':D',
-    link: '/home/95.jpg'
-  },
-  {
-    img: '/home/17.jpg',
-    title: '17 - 3',
-    author: ':o',
-    link: '/home/17.jpg'
-  }
-];
