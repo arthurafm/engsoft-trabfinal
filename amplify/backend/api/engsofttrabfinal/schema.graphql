@@ -155,6 +155,8 @@ type Mutation {
   comprarCurso(cursoId: ID!): Curso!  @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: private }])
   #rateCurso(alunoid: ID, cursoId: ID, rating: Float): Float @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: private }])
 
+#comprarCreditos(alunoId: ID!)
+
   ### Ações dos Professores ###
   #adiconarAlunoComoMonitor deve:
   # 1. checar se o curso é do professor

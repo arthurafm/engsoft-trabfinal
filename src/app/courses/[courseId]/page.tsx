@@ -174,9 +174,13 @@ export default function Page({ params }: Props ){
 				GRAPHQL_AUTH_MODE.API_KEY
 			).then(cur => setCourseData(cur))
 		}
-	},[userData])
+	},[userData, cognitoUser])
 
 	const comprarCurso = async () => {
+		if(!cognitoUser){
+			alert("Ops! Você não está logado")
+			return
+		}
 		setIsButtonDisabled(true)
 		const input: ComprarCursoMutationVariables = {
 			cursoId: params.courseId
@@ -221,7 +225,7 @@ export default function Page({ params }: Props ){
 	}
 
 	if(!courseData){
-		return <div style={{ minHeight: '82vh', backgroundColor: '#FFE199', color: '#C63700', alignItems: 'center', justifyContent: 'center', display: 'flex', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700}}>CRINGE</div>
+		return <div style={{ minHeight: '82vh', backgroundColor: '#FFE199', color: '#C63700', alignItems: 'center', justifyContent: 'center', display: 'flex', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700}}>Curso não Encontrado</div>
 	}
 	// Alterar para valores específicos do curso/professor
 	const courseName = courseData.nome
@@ -247,8 +251,8 @@ export default function Page({ params }: Props ){
 			<title>{`Guide Me - ${courseName}`}</title>
 		</head>
 		<Box sx = {{
-			minHeight: '100vh',
-			minWidth: '100vw',
+			minHeight: '82vh',
+			minWidth: '100%',
 			margin: 0,
 			background: 'linear-gradient(to bottom, #FFE199 0 40vh, white 40vh 100vh)'
 		}}>
@@ -378,7 +382,7 @@ export default function Page({ params }: Props ){
 				</Typography>
 				<Divider />
 				<Stack alignItems='center' spacing={4} sx={{mb: 10, mt: 3}}>
-					{alunoCursa && courseData.modulos?.items.map((val, i) =>{
+					{(alunoCursa || professorLeciona) && courseData.modulos?.items.map((val, i) =>{
 						return <ModuleCard 
 							key={i}
 							title={val?.titulo}
