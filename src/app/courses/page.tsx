@@ -99,7 +99,7 @@ export default function Page(){
                     pb: 3,
                 }}
             >
-                Meus Cursos
+                Cursos Disponíveis
             </Typography>
             <form onSubmit={ handleSubmit(onSubmit) }>
                 <TextField 
@@ -119,6 +119,7 @@ export default function Page(){
 				sx={{ paddingInline: '10px' }}
 				spacing={{xs: 2, md:4}}
 				columns={{ xs: 2, sm: 8, md: 12 }}
+				mb={5}
 			>
 				{cursos.map((curso, i) => {
 					return <Grid item key={i} xs={2} sm={4} md={4}>
