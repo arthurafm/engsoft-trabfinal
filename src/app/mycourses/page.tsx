@@ -1,8 +1,8 @@
 'use client'
 
 import CourseCard from '@/components/courses/courseCard';
-import { Box, Grid, Typography} from '@mui/material';
-import React, { use, useEffect, useState } from 'react'
+import { Box, Grid, TextField, Typography} from '@mui/material';
+import React, { ChangeEvent, use, useEffect, useState } from 'react'
 
 import { useUser } from '@/context/UserContext';
 
@@ -87,21 +87,35 @@ export default function Page(){
 	const { cognitoUser, userData } = useUser();
 
 	const [cursos, setCursos] = useState<Curso[]>([])
+	const [cursosView, setCursosView] = useState<Curso[]>([])
+
 	useEffect(()=>{
 		if(cognitoUser && userData?.__typename == "Aluno"){
 			fetchDataAluno(userData.id).then(val =>{
 				if(val){
 					setCursos(val)
+					setCursosView(val)
 				}
 			})
 		}else if(cognitoUser && userData?.__typename == "Professor"){
 			fetchDataProfessor(userData.id).then(val =>{
 				if(val){
 					setCursos(val)
+					setCursosView(val)
 				}
 			})
 		}
 	},[])
+
+	const handleChange = (data: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+		const filteredCourses = cursos.filter (
+			(course: Curso) => {
+				return course.nome?.toLowerCase().includes(data.target.value.toLowerCase())
+			}
+		)
+		setCursosView(filteredCourses)
+	}
+
 	return cognitoUser? 
 			<Box
 				sx={{
@@ -122,15 +136,22 @@ export default function Page(){
 				>
 					Meus Cursos
 				</Typography>
+				<TextField 
+				id="searchTerm"
+				label="Pesquisa" 
+				placeholder='Pesquise por um curso'
+				sx={{ width: '60vw', mb: 4, }}
+				onChange={handleChange}
+				/>
 				<Grid container 
-					justifyContent="space-between"
+					justifyContent="flex-start"
 					alignItems='center'
 					sx={{ paddingInline: '10px' }}
 					spacing={{xs: 2, md:4}}
 					columns={{ xs: 2, sm: 8, md: 12 }}
 					mb={5}
 				>
-					{cursos.map((curso, i) => {
+					{cursosView.map((curso, i) => {
 						return <Grid item key={i} xs={2} sm={4} md={4}>
 							<CourseCard
 								key={i}
