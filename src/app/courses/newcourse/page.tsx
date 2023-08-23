@@ -130,11 +130,14 @@ export default function Page(){
 		}
 		let modulePromisses = []
 		for(const id of modulos){
+			let link = data[`videolink-${id}`] ? data[`videolink-${id}`] as string : ""
+			link = link.replace('watch?v=', 'embed/')
+			link = link.replace('.be/', 'be.com/embed/')
 			const vars: CreateModuloInput = {
 				cursoModulosId: cursoId,
 				titulo: data[`titulo-${id}`] as string,
 				descricao: data[`descricao-${id}`] as string,
-				videoLink: data[`videolink-${id}`] ? data[`videolink-${id}`] as string : "",
+				videoLink: link,
 			}
 			const createModulo = API.graphql({
 				query: customCreateModulo,
@@ -177,7 +180,7 @@ export default function Page(){
 							{...register("titulo", {
 								required: { value: true, message: "Insira o Título" },
 								minLength: { value: 8, message: "Títulos devem ter pelo menos 8 caracteres"},
-								maxLength: { value: 30, message: "Títulos devem ter no máximo 30 caracteres"},
+								maxLength: { value: 1000, message: "Títulos devem ter no máximo 1000 caracteres"},
 							})}
 						/>
 						<TextField 
@@ -191,8 +194,8 @@ export default function Page(){
 							sx={styles.Inputs}
 							{...register("descricao", {
 								required: { value: true, message: "Insira uma descrição" },
-								minLength: { value: 10, message:  "Descrições devem ter pelo menos 20 caracteres"},
-								maxLength: { value: 200, message: "Descrições devem ter no máximo 200 caracteres"},
+								minLength: { value: 3, message:  "Descrições devem ter pelo menos 3 caracteres"},
+								maxLength: { value: 10000, message: "Descrições devem ter no máximo 10000 caracteres"},
 							})}
 						/>
 						<TextField 
@@ -236,7 +239,8 @@ export default function Page(){
 								helperText={errors[`titulo-${i}`] ? errors[`titulo-${i}`]?.message : null}
 								{...register(`titulo-${i}`, {
 									required: { value: true, message: "Insira o Título" },
-									maxLength: { value: 30, message: "Títulos de modulo devem ter no máximo 30 caracteres"},
+									minLength: { value: 8, message: "Títulos devem ter pelo menos 8 caracteres"},
+									maxLength: { value: 1000, message: "Títulos de modulo devem ter no máximo 1000 caracteres"},
 								})}
 							/>
 							<TextField key={`descricao-${index}`}
@@ -250,21 +254,21 @@ export default function Page(){
 								helperText={errors[`descricao-${i}`] ? errors[`descricao-${i}`]?.message : null}
 								{...register(`descricao-${i}`, {
 									required: { value: true, message: "Insira uma descrição" },
-									minLength: { value: 20, message:  "Descrições devem ter pelo menos 20 caracteres"},
-									maxLength: { value: 200, message: "Descrições devem ter no máximo 200 caracteres"},
+									minLength: { value: 3, message:  "Descrições devem ter pelo menos 3 caracteres"},
+									maxLength: { value: 10000, message: "Descrições devem ter no máximo 10000 caracteres"},
 								})}
 							/>
 							<TextField key={`link-${index}`}
 								id={`videolink-${i}`}
 								variant='outlined'
-								label='link do video'
+								label='Link do video'
 								type='text'
 								margin='dense'
 								sx={styles.Inputs}
 								error={errors[`videolink-${i}`] ? true : false}
 								helperText={errors[`videolink-${i}`] ? errors[`videolink-${i}`]?.message : null}
 								{...register(`videolink-${i}`,{
-									required: { value: true, message: "Insira um Valor" },
+									required: { value: true, message: "Insira um Link" },
 								})}
 							/>
 						</AccordionDetails>
