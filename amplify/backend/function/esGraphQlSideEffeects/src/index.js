@@ -264,13 +264,118 @@ async function criarCursoResolver(event){
 	return dataCurso.data.createCurso
 }
 
+async function adiconarAlunoComoMonitorResolver(event){
+	const { alunoId, cursoId, alunoHorarios } = event.arguments
+
+	const professorOwner = `${event.identity.sub}::${event.identity.username}`
+
+	const gqlQueryProfessorsByOwner = gql`
+	query ProfessorsByOwner($owner: String!){
+		professorsByOwner(owner: $owner) {
+			items {
+				id
+				leciona {
+					items{
+						id
+					}
+				}
+			}
+		}
+	}`;
+	const dataProfessorReq = await appsyncClient.query({
+		query: gqlQueryProfessorsByOwner,
+		fetchPolicy: 'no-cache',
+		variables: {
+			owner: professorOwner	
+		}
+	})
+	const queriedProfessorData = dataProfessorReq.data.professorsByOwner
+	if(!queriedProfessorData || !queriedProfessorData.items){
+		throw new Error(`No data was retrived from owner: ${professorOwner}\n${dataProfessorReq}`)
+	}
+	if(queriedProfessorData.items.length == 0){
+		throw new Error(`There is no Professor with the owner: ${professorOwner}`)
+	}
+	if(queriedProfessorData.items.length > 1){
+		throw new Error(`The Professor has multiple table rows: ${professorOwner}`)
+	}
+	const dataProfessor = queriedProfessorData.items[0]
+	
+	if(!dataProfessor.leciona.items.map(e => e.id).includes(cursoId)){
+		throw new Error("O professor não leciona esse curso")
+	}
+	
+	const gqlQueryAluno = gql`
+	query GetAluno($id: ID!) {
+		getAluno(id: $id) {
+			id
+			creditos
+			cursa {
+				items {
+					id
+					monitoria
+					horarios
+					rating
+					alunoCursaId
+					cursoAlunosId
+				}
+			}
+		}
+	}`
+
+	const dataAlunoReq = await appsyncClient.query({
+		query: gqlQueryAluno,
+		fetchPolicy: 'no-cache',
+		variables: {
+			id: alunoId
+		}
+	})
+	if(!dataAlunoReq.data.getAluno){
+		throw new Error("Nenhum aluno com o id " + alunoId)
+	}
+	const dataAluno = dataAlunoReq.data.getAluno
+	//se o aluno não tem o curso
+	const dataAlunoCursoConection = dataAluno.cursa.items.filter(c => c.cursoAlunosId == cursoId)
+	
+	if(dataAlunoCursoConection.length == 0){
+		throw new Error("O Aluno não possui esse curso")
+	}
+	if(dataAlunoCursoConection.length > 1){
+		throw new Error("O Aluno possui (de alguma forma) mais de uma conecção na relação")
+	}
+	const dataAlunoCurso = dataAlunoCursoConection[0]
+
+	const gqlUpdateAlunoCurso = gql`
+	mutation UpdateAlunoCurso($input: UpdateAlunoCursoInput!){
+		updateAlunoCurso(input: $input){
+			id
+			monitoria
+			horarios
+		}
+	}`;
+	const updatedAlunoCursoReq = await appsyncClient.mutate({
+		mutation: gqlUpdateAlunoCurso,
+		fetchPolicy: 'no-cache',
+		variables: {input: {
+			id: dataAlunoCurso.id,
+			monitoria: true,
+			horarios: alunoHorarios
+		}}
+	})
+
+	if(updatedAlunoCursoReq.errors){
+		throw new Error("Failed to update user balance")
+	}
+	return updatedAlunoCursoReq.data.updateAlunoCurso
+}
+
 const resolvers = {
 	Query : {
 		echo: async (event) => JSON.stringify(event)
 	},
 	Mutation: {
 		comprarCurso: async (event) => await comprarCursoResolver(event),
-		//adiconarAlunoComoMonitor: async (event) => await adiconarAlunoComoMonitorResolver(event),
+		adiconarAlunoComoMonitor: async (event) => await adiconarAlunoComoMonitorResolver(event),
 		criarCurso: async (event) => await criarCursoResolver(event),
 	}
 }

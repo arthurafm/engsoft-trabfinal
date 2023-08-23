@@ -156,7 +156,7 @@ type Mutation {
   # 2. obter as informações do aluno
   # 3. se o aluno possui o curso, mudar o valor da join table para true
   # 4. se não, concede o curso ao aluno com o valor da join table como true
-  #adiconarAlunoComoMonitor(alunoId: ID, cursoId: ID): Curso! @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: groups, groups: ["Professor"]}])
+  adiconarAlunoComoMonitor(alunoId: ID!, cursoId: ID!, alunoHorarios: String!): AlunoCurso! @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: groups, groups: ["Professor"]}])
 
   #criarCurso deve:
   # 1. criar um novo grupo nos grupos cognito

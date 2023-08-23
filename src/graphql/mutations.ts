@@ -818,6 +818,77 @@ export const comprarCurso = /* GraphQL */ `
     }
   }
 `;
+export const adiconarAlunoComoMonitor = /* GraphQL */ `
+  mutation AdiconarAlunoComoMonitor(
+    $alunoId: ID!
+    $cursoId: ID!
+    $alunoHorarios: String!
+  ) {
+    adiconarAlunoComoMonitor(
+      alunoId: $alunoId
+      cursoId: $cursoId
+      alunoHorarios: $alunoHorarios
+    ) {
+      id
+      aluno {
+        id
+        nome
+        email
+        cpf
+        creditos
+        cursa {
+          nextToken
+          __typename
+        }
+        owner
+        createdAt
+        updatedAt
+        __typename
+      }
+      curso {
+        id
+        nome
+        preco
+        descricao
+        professor {
+          id
+          nome
+          descricao
+          email
+          cpf
+          owner
+          createdAt
+          updatedAt
+          __typename
+        }
+        modulos {
+          nextToken
+          __typename
+        }
+        rating
+        alunos {
+          nextToken
+          __typename
+        }
+        cursoGrupo
+        owner
+        createdAt
+        updatedAt
+        professorLecionaId
+        __typename
+      }
+      monitoria
+      horarios
+      rating
+      owner
+      createdAt
+      updatedAt
+      alunoCursaId
+      cursoAlunosId
+      __typename
+    }
+  }
+`;
 export const criarCurso = /* GraphQL */ `
   mutation CriarCurso($nome: String!, $preco: Float!, $descricao: String!) {
     criarCurso(nome: $nome, preco: $preco, descricao: $descricao) {

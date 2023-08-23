@@ -1326,6 +1326,74 @@ export type ComprarCursoMutation = {
   },
 };
 
+export type AdiconarAlunoComoMonitorMutationVariables = {
+  alunoId: string,
+  cursoId: string,
+  alunoHorarios: string,
+};
+
+export type AdiconarAlunoComoMonitorMutation = {
+  adiconarAlunoComoMonitor:  {
+    __typename: "AlunoCurso",
+    id: string,
+    aluno?:  {
+      __typename: "Aluno",
+      id: string,
+      nome: string,
+      email?: string | null,
+      cpf?: string | null,
+      creditos: number,
+      cursa?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    curso?:  {
+      __typename: "Curso",
+      id?: string | null,
+      nome?: string | null,
+      preco?: number | null,
+      descricao?: string | null,
+      professor?:  {
+        __typename: "Professor",
+        id: string,
+        nome: string,
+        descricao?: string | null,
+        email?: string | null,
+        cpf?: string | null,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      modulos?:  {
+        __typename: "ModelModuloConnection",
+        nextToken?: string | null,
+      } | null,
+      rating?: number | null,
+      alunos?:  {
+        __typename: "ModelAlunoCursoConnection",
+        nextToken?: string | null,
+      } | null,
+      cursoGrupo?: string | null,
+      owner?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      professorLecionaId?: string | null,
+    } | null,
+    monitoria: boolean,
+    horarios?: string | null,
+    rating?: number | null,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+    alunoCursaId?: string | null,
+    cursoAlunosId?: string | null,
+  },
+};
+
 export type CriarCursoMutationVariables = {
   nome: string,
   preco: number,
