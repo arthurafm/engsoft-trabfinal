@@ -11,6 +11,7 @@ export default function Footer() {
 			flexDirection: 'column',
 			alignItems: 'center',
 			height: 'fit-content',
+			minHeight: '10vh',
 			width: '100%',
 			backgroundColor: '#C73700'
 		},

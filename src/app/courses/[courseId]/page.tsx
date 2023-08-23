@@ -157,7 +157,7 @@ export default function Page({ params }: Props ){
 	}
 
 	if(!courseData){
-		return <div>CRINGE</div>
+		return <div style={{ minHeight: '82vh', backgroundColor: '#FFE199', color: '#C63700', alignItems: 'center', justifyContent: 'center', display: 'flex', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700}}>CRINGE</div>
 	}
 	// Alterar para valores específicos do curso/professor
 	const courseName = courseData.nome
