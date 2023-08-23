@@ -177,14 +177,23 @@ const Navbar = () => {
               {cognitoUser ?
                 (
                   <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
-                      <IconButton sx={{ p: 0 }} onClick={handleClick}>
-                        <Avatar
-                        alt="Foto do usuário"
-                        src="/icon-placeholder.png"
-                        sx ={{ width: 55, height: 55, }} />
-                      </IconButton>
-                    </Tooltip>
+                    <Typography
+                      sx={{
+                        fontFamily: 'Roboto',
+                        fontWeight: '500',
+                        color: '#BB2A00',
+                        fontSize: '1.3rem',
+                      }} >
+                      {userData?.nome}
+                      <Tooltip title="Open settings">
+                        <IconButton sx={{ p: 0, ml: 1.5, }} onClick={handleClick}>
+                          <Avatar
+                          alt="Foto do usuário"
+                          src="/icon-placeholder.png"
+                          sx ={{ width: 55, height: 55, }} />
+                        </IconButton>
+                      </Tooltip>
+                    </Typography>
                     <Menu
                       sx={{
                         mt: '45px',
