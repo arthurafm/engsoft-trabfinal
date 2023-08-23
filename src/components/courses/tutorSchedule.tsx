@@ -1,28 +1,50 @@
 import React from 'react'
 
-import { Box, Typography, Divider, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper, Button, Dialog, DialogTitle, Stack, TextField } from '@mui/material'
+import { Box, Typography, Divider, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper, Button, Dialog, DialogTitle, Stack, TextField, IconButton, Autocomplete } from '@mui/material'
+
+import { VideoCameraFront } from '@mui/icons-material';
+
+import Link from 'next/link'
 
 import { useState } from 'react'
 
-const TutorSchedule = (isProfessor: bool) => {
+const TutorSchedule = (isProfessor: boolean) => {
 
-    const tutors = [
+    const [tutors, setTutors] = useState (
+        [
+            {
+                name: 'Renato Portaluppi',
+                schedule: '19h-20h',
+                days: 'Segunda e Quarta',
+                link: '/',
+            },
+            {
+                name: 'Renato Portaluppi',
+                schedule: '19h-20h',
+                days: 'Segunda e Quarta',
+                link: '/',
+            },
+            {
+                name: 'Renato Portaluppi',
+                schedule: '19h-20h',
+                days: 'Segunda e Quarta',
+                link: '/',
+            },
+        ]
+    );
+
+    const studentsList = [
         {
-            name: 'Renato Portaluppi',
-            schedule: '19h-20h',
-            days: 'Segunda e Quarta',
+            label: 'Luan Guilherme de Jesus Vieira',
         },
         {
-            name: 'Renato Portaluppi',
-            schedule: '19h-20h',
-            days: 'Segunda e Quarta',
+            label: 'Luan Guilherme de Jesus Vieira',
         },
         {
-            name: 'Renato Portaluppi',
-            schedule: '19h-20h',
-            days: 'Segunda e Quarta',
+            label: 'Luan Guilherme de Jesus Vieira',
         },
-    ]
+        
+    ];
 
     const [[open, locked], setOpen] = useState([false, false]);
 
@@ -35,7 +57,7 @@ const TutorSchedule = (isProfessor: bool) => {
 	};
 
     const handleSubmit = () => {
-        console.log('Formulário de novo monitor submittado')
+        setTutors(tutors.append());
     }
 
 
@@ -67,9 +89,10 @@ const TutorSchedule = (isProfessor: bool) => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Monitor</TableCell>
-                            <TableCell align="right">Horário</TableCell>
-                            <TableCell align="right">Dias</TableCell>
+                            <TableCell align="center">Monitor</TableCell>
+                            <TableCell align="center">Horário</TableCell>
+                            <TableCell align="center">Dias</TableCell>
+                            <TableCell align="center">Link para reunião</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -79,9 +102,14 @@ const TutorSchedule = (isProfessor: bool) => {
                                     <TableRow
                                         key={i}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                        <TableCell component="th" scope="row">{tutor.name}</TableCell>
-                                        <TableCell align="right">{tutor.schedule}</TableCell>
-                                        <TableCell align="right">{tutor.days}</TableCell>
+                                        <TableCell component="th" scope="row" align="center">{tutor.name}</TableCell>
+                                        <TableCell align="center">{tutor.schedule}</TableCell>
+                                        <TableCell align="center">{tutor.days}</TableCell>
+                                        <TableCell align="center">
+                                            <IconButton href={tutor.link}>
+                                                <VideoCameraFront />
+                                            </IconButton>
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })
@@ -120,12 +148,12 @@ const TutorSchedule = (isProfessor: bool) => {
                             <DialogTitle fontSize={25}>Adicione um novo monitor</DialogTitle>
                             <form onSubmit={handleSubmit}>
                                 <Stack sx={{mr: 4, ml: 4}} spacing={2}>
-                                    <TextField
-                                        id='name'
-                                        variant='outlined'
-                                        label='Nome do monitor'
-                                        type='text'
-                                        margin='dense' />
+                                    <Autocomplete
+                                        disablePortal
+                                        id="students"
+                                        options={studentsList}
+                                        renderInput={(params) => <TextField {...params} label="Alunos" />}
+                                    />
                                     <TextField
                                         id='schedule'
                                         variant='outlined'
@@ -135,10 +163,16 @@ const TutorSchedule = (isProfessor: bool) => {
                                     <TextField
                                         id='days'
                                         variant='outlined'
-                                        label='Dias do monitor'
+                                        label='Dias disponíveis do monitor'
                                         type='text'
                                         margin='dense' />
-                                    
+                                    <TextField
+                                        id='link'
+                                        variant='outlined'
+                                        label='Link para reunião com monitor'
+                                        type='text'
+                                        margin='dense' />
+
                                     <Button variant='contained' type='submit'>
                                         <Typography variant='h6' color='white'>Adicionar</Typography> 
                                     </Button>
