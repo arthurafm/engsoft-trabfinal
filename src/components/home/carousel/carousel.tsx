@@ -45,7 +45,7 @@ export default function Carousel({itemData}: Props) {
             {itemData.map((item, i) => (
                 <Card key={i} sx={styles.Card}>
                     <CardActionArea key={i + 100} href={`courses/${item?.id}`}>
-                        <CardMedia key={i + 200} component='img' image={'/gremio.png'} alt={item?.nome == null ? undefined : item?.nome} sx={styles.CardMedia}/>
+                        <CardMedia key={i + 200} component='img' image={'/course-placeholder2.png'} alt={item?.nome == null ? undefined : item?.nome} sx={styles.CardMedia}/>
                         <CardContent key={i + 300} sx={styles.CardContent}>
                             <Typography key={i + 400} sx={{...styles.Text, ...styles.Title}}>{item?.nome}</Typography>
                             <Typography key={i + 500} sx={{...styles.Text, ...styles.Author}}>{item?.professor?.nome}</Typography>
@@ -56,37 +56,3 @@ export default function Carousel({itemData}: Props) {
         </Box> 
 	)
 }
-
-
-// ====== Another Implementation ====== //
-// import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
-// import Link from 'next/link'
-// import Image from 'next/image'
-
-// export default function Carousel({itemData}) {
-// 	return (
-//         <ImageList sx={{ width: '90%', my: '3%' }} cols={3}>
-//             {itemData.map((item) => (
-//                 <Link href={item.link} style={{ margin: '0 5%' }}>
-//                     <ImageListItem key={item.img} sx={{ height: '100%', aspectRatio: '4/5.5' }}>
-//                         <Image
-//                             src={item.img}
-//                             alt={item.title}
-//                             height={'500'}
-//                             width={'500'}
-//                             style={{
-//                                 height: '100%',
-//                                 width: '100%',
-//                                 objectFit: 'cover'
-//                             }}
-//                         />
-//                         <ImageListItemBar
-//                             title={item.title}
-//                             subtitle={item.author}
-//                         />
-//                     </ImageListItem>
-//                 </Link>
-//             ))}
-//         </ImageList>
-// 	)
-// }

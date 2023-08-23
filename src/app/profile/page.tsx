@@ -30,7 +30,7 @@ function loggedInProfile(userData: Aluno | Professor){
         }}>
           <Avatar
               alt="Foto do usuário"
-              src={'/gremio.png'}
+              src={'/icon-placeholder.png'}
               sx ={{ width: '7rem', height: '7rem', mb: 2 }} />
           <Typography
           variant="h3"
@@ -117,8 +117,23 @@ function loggedInProfile(userData: Aluno | Professor){
               <Typography
                 sx={{
                   fontSize: '1.5rem',
+                  pr: 1,
                 }}>
                 {(userData as Aluno)?.creditos}
+              </Typography>
+              <Typography
+              sx={{
+                mt: 0.3,
+              }}>
+                <Button
+                  text='+'
+                  style={{
+                    ml: 1,
+                    width: '20%',
+                    height: '80%',
+                  }}
+                  path='/credits'
+                />
               </Typography>
             </Box>}
           </Box>

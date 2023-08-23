@@ -131,18 +131,21 @@ export default function Page(){
 		let modulePromisses = []
 		for(const id of modulos){
 			const vars: CreateModuloInput = {
+				cursoModulosId: cursoId,
 				titulo: data[`titulo-${id}`] as string,
 				descricao: data[`descricao-${id}`] as string,
 				videoLink: data[`videolink-${id}`] ? data[`videolink-${id}`] as string : "",
 			}
-			modulePromisses.push(API.graphql({
+			const createModulo = API.graphql({
 				query: customCreateModulo,
 				variables: {input: vars},
 				authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-			}))
+			})
+			modulePromisses.push(createModulo)
 		}
-		await Promise.all(modulePromisses)
+		const res = await Promise.all(modulePromisses)
 		
+		console.log(res)
 		router.push(`/courses/${cursoId}`)
 	}
 

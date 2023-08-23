@@ -99,7 +99,7 @@ export default function Page(){
                     pb: 3,
                 }}
             >
-                Cursos Disponíveis
+				Todos os Cursos
             </Typography>
             <form onSubmit={ handleSubmit(onSubmit) }>
                 <TextField 
@@ -125,7 +125,7 @@ export default function Page(){
 					return <Grid item key={i} xs={2} sm={4} md={4}>
 						<CourseCard
 							key={i}
-							img={'/gremio.png'}
+							img={'/course-placeholder.png'}
 							courseName={curso.nome}
 							courseDescription={curso.descricao}
 							coursePath={curso.id}/>
@@ -135,46 +135,3 @@ export default function Page(){
         </Box>
     )
 }
-/*
-{gridFourElem.map((row, index) => {
-	return (<Grid item
-		columnGap={2}
-		key={index}
-		sx={{
-			display: { xs: 'none', md: 'flex' },
-			flexDirection: 'row',
-			justifyContent: 'center',
-			width: '60%',
-			mb: 3,
-		}}>
-		{
-			row.map(({ img, name, description, path }, index) => {
-				return (
-					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
-				)
-			})
-		}
-	</Grid>)
-})}
-{gridTwoElem.map((row, index) => {
-	return (<Grid item
-		columnGap={2}
-		key={index}
-		sx={{
-			display: { xs: 'flex', md: 'none' },
-			flexDirection: 'row',
-			justifyContent: 'center',
-			width: '60%',
-			mb: 3,
-		}}>
-		{
-			row.map(({ img, name, description, path }, index) => {
-				return (
-					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
-				)
-			})
-		}
-	</Grid>
-	)
-})}
-*/

@@ -9,7 +9,7 @@ import ModuleCard from "@/components/courses/moduleCards";
 
 import { API } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
-import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo, Professor } from "@/API";
+import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo, Professor, ComprarCursoMutationVariables } from "@/API";
 import { use, useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 
@@ -60,7 +60,15 @@ query GetCurso($id: ID!) {
 		}
 		cursoGrupo
 	}
-} ` 
+}`;
+
+
+const customComprarCurso = /* GraphQL */`
+mutation ComprarCurso($cursoId: ID!) {
+	comprarCurso(cursoId: $cursoId) {
+		id
+	}
+}`
 
 
 async function getCourseData(id: string, query: string, authMode: any) {
@@ -83,10 +91,12 @@ interface Props {
 }
 
 export default function Page({ params }: Props ){
-	const { cognitoUser, userData } = useUser()
+	const { cognitoUser, userData, reFetchUser } = useUser()
 	
 	const [courseData, setCourseData] = useState<Curso | undefined>()
 	const [alunoCursa, setAlunoCursa] = useState<boolean | undefined>(false)
+	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false)
+
 	const [professorLeciona, setProfessorLeciona] = useState<boolean | undefined>(false)
 
 	useEffect(()=>{
@@ -126,6 +136,25 @@ export default function Page({ params }: Props ){
 		}
 	},[userData])
 
+	const comprarCurso = async () => {
+		setIsButtonDisabled(true)
+		const input: ComprarCursoMutationVariables = {
+			cursoId: params.courseId
+		}
+		try{
+			const compra = await API.graphql({
+				query: customComprarCurso,
+				variables: input,
+				authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+			})
+			await reFetchUser()
+		}catch (error) {
+			alert(`Erro na compra:\n${error}`)
+			setIsButtonDisabled(false)
+			console.error(error)
+		}
+	}
+
 	if(!courseData){
 		return <div>CRINGE</div>
 	}
@@ -133,9 +162,9 @@ export default function Page({ params }: Props ){
 	const courseName = courseData.nome
 	const courseRating = courseData.rating
 	const coursePrice = courseData.preco
-	const courseIcon = '/gremio.png'
+	const courseIcon = '/course-icon-placeholder.png'
 	const courseDescription = courseData.descricao
-	const professorIcon = '/gremio.png'
+	const professorIcon = '/icon-placeholder.png'
 	const professorNome = courseData.professor?.nome
 	const professorDescription = courseData.professor?.descricao
 
@@ -189,12 +218,14 @@ export default function Page({ params }: Props ){
 				{ratingToStars(courseRating)}
 			</Box>
 			</Box>
-			{!alunoCursa && <Box sx={{
+			{(!alunoCursa && !professorLeciona)&& <Box sx={{
 			m: 'auto 0 auto auto',
 			pb: '2%',
 			}}>
 			<Button
 				key="buy"
+				disabled={isButtonDisabled}
+				onClick={comprarCurso}
 				sx={{ color: 'white',
 					fontSize: '1.2rem',
 					background: '#E35725',
@@ -256,7 +287,7 @@ export default function Page({ params }: Props ){
 			</Box>
 		</Box>
 		<Stack alignItems='center' spacing={4} sx={{mb: 10}}>
-			{alunoCursa && courseData.modulos?.items.map((val, i) =>{
+			{(alunoCursa || professorLeciona) && courseData.modulos?.items.map((val, i) =>{
 				return <ModuleCard 
 					key={i}
 					title={val?.titulo}
