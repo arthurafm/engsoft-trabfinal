@@ -108,7 +108,7 @@ export default function Page(){
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                minHeight: '81vh',
+                minHeight: '82vh',
             }}>
             <Typography
                 sx={{
@@ -128,6 +128,7 @@ export default function Page(){
 				sx={{ paddingInline: '10px' }}
 				spacing={{xs: 2, md:4}}
 				columns={{ xs: 2, sm: 8, md: 12 }}
+				mb={5}
 			>
 				{cursos.map((curso, i) => {
 					return <Grid item key={i} xs={2} sm={4} md={4}>
