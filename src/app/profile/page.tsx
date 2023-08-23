@@ -173,24 +173,24 @@ export default function Profile(){
 	if(cognitoUser && userData){
 		return loggedInProfile(userData as Aluno | Professor)
 	}else{
-		return <Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}>
-			<Box sx = {{
-				backgroundColor: "#FFE199",
-				width: '100%',
-				height: 'fit-content',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				py: 5,
-			}}>
-				<Typography variant="h3">Logue-se para acessar a sua página de Perfil</Typography>
-			</Box>
-    	</Box>
+		return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '82vh',
+          backgroundColor: "#FFE199",
+        }}>
+          <Typography
+            variant="h3"
+            sx= {{
+              color: '#C73700',
+              fontFamily: 'Roboto',
+              fontWeight: 700,
+            }}>Logue-se para acessar a sua página de Perfil</Typography>
+        </Box>
+      )
 	}
 }
