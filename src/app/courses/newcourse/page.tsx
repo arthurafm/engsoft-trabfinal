@@ -41,9 +41,9 @@ mutation CreateModulo(
 
 export default function Page(){
 	const { cognitoUser, userData } = useUser()
-	// if(!cognitoUser || userData?.__typename != "Professor"){
-	// 	return <div>Ops, você não é professor</div>
-	// }
+	if(!cognitoUser || userData?.__typename != "Professor"){
+		return <div>Ops, você não é professor</div>
+	}
 	const { register, handleSubmit, formState: { errors } } = useForm<IFormCriarCurso>() as any;
 	const router = useRouter()
 	const [modulos, setModulos] = useState<number[]>([])
@@ -93,57 +93,57 @@ export default function Page(){
 	const onSubmit = async (data: IFormCriarCurso) =>{
 		console.log(data)
 
-		// for(const id of modulos){
-		// 	if(!data[`titulo-${id}`] || !data[`descricao-${id}`] || !data[`videolink-${id}`]){
-		// 		console.log("Input nula da entrada " + id)
-		// 		return
-		// 	}
-		// }
-		// let cursoId = undefined
-		// /*
-		// const qEcho = await API.graphql({
-		// 	query: echo,
-		// 	variables: {msg: "hello"},
-		// 	authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-		// })
-		// console.log(qEcho)
-		// */
-		// try{
-		// 	const vars: CriarCursoMutationVariables = {
-		// 		nome: data['titulo'],
-		// 		preco: Number(data['preco']),
-		// 		descricao: data['descricao']
-		// 	}
-		// 	console.log(vars)
-		// 	const criarCurso = (await API.graphql({
-		// 		query: customCriarCurso,
-		// 		variables: vars,
-		// 		authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-		// 	})) as { data: CriarCursoMutation } 
-		// 	cursoId = criarCurso.data.criarCurso.id
-		// 	if(!cursoId){
-		// 		throw new Error("Criação de curso resultou em nenhum id")
-		// 	}
-		// }catch(error: any){
-		// 	console.error(error)
-		// 	return
-		// }
-		// let modulePromisses = []
-		// for(const id of modulos){
-		// 	const vars: CreateModuloInput = {
-		// 		titulo: data[`titulo-${id}`] as string,
-		// 		descricao: data[`descricao-${id}`] as string,
-		// 		videoLink: data[`videolink-${id}`] ? data[`videolink-${id}`] as string : "",
-		// 	}
-		// 	modulePromisses.push(API.graphql({
-		// 		query: customCreateModulo,
-		// 		variables: {input: vars},
-		// 		authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-		// 	}))
-		// }
-		// await Promise.all(modulePromisses)
+		for(const id of modulos){
+			if(!data[`titulo-${id}`] || !data[`descricao-${id}`] || !data[`videolink-${id}`]){
+				console.log("Input nula da entrada " + id)
+				return
+			}
+		}
+		let cursoId = undefined
+		/*
+		const qEcho = await API.graphql({
+			query: echo,
+			variables: {msg: "hello"},
+			authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+		})
+		console.log(qEcho)
+		*/
+		try{
+			const vars: CriarCursoMutationVariables = {
+				nome: data['titulo'],
+				preco: Number(data['preco']),
+				descricao: data['descricao']
+			}
+			console.log(vars)
+			const criarCurso = (await API.graphql({
+				query: customCriarCurso,
+				variables: vars,
+				authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+			})) as { data: CriarCursoMutation } 
+			cursoId = criarCurso.data.criarCurso.id
+			if(!cursoId){
+				throw new Error("Criação de curso resultou em nenhum id")
+			}
+		}catch(error: any){
+			console.error(error)
+			return
+		}
+		let modulePromisses = []
+		for(const id of modulos){
+			const vars: CreateModuloInput = {
+				titulo: data[`titulo-${id}`] as string,
+				descricao: data[`descricao-${id}`] as string,
+				videoLink: data[`videolink-${id}`] ? data[`videolink-${id}`] as string : "",
+			}
+			modulePromisses.push(API.graphql({
+				query: customCreateModulo,
+				variables: {input: vars},
+				authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+			}))
+		}
+		await Promise.all(modulePromisses)
 		
-		// router.push(`/courses/${cursoId}`)
+		router.push(`/courses/${cursoId}`)
 	}
 
 	return <Stack spacing={6} alignItems='center' sx={{ minHeight:'82vh' }}>
