@@ -25,7 +25,7 @@ export default function CourseCard ({img, courseName, courseDescription, courseP
                 <Typography gutterBottom variant="h5" component="div">
                     {courseName}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" >
+                <Typography sx={{textOverflow: 'ellipsis', overflow: 'hidden', height: 16}} variant="body2" color="text.secondary" >
                     {courseDescription}
                 </Typography>
             </CardContent>
