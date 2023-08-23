@@ -30,7 +30,7 @@ function loggedInProfile(userData: Aluno | Professor){
         }}>
           <Avatar
               alt="Foto do usuário"
-              src={'/gremio.png'}
+              src={'/icon-placeholder.png'}
               sx ={{ width: '7rem', height: '7rem', mb: 2 }} />
           <Typography
           variant="h3"

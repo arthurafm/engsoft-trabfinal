@@ -163,14 +163,14 @@ const Navbar = () => {
               </Drawer>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              {cognitoUser ? // ALTERAR FOTO PARA FOTO DO USUÁRIO
+              {cognitoUser ?
                 (
                   <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                       <IconButton sx={{ p: 0 }} onClick={() => setToggleDropdown(true)}>
                         <Avatar
                         alt="Foto do usuário"
-                        src="https://dugout.com/images/publishers/logos/gremio.png"
+                        src="/icon-placeholder.png"
                         sx ={{ width: 55, height: 55, }} />
                       </IconButton>
                     </Tooltip>
