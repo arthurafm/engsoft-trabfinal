@@ -29,6 +29,10 @@ export const metadata = {
 export default function RootLayout({ children, }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel='icon' href='/logos/logo.ico'/>
+        <title>Guide Me</title>
+      </head>
       <body style={{margin: 0}}>
 			<ThemeProvider theme={muiTheme}>
 				<UserContext>
