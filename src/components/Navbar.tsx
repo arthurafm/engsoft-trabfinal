@@ -40,7 +40,7 @@ const Navbar = () => {
           borderRadius: '0 3rem 3rem 0',
         }}>
           <Link href='/'>
-            <Image src="/logos/logo.png" width={500} height={50} alt="Picture of the author" style={{ marginLeft: '5%', width: 'fit-content', aspectRatio: 1192/272 }} />
+            <Image src="/logos/logo.png" width={500} height={50} alt="Picture of the author" style={{ marginLeft: '5%', width: 'fit-content', aspectRatio: 905/272 }} />
           </Link>
         </Box>
           <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>

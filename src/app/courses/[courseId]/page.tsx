@@ -177,6 +177,10 @@ export default function Page({ params }: Props ){
 		}) 
 	}
 	return (
+		<>
+		<head>
+			<title>{`Guide Me - ${courseName}`}</title>
+		</head>
 		<Box sx = {{
 			minHeight: '100vh',
 			minWidth: '100vw',
@@ -313,5 +317,6 @@ export default function Page({ params }: Props ){
 				</>
 		}
 		</Box>
+		</>
 	)
 }
