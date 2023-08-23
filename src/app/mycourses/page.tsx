@@ -155,7 +155,7 @@ export default function Page(){
 						return <Grid item key={i} xs={2} sm={4} md={4}>
 							<CourseCard
 								key={i}
-								img={'/course-placeholder.png'}
+								img={'/placeholders/course-placeholder.png'}
 								courseName={curso.nome}
 								courseDescription={curso.descricao}
 								coursePath={curso.id}/>
