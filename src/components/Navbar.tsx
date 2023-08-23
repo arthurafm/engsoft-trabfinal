@@ -11,6 +11,8 @@ import { Lobster } from "next/font/google";
 import OverlayLogin from "./overlayLogin";
 import { useUser } from "@/context/UserContext";
 import React from "react";
+import { Aluno } from "@/API";
+import BuyGP from "./BuyGPNavbar";
 
 const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin'] });
 
@@ -177,14 +179,41 @@ const Navbar = () => {
               {cognitoUser ?
                 (
                   <Box sx={{ flexGrow: 0 }}>
-                    <Typography
+                    <Box
                       sx={{
-                        fontFamily: 'Roboto',
-                        fontWeight: '500',
-                        color: '#BB2A00',
-                        fontSize: '1.3rem',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
                       }} >
-                      {userData?.nome}
+                      {userData?.__typename == "Aluno" && 
+                        <>
+                          <Typography
+                          sx={{
+                            fontFamily: 'Roboto',
+                            fontWeight: '500',
+                            color: '#E35725',
+                            fontSize: '1.3rem',
+                            mr: 1,
+                          }}>{(userData as Aluno).creditos} GP</Typography>
+                          <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            mr: 3,
+                          }}>
+                            <BuyGP />
+                          </Box>
+                        </>
+                      }
+                      <Typography
+                        sx={{
+                          fontFamily: 'Roboto',
+                          fontWeight: '500',
+                          color: '#BB2A00',
+                          fontSize: '1.3rem',
+                          ml: 1.8,
+                        }}>{userData?.nome}</Typography>
                       <Tooltip title="Open settings">
                         <IconButton sx={{ p: 0, ml: 1.5, }} onClick={handleClick}>
                           <Avatar
@@ -193,7 +222,7 @@ const Navbar = () => {
                           sx ={{ width: 55, height: 55, }} />
                         </IconButton>
                       </Tooltip>
-                    </Typography>
+                    </Box>
                     <Menu
                       sx={{
                         mt: '45px',
