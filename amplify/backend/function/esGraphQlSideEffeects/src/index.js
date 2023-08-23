@@ -265,7 +265,7 @@ async function criarCursoResolver(event){
 }
 
 async function adiconarAlunoComoMonitorResolver(event){
-	const { alunoId, cursoId, alunoHorarios } = event.arguments
+	const { alunoId, cursoId, horarios, videoLink } = event.arguments
 
 	const professorOwner = `${event.identity.sub}::${event.identity.username}`
 
@@ -349,8 +349,15 @@ async function adiconarAlunoComoMonitorResolver(event){
 	mutation UpdateAlunoCurso($input: UpdateAlunoCursoInput!){
 		updateAlunoCurso(input: $input){
 			id
+			aluno {
+				id
+				nome
+			}
 			monitoria
 			horarios
+			videoLink
+			alunoCursaId
+			cursoAlunosId
 		}
 	}`;
 	const updatedAlunoCursoReq = await appsyncClient.mutate({
@@ -359,7 +366,8 @@ async function adiconarAlunoComoMonitorResolver(event){
 		variables: {input: {
 			id: dataAlunoCurso.id,
 			monitoria: true,
-			horarios: alunoHorarios
+			horarios: horarios,
+			videoLink: videoLink
 		}}
 	})
 

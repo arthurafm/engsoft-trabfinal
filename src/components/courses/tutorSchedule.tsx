@@ -1,69 +1,72 @@
 import React from 'react'
 
-import { Box, Typography, Divider, Table, TableBody, TableCell, TableHead, TableContainer, TableRow, Paper, Button, Dialog, DialogTitle, Stack, TextField, IconButton, Autocomplete } from '@mui/material'
+import {
+	Box,
+	Typography,
+	Divider,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableContainer,
+	TableRow,
+	Paper,
+	Button,
+	Dialog,
+	DialogTitle,
+	Stack, 
+	TextField, 
+	IconButton, 
+	Autocomplete
+} from '@mui/material'
 
 import { VideoCameraFront } from '@mui/icons-material';
 
-import Link from 'next/link'
-
 import { useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { AlunoCurso } from '@/API';
 
-interface Props {
-    isProfessor: boolean
+interface IFormAddMonitor{
+	aluno: string;
+	disponibilidade: string;
+	link: string;
 }
 
-const TutorSchedule = ({isProfessor}: Props) => {
+interface Props {
+    isProfessor: boolean | undefined;
+	alunos: AlunoCurso[];
+	monitores: AlunoCurso[];
+	addAsMonitor: (data: IFormAddMonitor) => Promise<AlunoCurso | undefined>;
+}
 
-    const [tutors, setTutors] = useState (
-        [
-            {
-                name: 'Renato Portaluppi',
-                schedule: '19h-20h',
-                days: 'Segunda e Quarta',
-                link: '/',
-            },
-            {
-                name: 'Renato Portaluppi',
-                schedule: '19h-20h',
-                days: 'Segunda e Quarta',
-                link: '/',
-            },
-            {
-                name: 'Renato Portaluppi',
-                schedule: '19h-20h',
-                days: 'Segunda e Quarta',
-                link: '/',
-            },
-        ]
-    );
+const TutorSchedule = ({isProfessor, alunos, monitores, addAsMonitor}: Props) => {
+	const { register, handleSubmit} = useForm<IFormAddMonitor>() as any
+	const [ alunosLocal, setAlunosLocal ] = useState<AlunoCurso[]>(alunos)
+	const [ monitoresLocal, setMonitoresLocal ] = useState<AlunoCurso[]>(monitores)
 
-    const studentsList = [
-        {
-            label: 'Luan Guilherme de Jesus Vieira',
-        },
-        {
-            label: 'Luan Guilherme de Jesus Vieira',
-        },
-        {
-            label: 'Luan Guilherme de Jesus Vieira',
-        },
-        
-    ];
+    const [open, setOpen] = useState(false);
+    const [lock, setLock] = useState(false);
 
-    const [[open, locked], setOpen] = useState([false, false]);
-
-	const handleClickOpen = () => setOpen([true, false]);
-	const handleClickLock = (lockState: boolean) => setOpen([true, lockState]);
+	const handleClickOpen = () => setOpen(true)
 	const handleClose = () => {
-		if(!locked){
-			setOpen([false, false])
+		if(!lock){
+			setOpen(false)
 		}
 	};
 
-    const handleSubmit = () => {
-        setTutors([...tutors, ]);
+    const onSubmit = (data: IFormAddMonitor) => {
+		setLock(true)
+		addAsMonitor(data).then((res) => {
+			if(res){
+				setOpen(false)
+				setLock(false)
+				setMonitoresLocal([...monitoresLocal, res])
+				setAlunosLocal(alunosLocal.filter(aluno => aluno.id != res.id))
+			}else{
+				setLock(false)
+			}
+		})
     }
-
 
     return (
         <>
@@ -96,97 +99,91 @@ const TutorSchedule = ({isProfessor}: Props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center">Monitor</TableCell>
-                                <TableCell align="center">Horário</TableCell>
-                                <TableCell align="center">Dias</TableCell>
+                                <TableCell align="center">Disponibilidade</TableCell>
                                 <TableCell align="center">Link para reunião</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {
-                                tutors.map((tutor, i) => {
-                                    return (
-                                        <TableRow
-                                            key={i}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <TableCell component="th" scope="row" align="center">{tutor.name}</TableCell>
-                                            <TableCell align="center">{tutor.schedule}</TableCell>
-                                            <TableCell align="center">{tutor.days}</TableCell>
-                                            <TableCell align="center">
-                                                <IconButton href={tutor.link}>
-                                                    <VideoCameraFront />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })
-                            }
+                            {monitoresLocal.map((tutor, i) => {
+								return <TableRow
+									key={i}
+									sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+									<TableCell component="th" scope="row" align="center">{tutor?.aluno?.nome}</TableCell>
+									<TableCell align="center">{tutor?.horarios}</TableCell>
+									<TableCell align="center">
+										{tutor?.videoLink && <IconButton href={tutor.videoLink}>
+											<VideoCameraFront />
+										</IconButton>}
+									</TableCell>
+								</TableRow>
+							})}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {
-                    isProfessor &&
-                        <div>
-                            <Button
-                            variant="contained"
-                            onClick={handleClickOpen}
-                            sx = {{
-                                color: 'white',
-                                fontSize: '1.2rem',
-                                background: '#E35725',
-                                borderRadius: '1rem',
-                                textTransform: 'none',
-                                border: 1,
-                                borderColor: 'transparent',
-                                fontWeight: 600,
-                                width: '13rem',
-                                height: '3rem',
-                                '&:hover': {
-                                    backgroundColor: 'white',
-                                    color: '#E35725',
-                                    borderColor: '#FF7222',
-                                },
-                                mb: 6,
-                            }}
-                            >
-                                Adicionar Monitor
-                            </Button>
-                            <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={'xs'}>
-                                <DialogTitle fontSize={25}>Adicione um novo monitor</DialogTitle>
-                                <form onSubmit={handleSubmit}>
-                                    <Stack sx={{mr: 4, ml: 4}} spacing={2}>
-                                        <Autocomplete
-                                            disablePortal
-                                            id="students"
-                                            options={studentsList}
-                                            renderInput={(params) => <TextField {...params} label="Alunos" />}
-                                        />
-                                        <TextField
-                                            id='schedule'
-                                            variant='outlined'
-                                            label='Horário do monitor'
-                                            type='text'
-                                            margin='dense' />
-                                        <TextField
-                                            id='days'
-                                            variant='outlined'
-                                            label='Dias disponíveis do monitor'
-                                            type='text'
-                                            margin='dense' />
-                                        <TextField
-                                            id='link'
-                                            variant='outlined'
-                                            label='Link para reunião com monitor'
-                                            type='text'
-                                            margin='dense' />
-
-                                        <Button variant='contained' type='submit'>
-                                            <Typography variant='h6' color='white'>Adicionar</Typography> 
-                                        </Button>
-                                        <Box sx ={{ pb: 2,}} />
-                                    </Stack>
-                                </form>
-                            </Dialog>
-                        </div>
+				{isProfessor && <>
+					<Button
+					variant="contained"
+					onClick={handleClickOpen}
+					sx = {{
+						color: 'white',
+						fontSize: '1.2rem',
+						background: '#E35725',
+						borderRadius: '1rem',
+						textTransform: 'none',
+						border: 1,
+						borderColor: 'transparent',
+						fontWeight: 600,
+						width: '13rem',
+						height: '3rem',
+						'&:hover': {
+							backgroundColor: 'white',
+							color: '#E35725',
+							borderColor: '#FF7222',
+						},
+						mb: 6,
+					}}
+					>
+						Adicionar Monitor
+					</Button>
+					<Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={'xs'}>
+						<DialogTitle fontSize={25}>Adicione um novo monitor</DialogTitle>
+						<form onSubmit={handleSubmit(onSubmit)}>
+							<Stack sx={{mr: 4, ml: 4}} spacing={2}>
+								<Autocomplete
+									disablePortal
+									id="aluno"
+									options={alunosLocal.map(a => `${a?.aluno?.nome}\t#${a?.aluno?.id}`)
+									}
+									renderInput={(params) => (
+										<TextField {...params} 
+											label="Alunos"
+											{...register("aluno",{ required: true })}
+										/>
+									)}
+								/>
+								<TextField
+									id='disponibilidae'
+									variant='outlined'
+									label='Dias disponíveis do monitor'
+									type='text'
+									margin='dense'
+									{...register("disponibilidade",{ required: true })}
+								/>
+								<TextField
+									id='link'
+									variant='outlined'
+									label='Link para reunião com monitor'
+									type='text'
+									margin='dense'
+									{...register("link",{ required: true })}
+								/>
+								<Button variant='contained' type='submit' disabled={lock}>
+									<Typography variant='h6' color='white'>Adicionar</Typography> 
+								</Button>
+								<Box sx ={{ pb: 2,}} />
+							</Stack>
+						</form>
+					</Dialog></>
                 }
             </Box>
             <Divider sx={{ mt: 3, mb: 2,}} />
