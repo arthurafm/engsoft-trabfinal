@@ -20,6 +20,7 @@ export const getAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -237,6 +238,7 @@ export const getCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt

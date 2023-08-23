@@ -1,22 +1,21 @@
 import { Box, Button, Dialog, DialogTitle, Stack, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form';
+
+interface IFormComprar{
+	creditos: number
+}
 
 const BuyGPNavbar = () => {
+    const [open, setOpen] = useState(false);
+	const [lock, setLock] = useState(false)
+	const { register, handleSubmit } = useForm<IFormComprar>() as any
 
-    const [[open, locked], setOpen] = useState([false, false]);
+    const handleClickOpen = () => setOpen(true) 
+    const handleClose = () => setOpen(false) 
 
-    const handleClickOpen = () => {
-        setOpen([true, false])
-    }
-
-    const handleClose = () => {
-        if(!locked){
-			setOpen([false, false])
-		}
-    }
-
-    const handleSubmit = () => {
-
+    const onSubmit = async (data: IFormComprar) => {
+		console.log(data.creditos)
     }
 
     return (
@@ -48,16 +47,17 @@ const BuyGPNavbar = () => {
                 }}>+</Button>
             <Dialog onClose={handleClose} open={open} fullWidth={true} maxWidth={'xs'}>
                 <DialogTitle fontSize={25}>Compre GuideMe Points</DialogTitle>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <Stack sx={{mr: 4, ml: 4}} spacing={2}>
                         <TextField
-                            id='value'
+                            id='creditos'
                             variant='outlined'
                             label='Valor de GuideMe Points'
-                            type='text'
-                            margin='dense' />
-
-                        <Button variant='contained' type='submit'>
+                            type='number'
+                            margin='dense'
+							{...register("creditos", { required: true })}
+						/>
+                        <Button variant='contained' type='submit' disabled={lock}>
                             <Typography variant='h6' color='white'>Comprar</Typography> 
                         </Button>
                         <Box sx ={{ pb: 2,}} />

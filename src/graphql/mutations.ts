@@ -18,6 +18,7 @@ export const createAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -52,6 +53,7 @@ export const updateAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -86,6 +88,7 @@ export const deleteAluno = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -255,6 +258,7 @@ export const createCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -321,6 +325,7 @@ export const updateCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -387,6 +392,7 @@ export const deleteCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -463,6 +469,7 @@ export const createAlunoCurso = /* GraphQL */ `
       }
       monitoria
       horarios
+      videoLink
       rating
       owner
       createdAt
@@ -529,6 +536,7 @@ export const updateAlunoCurso = /* GraphQL */ `
       }
       monitoria
       horarios
+      videoLink
       rating
       owner
       createdAt
@@ -595,6 +603,7 @@ export const deleteAlunoCurso = /* GraphQL */ `
       }
       monitoria
       horarios
+      videoLink
       rating
       owner
       createdAt
@@ -798,6 +807,7 @@ export const comprarCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt
@@ -822,12 +832,14 @@ export const adiconarAlunoComoMonitor = /* GraphQL */ `
   mutation AdiconarAlunoComoMonitor(
     $alunoId: ID!
     $cursoId: ID!
-    $alunoHorarios: String!
+    $horarios: String!
+    $videoLink: String
   ) {
     adiconarAlunoComoMonitor(
       alunoId: $alunoId
       cursoId: $cursoId
-      alunoHorarios: $alunoHorarios
+      horarios: $horarios
+      videoLink: $videoLink
     ) {
       id
       aluno {
@@ -879,6 +891,7 @@ export const adiconarAlunoComoMonitor = /* GraphQL */ `
       }
       monitoria
       horarios
+      videoLink
       rating
       owner
       createdAt
@@ -932,6 +945,7 @@ export const criarCurso = /* GraphQL */ `
           id
           monitoria
           horarios
+          videoLink
           rating
           owner
           createdAt

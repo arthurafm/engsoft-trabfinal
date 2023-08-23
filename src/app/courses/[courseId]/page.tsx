@@ -10,7 +10,7 @@ import TutorSchedule from "@/components/courses/tutorSchedule";
 
 import { API } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
-import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo, Professor, ComprarCursoMutationVariables } from "@/API";
+import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo, Professor, ComprarCursoMutationVariables, AlunoCurso, AdiconarAlunoComoMonitorMutation, AdiconarAlunoComoMonitorMutationVariables } from "@/API";
 import { use, useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 
@@ -53,13 +53,46 @@ query GetCurso($id: ID!) {
 		rating
 		alunos {
 			items {
+				id
 				monitoria
 				horarios
+				videoLink
+				alunoCursaId
+				aluno {
+					id
+					nome
+				}
 			}
 			nextToken
 			__typename
 		}
 		cursoGrupo
+	}
+}`;
+
+const customAdicionarAlunoComoMonitorMutaion = /* GraphQL */ `
+mutation AdiconarAlunoComoMonitor(
+	$alunoId: ID!
+	$cursoId: ID!
+	$horarios: String!
+	$videoLink: String
+){
+	adiconarAlunoComoMonitor(
+		alunoId: $alunoId
+		cursoId: $cursoId
+		horarios: $horarios
+		videoLink: $videoLink
+	){
+		id
+		aluno {
+			id
+			nome
+		}
+		monitoria
+		horarios
+		videoLink
+		alunoCursaId
+		cursoAlunosId
 	}
 }`;
 
@@ -85,6 +118,12 @@ async function getCourseData(id: string, query: string, authMode: any) {
 		console.error(error)
 		return undefined 
 	}
+}
+
+interface IFormAddMonitor{
+	aluno: string;
+	disponibilidade: string;
+	link: string;
 }
 
 interface Props {
@@ -135,9 +174,13 @@ export default function Page({ params }: Props ){
 				GRAPHQL_AUTH_MODE.API_KEY
 			).then(cur => setCourseData(cur))
 		}
-	},[userData])
+	},[userData, cognitoUser])
 
 	const comprarCurso = async () => {
+		if(!cognitoUser){
+			alert("Ops! Você não está logado")
+			return
+		}
 		setIsButtonDisabled(true)
 		const input: ComprarCursoMutationVariables = {
 			cursoId: params.courseId
@@ -156,8 +199,33 @@ export default function Page({ params }: Props ){
 		}
 	}
 
+	const addAsMonitor = async ({ aluno, disponibilidade, link }: IFormAddMonitor) => {
+		const courseId = courseData?.id
+		if(!courseId){
+			console.log("Failed to get the course id")
+		}
+		const [alunoNome, alunoId] = aluno.split('\t#')
+		const input: AdiconarAlunoComoMonitorMutationVariables = {
+			alunoId: alunoId,
+			cursoId: courseId as string,
+			horarios: disponibilidade,
+			videoLink: link
+		}
+		try{
+			const addAlunoAsMonitorMutation = await API.graphql({
+				query: customAdicionarAlunoComoMonitorMutaion,
+				variables: input,
+				authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+			}) as { data: AdiconarAlunoComoMonitorMutation }
+			return addAlunoAsMonitorMutation.data.adiconarAlunoComoMonitor as AlunoCurso
+		}catch (error) {
+			alert(`Erro em adicionar o aluno como monitor:\n${error}`)
+			return undefined
+		}
+	}
+
 	if(!courseData){
-		return <div style={{ minHeight: '82vh', backgroundColor: '#FFE199', color: '#C63700', alignItems: 'center', justifyContent: 'center', display: 'flex', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700}}>CRINGE</div>
+		return <div style={{ minHeight: '82vh', backgroundColor: '#FFE199', color: '#C63700', alignItems: 'center', justifyContent: 'center', display: 'flex', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700}}>Curso não Encontrado</div>
 	}
 	// Alterar para valores específicos do curso/professor
 	const courseName = courseData.nome
@@ -183,8 +251,8 @@ export default function Page({ params }: Props ){
 			<title>{`Guide Me - ${courseName}`}</title>
 		</head>
 		<Box sx = {{
-			minHeight: '100vh',
-			minWidth: '100vw',
+			minHeight: '82vh',
+			minWidth: '100%',
 			margin: 0,
 			background: 'linear-gradient(to bottom, #FFE199 0 40vh, white 40vh 100vh)'
 		}}>
@@ -286,35 +354,44 @@ export default function Page({ params }: Props ){
 			</Typography>
 			</Box>
 		</Box>
-		{
-			(alunoCursa || professorLeciona) &&
-				<TutorSchedule isProfessor={professorLeciona} />
+		{(alunoCursa || professorLeciona) &&
+			<TutorSchedule 
+				isProfessor={professorLeciona} 
+				alunos={courseData.alunos?.items ? 
+					courseData.alunos?.items.filter(a => a?.monitoria != undefined ? !a.monitoria : false) as AlunoCurso[] : []
+				}
+				monitores={courseData.alunos?.items ? 
+					courseData.alunos?.items.filter(i => i?.monitoria) as AlunoCurso[] : []
+				}
+				addAsMonitor={addAsMonitor}
+			/>
 		}
-		{
-			((alunoCursa || professorLeciona) && courseData.modulos?.items.length != 0) &&
-				<>
-					<Typography
-						variant='h3'
-						sx={{
-							fontFamily: 'Roboto',
-							fontWeight: 700,
-							textAlign: 'center',
-							color: '#C73700',
-							pb: 3,
-						}}
-					>Módulos</Typography>
-					<Divider />
-					<Stack alignItems='center' spacing={4} sx={{mb: 10, mt: 3}}>
-						{alunoCursa && courseData.modulos?.items.map((val, i) =>{
-							return <ModuleCard 
-								key={i}
-								title={val?.titulo}
-								description={val?.descricao}
-								videoLink={val?.videoLink == "" ? undefined : val?.videoLink}
-							/>
-						})}
-					</Stack>
-				</>
+		{((alunoCursa || professorLeciona) && courseData.modulos?.items.length != 0) &&
+			<>
+				<Typography
+					variant='h3'
+					sx={{
+						fontFamily: 'Roboto',
+						fontWeight: 700,
+						textAlign: 'center',
+						color: '#C73700',
+						pb: 3,
+					}}
+				>
+					Módulos
+				</Typography>
+				<Divider />
+				<Stack alignItems='center' spacing={4} sx={{mb: 10, mt: 3}}>
+					{(alunoCursa || professorLeciona) && courseData.modulos?.items.map((val, i) =>{
+						return <ModuleCard 
+							key={i}
+							title={val?.titulo}
+							description={val?.descricao}
+							videoLink={val?.videoLink == "" ? undefined : val?.videoLink}
+						/>
+					})}
+				</Stack>
+			</>
 		}
 		</Box>
 		</>

@@ -108,6 +108,11 @@ type AlunoCurso @model(queries: null, subscriptions: null) @auth( rules: [
 		{ allow: public, operations: [read] }
 		{ allow: private, operations: [read]},
 	])
+	videoLink: String @auth(rules: [
+		{ allow: owner },
+		{ allow: public, operations: [read] }
+		{ allow: private, operations: [read]},
+	])
 	rating: Float @auth(rules: [
 		{ allow: owner },
 		{ allow: public, operations: [read] }
@@ -150,13 +155,15 @@ type Mutation {
   comprarCurso(cursoId: ID!): Curso!  @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: private }])
   #rateCurso(alunoid: ID, cursoId: ID, rating: Float): Float @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: private }])
 
+#comprarCreditos(alunoId: ID!)
+
   ### Ações dos Professores ###
   #adiconarAlunoComoMonitor deve:
   # 1. checar se o curso é do professor
   # 2. obter as informações do aluno
   # 3. se o aluno possui o curso, mudar o valor da join table para true
   # 4. se não, concede o curso ao aluno com o valor da join table como true
-  adiconarAlunoComoMonitor(alunoId: ID!, cursoId: ID!, alunoHorarios: String!): AlunoCurso! @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: groups, groups: ["Professor"]}])
+  adiconarAlunoComoMonitor(alunoId: ID!, cursoId: ID!, horarios: String!, videoLink: String): AlunoCurso! @function(name: "esGraphQlSideEffeects-${env}") @auth(rules: [{ allow: groups, groups: ["Professor"]}])
 
   #criarCurso deve:
   # 1. criar um novo grupo nos grupos cognito

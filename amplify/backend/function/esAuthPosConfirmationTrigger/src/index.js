@@ -106,7 +106,7 @@ exports.handler = async (event) => {
 			nome: event.request.userAttributes['custom:nome'],
 			email: event.request.userAttributes.email,
 			cpf: event.request.userAttributes['custom:cpf'],
-			creditos: 0,
+			creditos: 100,
 			owner: `${sub}::${event.userName}`,
 		}
 		try{
