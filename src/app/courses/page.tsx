@@ -1,106 +1,93 @@
 'use client'
 
-import React from 'react'
+import CourseCard from '@/components/courses/courseCard';
+import { Box, IconButton, Grid, TextField, Typography} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import React, { useEffect, useState } from 'react'
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 
-import { Box, Card, CardActions, CardActionArea, CardContent, CardMedia, Button, Typography, Grid, TextField } from '@mui/material'
+import { Curso, ListCursosQuery, ListCursosQueryVariables, ModelCursoFilterInput } from '@/API';
+import { API } from 'aws-amplify';
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 
-import Link from 'next/link'
+interface IFormSearch{
+	searchTerm: string;
+}
 
-const courseCard = (img: string, courseName: string, courseDescription: string, coursePath: string, id: number) => {
-    return (
-        <Card key={id} sx={{ maxWidth: '30vw', textAlign: 'center' }}>
-            <CardActionArea href={coursePath} component={ Link } >
-                <CardMedia
-                    sx={{ height: '20vh' }}
-                    image={img}
-                    title={courseName}
-                />
-                <CardContent sx={{ pb: 4 }} >
-                    <Typography gutterBottom variant="h5" component="div">
-                        {courseName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        {courseDescription}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
-    );
+const customListCurso = /* GraphQL */ `
+query ListCursos(
+	$filter: ModelCursoFilterInput
+	$limit: Int
+	$nextToken: String
+){
+	listCursos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+	items {
+		id
+		nome
+		preco
+		descricao
+		professor {
+			nome
+			descricao
+		}
+		rating
+	}
+	nextToken
+	__typename
+	}
+}`
+
+async function fetchData(limit: number, term: string | undefined){
+	console.log("data fetch dos cursos")
+	try{
+		const cursoQuery = (await API.graphql({
+			query: customListCurso,
+			variables: {
+				filter: {
+					nome: term
+				} as ModelCursoFilterInput,
+				limit: limit
+			} as ListCursosQueryVariables,
+			authMode: GRAPHQL_AUTH_MODE.API_KEY
+		})) as { data: ListCursosQuery }
+		return cursoQuery.data.listCursos?.items as Curso[]
+	}catch(error: any){
+		console.error(error)
+		return undefined 
+	}
 }
 
 
-const page = () => {
+export default function Page(){
+	const { register, handleSubmit } = useForm<IFormSearch>() as any
 
-    const [text, setText] = useState("");
-    const { register, handleSubmit } = useForm();
+	const [cursos, setCursos] = useState<Curso[]>([])
+  
+	useEffect(()=>{
+		fetchData(8, undefined).then(cur => {
+			if(cur){
+				setCursos(cur)
+			}
+		}) 
+	},[])
 
-    const courses = [{
-        img: "/gremio.png",
-        name: "Gremio",
-        description: "Gremio é tricampeão da America",
-        path: '/',
-    },
-    {
-        img: "/lakers.png",
-        name: "Lakers",
-        description: "Lakers é 17x campeão do Mundo",
-        path: '/',
-    },
-    {
-        img: "/gremio.png",
-        name: "Gremio",
-        description: "Gremio é tricampeão da America",
-        path: '/',
-    },
-    {
-        img: "/lakers.png",
-        name: "Lakers",
-        description: "Lakers é 17x campeão do Mundo",
-        path: '/',
-    },
-    {
-        img: "/gremio.png",
-        name: "Gremio",
-        description: "Gremio é tricampeão da America",
-        path: '/',
-    },
-    {
-        img: "/lakers.png",
-        name: "Lakers",
-        description: "Lakers é 17x campeão do Mundo",
-        path: '/',
-    },
-    {
-        img: "/gremio.png",
-        name: "Gremio",
-        description: "Gremio é tricampeão da America",
-        path: '/',
-    },
-]
-
-    const gridFourElem = [];
-    const gridTwoElem = [];
-    const sliceSizeBig = 4;
-    const sliceSizeSmall = 2;
-
-    for (let i = 0; i < courses.length; i += sliceSizeBig) {
-        const row = courses.slice(i, i + sliceSizeBig)
-        gridFourElem.push(row);
-    }
-    for (let i = 0; i < courses.length; i += sliceSizeSmall) {
-        const row = courses.slice(i, i + sliceSizeSmall)
-        gridTwoElem.push(row);
-    } 
-
-    return (
+	const onSubmit = async (data: IFormSearch) => {
+		console.log(data.searchTerm)
+		const res = await fetchData(8, data.searchTerm) 
+		if(res){
+			setCursos(res)
+		}else{
+			setCursos([])
+		}
+	}
+	return (
         <Box
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                minHeight: '81vh',
             }}>
             <Typography
                 sx={{
@@ -112,88 +99,81 @@ const page = () => {
                     pb: 3,
                 }}
             >
-                Todos os Cursos GuideMe
+                Meus Cursos
             </Typography>
-            <form
-                onSubmit={
-                    handleSubmit(() => {
-                        console.log(text)
-                    })
-                }
-                >
-                <TextField
-                label="Pesquisa"
-                placeholder='Pesquise por um curso ou uma tag'
-                id="search"
-                {...register("search",
-                                {
-                                    onChange: (e) => {
-                                        setText(e.target.value)
-                                    }
-                                }
-                            )
-                }
-                sx={{
-                    width: '60vw',
-                    mb: 4,
-                }} />
-            </form>
-            <Grid container
-                  direction='row'
-                  justifyContent='center'
-                  alignItems='center'
-                  >
-                {
-                    gridFourElem.map((row, index) => {
-                        return (
-                            <Grid item
-                                columnGap={2}
-                                key={index}
-                                sx={{
-                                    display: { xs: 'none', md: 'flex' },
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    width: '60%',
-                                    mb: 3,
-                                }}>
-                                {
-                                    row.map((course, index) => {
-                                        return (
-                                            courseCard(course.img, course.name, course.description, course.path, index)
-                                        )
-                                    })
-                                }
-                            </Grid>
-                        )
-                    })
-                }
-                {
-                    gridTwoElem.map((row, index) => {
-                        return (
-                            <Grid item
-                                columnGap={2}
-                                key={index}
-                                sx={{
-                                    display: { xs: 'flex', md: 'none' },
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    width: '60%',
-                                    mb: 3,
-                                }}>
-                                {
-                                    row.map((course, index) => {
-                                        return (
-                                            courseCard(course.img, course.name, course.description, course.path, index)
-                                        )
-                                    })
-                                }
-                            </Grid>
-                        )
-                    })
-                }
+            <form onSubmit={ handleSubmit(onSubmit) }>
+                <TextField 
+					id="searchTerm"
+					label="Pesquisa" 
+					placeholder='Pesquise por um curso ou uma tag'
+					sx={{ width: '60vw', mb: 4, }}
+					{...register("searchTerm")}
+                />
+				<IconButton type='submit' color='primary'>
+					<SearchIcon/>
+				</IconButton >
+			</form>
+            <Grid container 
+				justifyContent="space-between"
+				alignItems='center'
+				sx={{ paddingInline: '10px' }}
+				spacing={{xs: 2, md:4}}
+				columns={{ xs: 2, sm: 8, md: 12 }}
+			>
+				{cursos.map((curso, i) => {
+					return <Grid item key={i} xs={2} sm={4} md={4}>
+						<CourseCard
+							key={i}
+							img={'/gremio.png'}
+							courseName={curso.nome}
+							courseDescription={curso.descricao}
+							coursePath={curso.id}/>
+					</Grid>
+				})}
             </Grid>
         </Box>
     )
 }
-
-export default page
+/*
+{gridFourElem.map((row, index) => {
+	return (<Grid item
+		columnGap={2}
+		key={index}
+		sx={{
+			display: { xs: 'none', md: 'flex' },
+			flexDirection: 'row',
+			justifyContent: 'center',
+			width: '60%',
+			mb: 3,
+		}}>
+		{
+			row.map(({ img, name, description, path }, index) => {
+				return (
+					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
+				)
+			})
+		}
+	</Grid>)
+})}
+{gridTwoElem.map((row, index) => {
+	return (<Grid item
+		columnGap={2}
+		key={index}
+		sx={{
+			display: { xs: 'flex', md: 'none' },
+			flexDirection: 'row',
+			justifyContent: 'center',
+			width: '60%',
+			mb: 3,
+		}}>
+		{
+			row.map(({ img, name, description, path }, index) => {
+				return (
+					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
+				)
+			})
+		}
+	</Grid>
+	)
+})}
+*/

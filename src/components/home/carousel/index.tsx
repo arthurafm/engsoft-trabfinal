@@ -2,8 +2,13 @@
 
 import { Typography, Box } from '@mui/material';
 import Carousel from './carousel'
+import { Curso } from '@/API';
 
-export default function Index() {
+interface Props{
+	cursos: Curso[]
+}
+
+export default function Index({ cursos }: Props) {
   const styles = {
     Box : {
       width: '100%', 
@@ -25,7 +30,7 @@ export default function Index() {
 	return (
 		<Box sx={styles.Box}>
 			<Typography variant='h1' sx={styles.Title}>Encontre o curso perfeito para você!</Typography>
-      <Carousel itemData={itemData}/>
+			<Carousel itemData={cursos}/>
 		</Box>
 	)
 }

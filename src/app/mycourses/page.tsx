@@ -1,51 +1,108 @@
 'use client'
 
 import CourseCard from '@/components/courses/courseCard';
-import { Box, Grid, TextField, Typography } from '@mui/material';
-import React from 'react'
+import { Box, Grid, Typography} from '@mui/material';
+import React, { use, useEffect, useState } from 'react'
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useUser } from '@/context/UserContext';
 
-const page = () => {
-    const [text, setText] = useState("");
-    const { register, handleSubmit } = useForm();
+import { Curso, GetAlunoQuery, GetProfessorQuery} from '@/API';
+import { API } from 'aws-amplify';
+import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
 
-    const courses = [{
-        img: "/gremio.png",
-        name: "Gremio",
-        description: "Gremio é tricampeão da America",
-        path: '/',
-    },
-    {
-        img: "/lakers.png",
-        name: "Lakers",
-        description: "Lakers é 17x campeão do Mundo",
-        path: '/',
-    },
-    {
-        img: "/gremio.png",
-        name: "Gremio",
-        description: "Gremio é tricampeão da America",
-        path: '/',
-    },
-]
+const customGetCursosAluno = /* GraphQL */`
+query GetAluno($id: ID!) {
+    getAluno(id: $id) {
+		cursa {
+			items {
+				curso {
+					id
+					nome
+					preco
+					descricao
+				professor {
+					nome
+				}
+				rating
+				}
+			}
+		nextToken
+		}
+	}
+}`
 
-    const gridFourElem = [];
-    const gridTwoElem = [];
-    const sliceSizeBig = 4;
-    const sliceSizeSmall = 2;
+const customGetCursosProfessor = /* GraphQL */`
+query GetProfessor($id: ID!) {
+    getProfessor(id: $id) {
+		leciona {
+			items {
+				id
+				nome
+				preco
+				descricao
+				professor {
+					nome
+				}
+				rating
+			}
+			nextToken
+		}
+	}
+}`
 
-    for (let i = 0; i < courses.length; i += sliceSizeBig) {
-        const row = courses.slice(i, i + sliceSizeBig)
-        gridFourElem.push(row);
-    }
-    for (let i = 0; i < courses.length; i += sliceSizeSmall) {
-        const row = courses.slice(i, i + sliceSizeSmall)
-        gridTwoElem.push(row);
-    } 
 
-    return (
+async function fetchDataAluno(userId: string){
+	console.log("data fetch dos meus cursos - sou aluno")
+	try{
+		const cursoQuery = (await API.graphql({
+			query: customGetCursosAluno,
+			variables: { id: userId },
+			authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+		})) as { data: GetAlunoQuery }
+		return (cursoQuery.data.getAluno?.cursa?.items as any)
+			.map((v:any) => v.curso) as Curso[] 
+	}catch(error: any){
+		console.error(error)
+		return undefined 
+	}
+}
+
+async function fetchDataProfessor(userId: string){
+	console.log("data fetch dos meus cursos - sou professor")
+	try{
+		const cursoQuery = (await API.graphql({
+			query: customGetCursosProfessor,
+			variables: { id: userId },
+			authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+		})) as { data: GetProfessorQuery }
+		return (cursoQuery.data.getProfessor?.leciona?.items as Curso[])
+	}catch(error: any){
+		console.error(error)
+		return undefined 
+	}
+}
+
+
+export default function Page(){
+	const { cognitoUser, userData } = useUser();
+
+	const [cursos, setCursos] = useState<Curso[]>([])
+	useEffect(()=>{
+		if(cognitoUser && userData?.__typename == "Aluno"){
+			fetchDataAluno(userData.id).then(val =>{
+				if(val){
+					setCursos(val)
+				}
+			})
+		}else if(cognitoUser && userData?.__typename == "Professor"){
+			fetchDataProfessor(userData.id).then(val =>{
+				if(val){
+					setCursos(val)
+				}
+			})
+		}
+	},[])
+	return (
         <Box
             sx={{
                 display: 'flex',
@@ -65,86 +122,67 @@ const page = () => {
             >
                 Meus Cursos
             </Typography>
-            <form
-                onSubmit={
-                    handleSubmit(() => {
-                        console.log(text)
-                    })
-                }
-                >
-                <TextField
-                label="Pesquisa"
-                placeholder='Pesquise por um curso ou uma tag'
-                id="search"
-                {...register("search",
-                                {
-                                    onChange: (e) => {
-                                        setText(e.target.value)
-                                    }
-                                }
-                            )
-                }
-                sx={{
-                    width: '60vw',
-                    mb: 4,
-                }} />
-            </form>
-            <Grid container
-                  direction='row'
-                  justifyContent='center'
-                  alignItems='center'
-                  >
-                {
-                    gridFourElem.map((row, index) => {
-                        return (
-                            <Grid item
-                                columnGap={2}
-                                key={index}
-                                sx={{
-                                    display: { xs: 'none', md: 'flex' },
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    width: '60%',
-                                    mb: 3,
-                                }}>
-                                {
-                                    row.map(({ img, name, description, path }, index) => {
-                                        return (
-                                            <CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
-                                        )
-                                    })
-                                }
-                            </Grid>
-                        )
-                    })
-                }
-                {
-                    gridTwoElem.map((row, index) => {
-                        return (
-                            <Grid item
-                                columnGap={2}
-                                key={index}
-                                sx={{
-                                    display: { xs: 'flex', md: 'none' },
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    width: '60%',
-                                    mb: 3,
-                                }}>
-                                {
-                                    row.map(({ img, name, description, path }, index) => {
-                                        return (
-                                            <CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
-                                        )
-                                    })
-                                }
-                            </Grid>
-                        )
-                    })
-                }
+            <Grid container 
+				justifyContent="space-between"
+				alignItems='center'
+				sx={{ paddingInline: '10px' }}
+				spacing={{xs: 2, md:4}}
+				columns={{ xs: 2, sm: 8, md: 12 }}
+			>
+				{cursos.map((curso, i) => {
+					return <Grid item key={i} xs={2} sm={4} md={4}>
+						<CourseCard
+							key={i}
+							img={'/gremio.png'}
+							courseName={curso.nome}
+							courseDescription={curso.descricao}
+							coursePath={curso.id}/>
+					</Grid>
+				})}
             </Grid>
         </Box>
     )
 }
-
-export default page
+/*
+{gridFourElem.map((row, index) => {
+	return (<Grid item
+		columnGap={2}
+		key={index}
+		sx={{
+			display: { xs: 'none', md: 'flex' },
+			flexDirection: 'row',
+			justifyContent: 'center',
+			width: '60%',
+			mb: 3,
+		}}>
+		{
+			row.map(({ img, name, description, path }, index) => {
+				return (
+					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
+				)
+			})
+		}
+	</Grid>)
+})}
+{gridTwoElem.map((row, index) => {
+	return (<Grid item
+		columnGap={2}
+		key={index}
+		sx={{
+			display: { xs: 'flex', md: 'none' },
+			flexDirection: 'row',
+			justifyContent: 'center',
+			width: '60%',
+			mb: 3,
+		}}>
+		{
+			row.map(({ img, name, description, path }, index) => {
+				return (
+					<CourseCard img={img} courseName={name} courseDescription={description} coursePath={path} key={index} />
+				)
+			})
+		}
+	</Grid>
+	)
+})}
+*/

@@ -5,30 +5,66 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 
+import ModuleCard from "@/components/courses/moduleCards";
+
 import { API } from "aws-amplify";
 import { GRAPHQL_AUTH_MODE } from "@aws-amplify/api";
-import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo } from "@/API";
-import { getCurso } from "@/graphql/queries";
-import { use } from "react";
+import { Curso, GetCursoQueryVariables, GetCursoQuery, Aluno, Modulo, Professor } from "@/API";
+import { use, useEffect, useState } from "react";
 import { useUser } from "@/context/UserContext";
 
 const customGetCurso = /* GraphQL */ `
-  query GetCurso($id: ID!) {
-    getCurso(id: $id) {
-      id
-      nome
-      preco
-      descricao
-      professor {
-        nome
-        descricao
-      }
-      rating
-    }
-  }
-` 
+query GetCurso($id: ID!) {
+	getCurso(id: $id) {
+		id
+		nome
+		preco
+		descricao
+		professor {
+			nome
+			descricao
+		}
+		rating
+	}
+} ` 
+
+const customGetCursoAuthorized = /* GraphQL */ `
+query GetCurso($id: ID!) {
+	getCurso(id: $id) {
+		id
+		nome
+		preco
+		descricao
+		professor {
+			nome
+			descricao
+		}
+		modulos {
+			items {
+				id
+				titulo
+				descricao
+				videoLink
+			}
+			nextToken
+			__typename
+		}
+		rating
+		alunos {
+			items {
+				monitoria
+				horarios
+			}
+			nextToken
+			__typename
+		}
+		cursoGrupo
+	}
+} ` 
+
 
 async function getCourseData(id: string, query: string, authMode: any) {
+	console.log("queried data")
 	try{
 		const cursoQuery = (await API.graphql({
 			query: query,
@@ -49,20 +85,47 @@ interface Props {
 export default function Page({ params }: Props ){
 	const { cognitoUser, userData } = useUser()
 	
-	let courseData = {} as Curso | undefined
-	let alunoCursa: boolean | undefined = false
-	if( cognitoUser && userData?.__typename == "Aluno"){
-		alunoCursa = (userData as Aluno).cursa?.items
-			.map(v => v?.cursoAlunosId)
-			.includes(params.courseId)
-		if(alunoCursa){
-			courseData = use(getCourseData(params.courseId, getCurso, GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS))
-			console.log(courseData)
+	const [courseData, setCourseData] = useState<Curso | undefined>()
+	const [alunoCursa, setAlunoCursa] = useState<boolean | undefined>(false)
+	const [professorLeciona, setProfessorLeciona] = useState<boolean | undefined>(false)
+
+	useEffect(()=>{
+		if( cognitoUser && userData?.__typename == "Aluno"){
+			const cursa = (userData as Aluno).cursa?.items.map(v => v?.cursoAlunosId).includes(params.courseId)
+			setAlunoCursa(cursa)
+			if(cursa){
+				getCourseData(params.courseId,
+					customGetCursoAuthorized,
+					GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+				).then(cur => setCourseData(cur))
+			}else{
+				getCourseData(params.courseId,
+					customGetCurso,
+					GRAPHQL_AUTH_MODE.API_KEY
+				).then(cur => setCourseData(cur))
+			}
+		}else if( cognitoUser && userData?.__typename == "Professor"){
+			const leciona = (userData as Professor).leciona?.items.map(v => v?.id).includes(params.courseId)
+			setProfessorLeciona(leciona)
+			if(leciona){
+				getCourseData(params.courseId,
+					customGetCursoAuthorized,
+					GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+				).then(cur => setCourseData(cur))
+			}else{
+				getCourseData(params.courseId,
+					customGetCurso,
+					GRAPHQL_AUTH_MODE.API_KEY
+				).then(cur => setCourseData(cur))
+			}
+		}else{
+			getCourseData(params.courseId,
+				customGetCurso,
+				GRAPHQL_AUTH_MODE.API_KEY
+			).then(cur => setCourseData(cur))
 		}
-	}else{
-		courseData = use(getCourseData(params.courseId, customGetCurso, GRAPHQL_AUTH_MODE.API_KEY))
-		console.log(courseData)
-	}
+	},[userData])
+
 	if(!courseData){
 		return <div>CRINGE</div>
 	}
@@ -192,13 +255,16 @@ export default function Page({ params }: Props ){
 			</Typography>
 			</Box>
 		</Box>
-		{ alunoCursa && courseData.modulos?.items.map((val, i) =>{
-			return <Stack key={i}>
-				<Typography key={i} variant="h4">{val?.titulo}</Typography>
-				<Typography key={i} variant="subtitle1">{val?.descricao}</Typography>
-				{val?.videoLink && <iframe key={i} width="420" height="315" src={val?.videoLink}></iframe>}
-			</Stack>
-		})}
+		<Stack alignItems='center' spacing={4} sx={{mb: 10}}>
+			{alunoCursa && courseData.modulos?.items.map((val, i) =>{
+				return <ModuleCard 
+					key={i}
+					title={val?.titulo}
+					description={val?.descricao}
+					videoLink={val?.videoLink == "" ? undefined : val?.videoLink}
+				/>
+			})}
+		</Stack>
 		</Box>
 	)
 }

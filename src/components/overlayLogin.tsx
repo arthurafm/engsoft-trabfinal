@@ -4,7 +4,6 @@ import { Stack, TextField } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
 import { CognitoUser } from "@aws-amplify/auth";
-import { useUser } from '@/context/AuthContext';
 
 function validateCPF(cpf: string){
 	if(cpf.length != 11) return false;
@@ -48,7 +47,7 @@ interface IFormLogin {
 //NOTE: To log out just sets the useUser hook to null
 function LoginDialog(props: IDialog) {
 	const { changeToForm, closeForm } = props
-	const { register, handleSubmit, formState: { errors } } = useForm<IFormLogin>()
+	const { register, handleSubmit, formState: { errors } } = useForm<IFormLogin>() as any
 	//const { user, setUser } = useUser();
 
 	const handleChangeToRegister = () => changeToForm(AuthForms.Register);
@@ -123,7 +122,7 @@ interface IFormRegister {
 
 function RegisterDialog(props: IDialog) {
 	const { changeToForm, closeForm, lockForm } = props
-	const { control, register, watch, handleSubmit, formState: { errors } } = useForm<IFormRegister>()
+	const { control, register, watch, handleSubmit, formState: { errors } } = useForm<IFormRegister>() as any
 
 	const [isProfessor, setIsProfessor] = useState(false)
 	//(event: ChangeEvent<HTMLInputElement>, checked: boolean) => void)
@@ -276,7 +275,7 @@ interface IFormConfirmation {
 
 function ConfirmationDialog(props: IDialog) {
 	const { changeToForm, lockForm, closeForm } = props
-	const { register, handleSubmit, formState: { errors } } = useForm<IFormConfirmation>()
+	const { register, handleSubmit, formState: { errors } } = useForm<IFormConfirmation>() as any
 	
 	useEffect(()=> lockForm(true),[])
 

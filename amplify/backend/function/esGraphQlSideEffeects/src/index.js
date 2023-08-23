@@ -37,33 +37,49 @@ const cognitoIdentityServiceProvider = new AWS.CognitoIdentityServiceProvider({ 
 async function comprarCursoResolver(event){
 	const { cursoId } = event.arguments;
 	
-	const userTableId = event.identity.claims['custom:tableId']
 	const ownerAluno = `${event.identity.sub}::${event.identity.username}`
-	if(!userTableId){
-		throw new Error("User does not have TableId as a custom atribute")
-	}
-	const gqlQueryAluno = gql`query GetAluno($id: ID!) {
-		getAluno(id: $id) {
-			nome
-			creditos
-			cursa {
-				items {
-					cursoAlunosId
+	const gqlQueryAlunoByOwner = gql`
+	query AlunosByOwner(
+		$owner: String!
+		$sortDirection: ModelSortDirection
+		$filter: ModelAlunoFilterInput
+		$limit: Int
+		$nextToken: String
+	){
+		alunosByOwner(
+			owner: $owner
+			sortDirection: $sortDirection
+			filter: $filter
+			limit: $limit
+			nextToken: $nextToken
+		){
+			items {
+				id
+				nome
+				creditos
+				cursa {
+					items {
+						cursoAlunosId
+					}
 				}
 			}
 		}
 	}`;
+
 	const dataAlunoReq = await appsyncClient.query({
-		query: gqlQueryAluno,
+		query: gqlQueryAlunoByOwner,
 		fetchPolicy: 'no-cache',
 		variables: {
-			id: userTableId
+			owner: ownerAluno
 		}
 	})
-	if(dataAlunoReq.data == null){
-		throw new Error("o requester desse dado não é um Aluno")
+	if(dataAlunoReq.data.alunosByOwner.items.length == 0){
+		throw new Error("O requester não possui uma coluna na tabela alunos")
 	}
-	const dataAluno = dataAlunoReq.data.getAluno
+	if(dataAlunoReq.data.alunosByOwner.items.length > 1){
+		throw new Error("O requester possui mais de uma coluna na tabela alunos")
+	}
+	const dataAluno = dataAlunoReq.data.alunosByOwner.items[0]
 	if(dataAluno.cursa.items.map(e => e.cursoAlunosId).includes(cursoId)){
 		throw new Error("Aluno já possui esse curso")
 	}
@@ -129,7 +145,7 @@ async function comprarCursoResolver(event){
 		variables: {input: {
 			monitoria: false,
 			owner: ownerAluno,
-			alunoCursaId: userTableId,
+			alunoCursaId: dataAluno.id,
 			cursoAlunosId: dataCurso.id,
 		}}
 	})
@@ -162,7 +178,7 @@ async function comprarCursoResolver(event){
 		mutation: gqlUpdateAluno,
 		fetchPolicy: 'no-cache',
 		variables: {input: {
-			id: userTableId, 
+			id: dataAluno.id, 
 			creditos: (dataAluno.creditos - dataCurso.preco)
 		}}
 	})
@@ -179,26 +195,37 @@ async function criarCursoResolver(event){
 	const {nome, preco, descricao } = event.arguments;
 
 	const professorOwner = `${event.identity.sub}::${event.identity.username}`
-	const professorTableId = event.identity.claims['custom:tableId'];
 
-	const gqlQueryProfessors = gql`query GetProfessor($id: ID!) {
-		getProfessor(id: $id) {
-			id
+	const gqlQueryProfessorsByOwner = gql`
+	query ProfessorsByOwner($owner: String!){
+		professorsByOwner(owner: $owner) {
+			items {
+				id
+			}
 		}
 	}`;
-
 	const dataProfessorReq = await appsyncClient.query({
-		query: gqlQueryProfessors,
+		query: gqlQueryProfessorsByOwner,
 		fetchPolicy: 'no-cache',
 		variables: {
-			id: professorTableId
+			owner: professorOwner	
 		}
 	})
 	if(!dataProfessorReq.data){
-		throw new Error(`There is no Professor with id: ${professorTableId}`)
+		throw new Error(`No data was retrived from owner: ${professorOwner}\n${dataProfessorReq}`)
 	}
-	const dataProfessor = dataProfessorReq.data.getProfessor
-
+	if(dataProfessorReq.data.professorsByOwner == undefined){
+		throw new Error(`No data was retrived from owner: ${professorOwner}\n${dataProfessorReq}`)
+	}
+	if(dataProfessorReq.errors){
+		throw new Error(`Error retriving id of owner: ${professorOwner}\n${dataProfessorReq}\n`)
+	}
+	if(dataProfessorReq.data.professorsByOwner.items.length == 0){
+		throw new Error(`There is no Professor with the owner: ${professorOwner}`)
+	}else if(dataProfessorReq.data.professorsByOwner.items.length > 1){
+		throw new Error(`The Professor has multiple table rows: ${professorOwner}`)
+	}
+	const dataProfessor = dataProfessorReq.data.professorByOwner.items[0]
 	const GroupName = 'GROUP' + uuidv4();
 	const UserPoolId = process.env.AUTH_ENGSOFTTRABFINAL4BCC482A_USERPOOLID
 	try{
@@ -234,7 +261,7 @@ async function criarCursoResolver(event){
 			professorLecionaId: dataProfessor.id,
 		}}
 	})
-	return dataCurso
+	return dataCurso.data.createCurso
 }
 
 const resolvers = {

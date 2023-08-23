@@ -25,6 +25,7 @@ interface UserDataContextType {
 	setCognitoUser: Dispatch<SetStateAction<CognitoUser | null>>;
 	setUserData: Dispatch<SetStateAction<Aluno | Professor | null>>;
 	fetchUserData: () => Promise<Aluno | Professor | null>;
+	signOutUser: () => Promise<void>;
 }
 
 const UserDataContext = createContext<UserDataContextType>({} as UserDataContextType);
@@ -71,6 +72,14 @@ export default function UserContext({ children }: Props): ReactElement {
 			setCognitoUser(null);
 		}
 	}
+	async function signOutUser(){
+		try{
+			await Auth.signOut()
+			setUserData(null)
+		}catch(error){
+			console.error(error)
+		}
+	}
 
 	async function fetchUserData(){
 		if(!cognitoUser){
@@ -108,7 +117,8 @@ export default function UserContext({ children }: Props): ReactElement {
 			userData,
 			setCognitoUser,
 			setUserData,
-			fetchUserData
+			fetchUserData,
+			signOutUser
 		}}>
 			{children}
 		</UserDataContext.Provider>

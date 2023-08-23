@@ -16,11 +16,10 @@ const lobster = Lobster({ weight: ['400'], style: ['normal'], subsets: ['latin']
 
 const Navbar = () => {
 
-  const pagesLoggedIn = [{name: 'Meus Cursos', path: '/mycourses'}, {name: 'Todos os Cursos', path: 'courses'}];
+  const pagesLoggedIn = [{name: 'Meus Cursos', path: '/mycourses'}, {name: 'Todos os Cursos', path: '/courses'}];
   const pagesLoggedOff = [{name: 'Todos os Cursos', path: 'courses'}]
-  const settings = [{name: 'Perfil', path: '/profile'}, {name: 'Sair', path: ''}];
 
-  const { cognitoUser, userData, setUserData, setCognitoUser } = useUser();
+  const { cognitoUser, userData, setUserData, setCognitoUser, signOutUser } = useUser();
 
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -192,23 +191,14 @@ const Navbar = () => {
                       open={toggleDropdown}
                       onClose={() => setToggleDropdown(false)}
                     >
-                      {settings.map((setting, i) => (
-                        <Link
-						              key={i}
-                          href={setting.path}
-                          style={{
-                            textDecoration: 'none',
-                            color: 'black',
-                          }}>
-                          <MenuItem key={setting.name} onClick={() => setToggleDropdown(false)}>
-                            <Typography
-							                key={i}
-                              sx={{
-                                textAlign: 'right',
-                              }}>{setting.name}</Typography>
+                        <Link href='/profile' style={{ textDecoration: 'none', color: 'black', }}>
+                          <MenuItem onClick={() => setToggleDropdown(false)}>
+                            <Typography sx={{ textAlign: 'right', }}>Perfil</Typography>
                           </MenuItem>
                         </Link>
-                      ))}
+						<MenuItem onClick={() => {setToggleDropdown(false); signOutUser() }}>
+							<Typography sx={{ textAlign: 'right', }}>Sair</Typography>
+						</MenuItem>
                     </Menu>
                   </Box>
                 )
