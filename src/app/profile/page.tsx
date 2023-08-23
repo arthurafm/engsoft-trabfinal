@@ -6,6 +6,7 @@ import Button from "@/components/button"
 
 import { useUser } from "@/context/UserContext"
 import { Aluno, Professor } from "@/API"
+import BuyGP from "@/components/profile/BuyGP"
 
 
 function loggedInProfile(userData: Aluno | Professor){
@@ -121,20 +122,7 @@ function loggedInProfile(userData: Aluno | Professor){
                 }}>
                 {(userData as Aluno)?.creditos}
               </Typography>
-              <Typography
-              sx={{
-                mt: 0.3,
-              }}>
-                <Button
-                  text='+'
-                  style={{
-                    ml: 1,
-                    width: '20%',
-                    height: '80%',
-                  }}
-                  path='/credits'
-                />
-              </Typography>
+              <BuyGP />
             </Box>}
           </Box>
         </Box>
