@@ -13,7 +13,7 @@ function Footer() {
 	<Box sx={{
 		 display: 'flex',
 		 flexDirection: 'column',
-		 height: 100,
+		 minHeight: '10vh',
 		 width: '100%',
 		 backgroundColor: '#C73700',
 		 alignItems: 'center',

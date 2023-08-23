@@ -25,7 +25,7 @@ const Navbar = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{minHeight: '8vh'}}>
       <Container
       maxWidth="x1"
       disableGutters
