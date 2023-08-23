@@ -22,7 +22,7 @@ export default function CourseCard ({img, courseName, courseDescription, courseP
                 title={courseName == null ? undefined : courseName}
             />
             <CardContent sx={{ pb: 4 }} >
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component="div" sx={{textOverflow: 'ellipsis', overflow: 'hidden', height: 30}}>
                     {courseName}
                 </Typography>
                 <Typography sx={{textOverflow: 'ellipsis', overflow: 'hidden', height: 16}} variant="body2" color="text.secondary" >

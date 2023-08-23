@@ -25,7 +25,8 @@ export default function Carousel({itemData}: Props) {
             aspectRatio: '4.7/5' 
         },
         CardContent : { 
-            backgroundColor: '#1E1E1E'
+            backgroundColor: '#1E1E1E',
+            pb: 3.5
         },
         Text : {
             color: 'white', 
@@ -33,9 +34,15 @@ export default function Carousel({itemData}: Props) {
             textAlign: 'center'
         },
         Title : {
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            height: 50,
             fontSize: 32
         },
         Author : {
+            textOverflow: 'ellipsis',
+            overflow: 'hidden',
+            height: 20,
             fontSize: 18
         }
     }
