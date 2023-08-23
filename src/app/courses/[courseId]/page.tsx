@@ -199,25 +199,19 @@ export default function Page({ params }: Props ){
 				pl: '2.5vw',
 				m: 'auto 0',
 			}}>
-			<Typography
-				variant="h6"
-				noWrap
-				component="h6"
-				sx = {{
-				fontFamily: 'Roboto',
-				fontWeight: 700,
-				fontSize: '2.5rem',
-				padding: 0,
-				}}>
-				{courseName}
-			</Typography>
-			<Box
-				sx={{
-				display: 'flex',
-				flexDirection: 'row',
-				}}>
-				{ratingToStars(courseRating)}
-			</Box>
+				<Typography
+					variant="h6"
+					noWrap
+					component="h6"
+					sx = {{
+					fontFamily: 'Roboto',
+					fontWeight: 700,
+					fontSize: '2.5rem',
+					padding: 0,
+					}}>
+					{courseName}
+				</Typography>
+				<Box sx={{height: '4vh',}}/>
 			</Box>
 			{(!alunoCursa && !professorLeciona)&& <Box sx={{
 			m: 'auto 0 auto auto',
@@ -258,21 +252,21 @@ export default function Page({ params }: Props ){
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'top',
-				mr: '10vw',
-				alignItems: 'space-between',
-				pl: '4vh',
+				alignItems: 'center',
+				ml: 0,
+				minWidth: '20vh',
+				maxWidth: '20vh',
 			}}>
-			<Image src={professorIcon} alt='Ícone do professor' width={120} height={120} style={{ width: '12vh', height: '12vh' }} />
-			<Typography
-				sx={{
-				fontFamily: 'Roboto',
-				fontWeight: 400,
-				textAlign: 'justify',
-				fontSize: '1.2rem',
-				}}>
-					{professorNome}
-				{professorDescription}
-			</Typography>
+				<Image src={professorIcon} alt='Ícone do professor' width={120} height={120} style={{ width: '12vh', height: '12vh' }} />
+				<Typography
+					sx={{
+					fontFamily: 'Roboto',
+					fontWeight: 400,
+					fontSize: '1.2rem',
+					textAlign: 'center',
+					}}>
+						{professorNome}
+				</Typography>
 			</Box>
 			<Box>
 			<Typography
@@ -281,6 +275,7 @@ export default function Page({ params }: Props ){
 				fontWeight: 400,
 				textAlign: 'justify',
 				fontSize: '1.2rem',
+				ml: '8vw',
 				}}
 				paragraph>
 				{courseDescription}
@@ -290,7 +285,6 @@ export default function Page({ params }: Props ){
 		{
 			(alunoCursa || professorLeciona) &&
 				<TutorSchedule isProfessor={professorLeciona} />
-
 		}
 		{
 			((alunoCursa || professorLeciona) && courseData.modulos?.items.length != 0) &&
