@@ -1,5 +1,5 @@
 'use client'
-import { Button, Typography, Box, Stack, CardMedia } from "@mui/material"
+import { Button, Typography, Box, Stack, CardMedia, Divider } from "@mui/material"
 import Image from "next/image"
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -255,16 +255,32 @@ export default function Page({ params }: Props ){
 			</Typography>
 			</Box>
 		</Box>
-		<Stack alignItems='center' spacing={4} sx={{mb: 10}}>
-			{alunoCursa && courseData.modulos?.items.map((val, i) =>{
-				return <ModuleCard 
-					key={i}
-					title={val?.titulo}
-					description={val?.descricao}
-					videoLink={val?.videoLink == "" ? undefined : val?.videoLink}
-				/>
-			})}
-		</Stack>
+		{
+			(alunoCursa && courseData.modulos?.items.length != 0) &&
+				<>
+					<Typography
+						variant='h3'
+						sx={{
+							fontFamily: 'Roboto',
+							fontWeight: 700,
+							textAlign: 'center',
+							color: '#C73700',
+							pb: 3,
+						}}
+					>Módulos</Typography>
+					<Divider />
+					<Stack alignItems='center' spacing={4} sx={{mb: 10, mt: 3}}>
+						{alunoCursa && courseData.modulos?.items.map((val, i) =>{
+							return <ModuleCard 
+								key={i}
+								title={val?.titulo}
+								description={val?.descricao}
+								videoLink={val?.videoLink == "" ? undefined : val?.videoLink}
+							/>
+						})}
+					</Stack>
+				</>
+		}
 		</Box>
 	)
 }
