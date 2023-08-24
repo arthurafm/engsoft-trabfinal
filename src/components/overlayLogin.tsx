@@ -116,12 +116,6 @@ function RegisterDialog(props: IDialog) {
 	const { changeToForm, closeForm, lockForm } = props
 	const { control, register, watch, handleSubmit, formState: { errors } } = useForm<IFormRegister>() as any
 
-	const [isProfessor, setIsProfessor] = useState(false)
-	//(event: ChangeEvent<HTMLInputElement>, checked: boolean) => void)
-	const handleSetIsProfessor = (event: ChangeEvent<HTMLInputElement>, checked:boolean) => {
-		setIsProfessor(checked)
-	}
-
 	const handleChangeToLogin = () => changeToForm(AuthForms.Login);
 
 	const onSubmit = async (data: IFormRegister) => {
@@ -131,7 +125,7 @@ function RegisterDialog(props: IDialog) {
 		}catch(error){
 			alert(error)
 		}
-	
+		console.log(data)
 	};
 	async function registerAccountAWS(data: IFormRegister): Promise<CognitoUser>{
 		try {
@@ -236,19 +230,19 @@ function RegisterDialog(props: IDialog) {
 					<Controller
 						name="registerAsProfessor"
 						control={control}
-						render={({ field }) => <Checkbox {...field} size='small' onChange={handleSetIsProfessor} sx={{display: 'inline'}}/>}
+						render={({ field }) => <Checkbox {...field} size='small' sx={{display: 'inline'}}/>}
 					/>
 					Registrar-se como Professor? 
 				</Typography>
 				<Button variant='contained' type='submit'>
 					<Typography variant='h6' color='white'>Registrar-se</Typography> 
 				</Button>
-				{isProfessor && <Typography variant='subtitle2'>
+				<Typography variant='subtitle2'>
 					<Typography display={'inline'} variant='subtitle2' color={'red'}>*</Typography>
 					Ao selecionar a opção de se inscrever como professor,
 					você deverá enviar um email com as suas credenciais para 
 					<Typography variant='subtitle2' fontWeight={'bold'}>valide.se@guideme.site</Typography>
-				</Typography>}
+				</Typography>
 			</Stack>
 		</form>
 		<Typography variant='subtitle1' sx={{mr: 4, ml:4, mb: 3, mt: 1}}>
