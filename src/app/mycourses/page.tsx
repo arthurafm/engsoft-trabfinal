@@ -105,7 +105,7 @@ export default function Page(){
 				}
 			})
 		}
-	},[])
+	},[cognitoUser, userData])
 
 	const handleChange = (data: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const filteredCourses = cursos.filter (

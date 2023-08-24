@@ -4,7 +4,13 @@ import Button from '@mui/material/Button'
 
 import Link from 'next/link'
 
-export default function Butt({ text, style, path }) {
+interface Props{
+	text: string;
+	style: any;
+	path:string;
+}
+
+export default function Butt({ text, style, path }: Props) {
     const default_style = {
         color: 'white',
         background: 'primary.light',

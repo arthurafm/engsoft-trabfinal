@@ -174,7 +174,7 @@ export default function Page({ params }: Props ){
 				GRAPHQL_AUTH_MODE.API_KEY
 			).then(cur => setCourseData(cur))
 		}
-	},[userData, cognitoUser])
+	},[userData, cognitoUser, params])
 
 	const comprarCurso = async () => {
 		if(!cognitoUser){

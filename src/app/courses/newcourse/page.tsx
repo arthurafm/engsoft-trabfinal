@@ -41,9 +41,6 @@ mutation CreateModulo(
 
 export default function Page(){
 	const { cognitoUser, userData } = useUser()
-	if(!cognitoUser || userData?.__typename != "Professor"){
-		return <div style={{minHeight: '82vh', backgroundColor: "#FFE199", color:'#C73700', fontFamily: 'Roboto', fontSize: 80, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Ops, você não é professor!</div>
-	}
 	const { register, handleSubmit, formState: { errors } } = useForm<IFormCriarCurso>() as any;
 	const router = useRouter()
 	const [modulos, setModulos] = useState<number[]>([])

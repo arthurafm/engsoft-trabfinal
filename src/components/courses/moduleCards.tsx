@@ -49,7 +49,7 @@ export default function ModuleCard ({title, description, videoLink} : Props) {
 					}}>
 						<Typography variant="subtitle1" sx={{textAlign: 'justify', mb: 2}}>{description}</Typography>
 						{videoLink && <iframe width="100%" height="75%" src={videoLink} title='video' />}
-					</Box>'
+					</Box>
 			</Collapse>
 			<Divider />
 		</Stack>

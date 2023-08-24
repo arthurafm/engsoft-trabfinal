@@ -3,6 +3,7 @@ import {
 	Dispatch,
 	ReactElement,
 	SetStateAction,
+	useCallback,
 	useContext,
 	useEffect,
 	useState,
@@ -24,7 +25,6 @@ interface UserDataContextType {
 	userData: Aluno | Professor | null;
 	setCognitoUser: Dispatch<SetStateAction<CognitoUser | null>>;
 	setUserData: Dispatch<SetStateAction<Aluno | Professor | null>>;
-	fetchUserData: () => Promise<Aluno | Professor | null>;
 	reFetchUser: () => Promise<void>;
 	signOutUser: () => Promise<void>;
 }
@@ -38,7 +38,34 @@ interface Props {
 export default function UserContext({ children }: Props): ReactElement {
 	const [cognitoUser, setCognitoUser] = useState<CognitoUser | null>(null);
 	const [userData, setUserData] = useState<Aluno | Professor | null>(null)
-
+	const fetchUserData = useCallback(async () =>{
+		if(!cognitoUser){
+			throw new Error("no current user is logged in")
+		}
+		const userTableId = (cognitoUser as any).attributes['custom:tableId']
+		const userIsProfessor = (cognitoUser as any).attributes['custom:isProfessor'] == 't'
+		try {
+			if(userIsProfessor){
+				const professorQuery = (await API.graphql({
+					query: getProfessor,
+					variables: { id: userTableId } as GetProfessorQueryVariables,
+					authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+				})) as { data: GetProfessorQuery } 
+				setUserData(professorQuery.data.getProfessor as Professor)
+			}else{
+				const alunoQuery = (await API.graphql({
+					query: getAluno,
+					variables: { id: userTableId} as GetAlunoQueryVariables,
+					authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
+				})) as { data: GetAlunoQuery } 
+				setUserData(alunoQuery.data.getAluno as Aluno)
+			}
+		} catch (error) {
+			// Failed to fecth user data.
+			console.error(error);
+			setUserData(null);
+		}
+	},[cognitoUser, setUserData])
 	useEffect(() => {
 		checkUser();
 	}, []);
@@ -59,7 +86,7 @@ export default function UserContext({ children }: Props): ReactElement {
 		}else{
 			console.error("User has no atribute 'custom:tableID'")
 		}
-	}, [cognitoUser])
+	}, [cognitoUser, fetchUserData])
   
 	async function checkUser() {
 		try {
@@ -93,44 +120,12 @@ export default function UserContext({ children }: Props): ReactElement {
 			console.error(error)
 		}
 	}
-
-	async function fetchUserData(){
-		if(!cognitoUser){
-			throw new Error("no current user is logged in")
-		}
-		const userTableId = (cognitoUser as any).attributes['custom:tableId']
-		const userIsProfessor = (cognitoUser as any).attributes['custom:isProfessor'] == 't'
-		try {
-			if(userIsProfessor){
-				const professorQuery = (await API.graphql({
-					query: getProfessor,
-					variables: { id: userTableId } as GetProfessorQueryVariables,
-					authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-				})) as { data: GetProfessorQuery } 
-				setUserData(professorQuery.data.getProfessor as Professor)
-			}else{
-				const alunoQuery = (await API.graphql({
-					query: getAluno,
-					variables: { id: userTableId} as GetAlunoQueryVariables,
-					authMode: GRAPHQL_AUTH_MODE.AMAZON_COGNITO_USER_POOLS
-				})) as { data: GetAlunoQuery } 
-				setUserData(alunoQuery.data.getAluno as Aluno)
-			}
-		} catch (error) {
-			// Failed to fecth user data.
-			console.error(error);
-			setUserData(null);
-		}
-
-		return userData
-	}
 	return (
 		<UserDataContext.Provider value={{ 
 			cognitoUser,
 			userData,
 			setCognitoUser,
 			setUserData,
-			fetchUserData,
 			reFetchUser,
 			signOutUser
 		}}>

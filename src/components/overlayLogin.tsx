@@ -271,7 +271,7 @@ function ConfirmationDialog(props: IDialog) {
 
 	const [lockSend, setLockSend] = useState(false)
 
-	useEffect(()=> lockForm(true),[])
+	useEffect(()=> lockForm(true),[lockForm])
 
 	const onSubmit = async (data: IFormConfirmation) => {
 		setLockSend(true)

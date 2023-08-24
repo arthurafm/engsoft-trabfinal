@@ -41,9 +41,8 @@ const Navbar = () => {
   return (
     <AppBar position="static">
       <Container
-      maxWidth="x1"
       disableGutters
-      sx={{ display: 'flex', background: '#FFBA85', minHeight: '8vh' }}>
+      sx={{ display: 'flex', background: '#FFBA85', minHeight: '8vh', minWidth: '100%'}}>
         <Box sx={{
           alignItems: 'center',
           display: 'flex',
